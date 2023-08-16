@@ -1,0 +1,13 @@
+﻿@model FootGrids.DTOs.PistasDTO
+
+@{
+    ViewData["Title"] = "FootGrids Index";
+}
+
+@if (Model is not null)
+{
+    @foreach (var pista in Model.Pistas)
+    {
+        <div>Pista @pista.Nombre</div>
+    }
+}
