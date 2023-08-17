@@ -4,10 +4,74 @@
     ViewData["Title"] = "FootGrids Index";
 }
 
-@if (Model is not null)
-{
-    @foreach (var pista in Model.Pistas)
+
+<div class="container container-grid">
+    <div class="row">
+        <div class="col-sm celda-titulo fuentePrincipal">
+            FootGrids
+        </div>
+    </div>
+    @if (Model is not null)
     {
-        <div>Pista @pista.Nombre</div>
+        <div class="row">
+            <div class="col-sm celda-grid">
+                <div class="celda-grid-container fuentePrincipal">Puntuación</div>
+            </div>
+            @foreach (var pista in Model.Pistas)
+            {
+                if (pista.NumPista >= 1 && pista.NumPista <= 3)
+                {
+                    if (pista.Link is null)
+                    {
+                        <div class="col-sm celda-grid">
+                            <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
+                        </div>
+                    }
+                    else 
+                    {
+                        if (pista.Tipo == "Jugador")
+                        {
+                            <div class="col-sm celda-grid">
+                                <div class="celda-grid-container">
+                                    <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
+                                </div>
+                                <div class="celda-grid-subdato fuentePrincipal">Compañero de...</div>
+                            </div>
+                        }
+                        else if (pista.Tipo == "Dato")
+                        {
+                            <div class="col-sm celda-grid">
+                                <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm celda-grid">
+                                <div class="celda-grid-container">
+                                    <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            }
+        </div>
+        @for (int i = 4; i < 7; i++)
+        {
+            <div class="row">
+                @foreach (var pista in Model.Pistas)
+                {
+                    if (pista.NumPista == i)
+                    {
+                        <div class="col-sm celda-grid">
+                            <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
+                        </div>
+                    }
+                }
+                <div class="col-sm celda-grid">X</div>
+                <div class="col-sm celda-grid">X</div>
+                <div class="col-sm celda-grid">X</div>
+            </div>
+        }
     }
-}
+</div>

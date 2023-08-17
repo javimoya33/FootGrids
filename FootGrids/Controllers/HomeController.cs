@@ -24,8 +24,17 @@ namespace FootGrids.Controllers
 
         public async Task<ActionResult> FootGrids()
         {
-            var pistas = await context.Pistas.ToListAsync();
-            var pistaDTOs = pistas.Select(pista => mapper.Map<PistaDTO>(pista)).ToList();
+            var pistas = await context.Pistas
+                .Include(x => x.GridsPistas)
+                .ToListAsync();
+
+            var pistaDTOs = pistas.Select(pista => new PistaDTO
+            {
+                Nombre = pista.Nombre,
+                NumPista = pista.GridsPistas.FirstOrDefault()?.NumPista ?? 0,
+                Tipo = pista.Tipo,
+                Link = pista.Link
+            }).ToList();
 
             var pistasDTOs = new PistasDTO
             {

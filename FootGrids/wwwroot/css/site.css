@@ -14,5 +14,36 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #dedfee;
+}
+
+.fuentePrincipal {
+    font-family: 'Montserrat', cursive;
+}
+
+.celda-titulo {
+    width: 50vw;
+    font-size: 38pt;
+    text-align: center;
+}
+
+.container-grid {
+    width: 50vw;
+}
+
+.celda-grid {
+    flex-direction: column;
+    height: 10vw;
+    width: 10vw;
+}
+
+.celda-grid-container {
+    font-size: 16pt;
+    text-align: center;
+}
+
+.celda-grid-subdato {
+    font-size: 12pt;
+    text-align: center;
 }

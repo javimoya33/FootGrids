@@ -25,7 +25,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
+ControllerActionEndpointConventionBuilder controllerActionEndpointConventionBuilder = app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
