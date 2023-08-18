@@ -7,7 +7,7 @@
 
 <div class="container container-grid">
     <div class="row">
-        <div class="col-sm celda-titulo fuentePrincipal">
+        <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria" style="text-shadow: 2px 2px #100000;">
             FootGrids
         </div>
     </div>
@@ -63,14 +63,71 @@
                 {
                     if (pista.NumPista == i)
                     {
-                        <div class="col-sm celda-grid">
-                            <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
-                        </div>
+                        if (pista.Link is null)
+                        {
+                            <div class="col-sm celda-grid">
+                                <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
+                            </div>
+                        }
+                        else
+                        {
+                            if (pista.Tipo == "Jugador")
+                            {
+                                <div class="col-sm celda-grid">
+                                    <div class="celda-grid-container">
+                                        <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
+                                    </div>
+                                    <div class="celda-grid-subdato fuentePrincipal">Compañero de...</div>
+                                </div>
+                            }
+                            else if (pista.Tipo == "Dato")
+                            {
+                                <div class="col-sm celda-grid">
+                                    <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm celda-grid">
+                                    <div class="celda-grid-container">
+                                        <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
+                                    </div>
+                                </div>
+                            }
+                        }
                     }
                 }
-                <div class="col-sm celda-grid">X</div>
-                <div class="col-sm celda-grid">X</div>
-                <div class="col-sm celda-grid">X</div>
+                <div class="col-sm celda-grid d-flex pd-3-0">
+                    @if (i == 4)
+                    {
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos" style="border-radius: 10px 0px 0px 0px;"></button>
+                    }
+                    else if (i == 6)
+                    {
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos" style="border-radius: 0px 0px 0px 10px;"></button>
+                    }
+                    else
+                    {
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos"></button>
+                    }
+                </div>
+                <div class="col-sm celda-grid d-flex pd-3-0">
+                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos"></button>
+                </div>
+                <div class="col-sm celda-grid d-flex pd-3-0">
+                    @if (i == 4)
+                    {
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos" style="border-radius: 0px 10px 0px 0px;"></button>
+                    }
+                    else if (i == 6)
+                    {
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos" style="border-radius: 0px 0px 10px 0px;"></button>
+                    }
+                    else
+                    {
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos"></button>
+                    }
+                </div>
             </div>
         }
     }

@@ -1,3 +1,5 @@
+/** ELEMENTOS PRINCIPALES **/
+
 html {
   font-size: 14px;
 }
@@ -15,12 +17,30 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color: #dedfee;
+    background-color: rgb(93, 103, 251);
+}
+
+button {
+    border: none;
 }
 
 .fuentePrincipal {
     font-family: 'Montserrat', cursive;
 }
+
+.colorFuentePrincipal {
+    color: #212529;
+}
+
+.colorFuenteSecundaria {
+    color: #e1417c;
+}
+
+.pd-3-0 {
+    padding: 0px 3px;
+}
+
+/** ELEMENTOS DEL JUEGO **/
 
 .celda-titulo {
     width: 50vw;
@@ -33,9 +53,11 @@ body {
 }
 
 .celda-grid {
+    display: flex;
     flex-direction: column;
     height: 10vw;
     width: 10vw;
+    justify-content: center;
 }
 
 .celda-grid-container {
@@ -46,4 +68,15 @@ body {
 .celda-grid-subdato {
     font-size: 12pt;
     text-align: center;
+}
+
+.celda-grid-jug-ocultos {
+    height: 100%;
+    width: 100%;
+    background-color: #4c54d1;
+    margin: 3px 0px;
+}
+
+.celda-grid-jug-ocultos:hover {
+    background-color: #ff4388;
 }
