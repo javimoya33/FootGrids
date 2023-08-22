@@ -6,7 +6,8 @@
 
 
 <div class="container container-grid">
-    <div class="row">
+    <div class="row" style="width: 100%; margin: 0;">
+        <div class="col-sm celda-grid" style="flex: 1; height: auto"></div>
         <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria" style="text-shadow: 2px 2px #100000;">
             FootGrids
         </div>
@@ -97,38 +98,51 @@
                         }
                     }
                 }
+
                 <div class="col-sm celda-grid d-flex pd-3-0">
-                    @if (i == 4)
-                    {
-                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos" style="border-radius: 10px 0px 0px 0px;"></button>
+                    @{
+                        string styleCeldaEsq = "";
+
+                                    @if (i == 4)
+                        {
+                            styleCeldaEsq = " celda-esq-sup-izq";
+                        }
+                        else if (i == 6)
+                        {
+                            styleCeldaEsq = " celda-esq-sup-der";
+                        }
                     }
-                    else if (i == 6)
-                    {
-                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos" style="border-radius: 0px 0px 0px 10px;"></button>
-                    }
-                    else
-                    {
-                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos"></button>
-                    }
+
+                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @styleCeldaEsq"></button>
                 </div>
+
+                    @{
+                        styleCeldaEsq = "";
+                    }
+
                 <div class="col-sm celda-grid d-flex pd-3-0">
-                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos"></button>
+                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @styleCeldaEsq"></button>
                 </div>
+
                 <div class="col-sm celda-grid d-flex pd-3-0">
-                    @if (i == 4)
-                    {
-                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos" style="border-radius: 0px 10px 0px 0px;"></button>
+                    @{
+                        @if (i == 4)
+                        {
+                            styleCeldaEsq = " celda-esq-inf-izq";
+                        }
+                        else if (i == 6)
+                        {
+                            styleCeldaEsq = " celda-esq-inf-der";
+                        }
                     }
-                    else if (i == 6)
-                    {
-                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos" style="border-radius: 0px 0px 10px 0px;"></button>
-                    }
-                    else
-                    {
-                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos"></button>
-                    }
+
+                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @styleCeldaEsq"></button>
                 </div>
             </div>
         }
     }
 </div>
+
+<div id="div-overlay-juego" class="div-overlay-juego"></div>
+
+<div id="div-busq-jug" class="container container-grid container-busq rounded-3" style="display: none"></div>
