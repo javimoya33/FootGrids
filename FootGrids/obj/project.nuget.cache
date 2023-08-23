@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Z/VPSwsmdWeUDXDTnRUIlRc8XC2oVBcbBavUr3E284urCWPwMa/B8G87NAQguUfRsE7rFb1jtWocMa58nXTPXQ==",
+  "dgSpecHash": "K96Il8rRV/g6Ks02L7rK3kEgj2k9Jjb05R8AcuwpJ7ZH48nZHl9KucqnksJ0Z6gZgCm6cKB1hOI1J75g6sU0nw==",
   "success": true,
   "projectFilePath": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\FootGrids.csproj",
   "expectedPackageFiles": [
@@ -44,6 +44,7 @@
     "C:\\Users\\34656\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\34656\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\34656\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\34656\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\34656\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\34656\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\34656\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",

@@ -82,3 +82,4 @@ C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\refint\FootGrid
 C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\FootGrids.pdb
 C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\FootGrids.genruntimeconfig.cache
 C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\ref\FootGrids.dll
+C:\Users\34656\source\repos\FootGrids\FootGrids\bin\Debug\net6.0\Newtonsoft.Json.dll

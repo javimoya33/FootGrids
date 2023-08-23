@@ -4,6 +4,11 @@
     ViewData["Title"] = "FootGrids Index";
 }
 
+@foreach (var jugador in Model.Jugadores)
+{
+    <p>@jugador.Nombre</p>
+}
+
 
 <div class="container container-grid">
     <div class="row" style="width: 100%; margin: 0;">
