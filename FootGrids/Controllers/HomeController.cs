@@ -17,12 +17,14 @@ namespace FootGrids.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IMapper mapper)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IMapper mapper, IConfiguration configuration)
         {
             _logger = logger;
             this.context = context;
             this.mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<ActionResult> FootGrids()
@@ -43,8 +45,11 @@ namespace FootGrids.Controllers
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("X-RapidAPI-Key", "60036f70d2msh81e7e7b91cb4d7fp111932jsn15e41e4ba0e1");
-                client.DefaultRequestHeaders.Add("X-RapidAPI-Host", "api-football-v1.p.rapidapi.com");
+                string rapidAPIKey = _configuration["ApiKeys:RapidAPIKey"];
+                string rapidAPIHost = _configuration["ApiKeys:RapidAPIHost"];
+
+                client.DefaultRequestHeaders.Add("X-RapidAPI-Key", rapidAPIKey);
+                client.DefaultRequestHeaders.Add("X-RapidAPI-Host", rapidAPIHost);
 
                 string url = "https://api-football-v1.p.rapidapi.com/v3/players";
 
