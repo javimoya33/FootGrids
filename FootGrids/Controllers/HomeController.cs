@@ -41,51 +41,12 @@ namespace FootGrids.Controllers
                 Link = pista.Link
             }).ToList();
 
-            List<JugadorDTO> jugadoresDTOs = new List<JugadorDTO>();
-
-            using (HttpClient client = new HttpClient())
-            {
-                string rapidAPIKey = _configuration["ApiKeys:RapidAPIKey"];
-                string rapidAPIHost = _configuration["ApiKeys:RapidAPIHost"];
-
-                client.DefaultRequestHeaders.Add("X-RapidAPI-Key", rapidAPIKey);
-                client.DefaultRequestHeaders.Add("X-RapidAPI-Host", rapidAPIHost);
-
-                string url = "https://api-football-v1.p.rapidapi.com/v3/players";
-
-                var queryString = new System.Collections.Specialized.NameValueCollection();
-                queryString["league"] = "140";
-                queryString["search"] = "Fauber";
-
-                string fullUrl = url + ToQueryString(queryString);
-
-                HttpResponseMessage response = await client.GetAsync(fullUrl);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    dynamic jugadoresData = JsonConvert.DeserializeObject<dynamic>(responseBody);
-
-                    foreach (var jugadorData in jugadoresData["response"])
-                    {
-                        JugadorDTO jugadorDTO = new JugadorDTO
-                        {
-                            Nombre = jugadorData["player"]["name"]
-                        };
-
-                        jugadoresDTOs.Add(jugadorDTO);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Error: " + response.StatusCode);
-                }
-            }
+            ViewBag.RapidAPIKey = _configuration["ApiKeys:RapidAPIKey"];
+            ViewBag.RapidAPIHost = _configuration["ApiKeys:RapidAPIHost"];
 
             var pistasDTOs = new PistasDTO
             {
-                Pistas = pistaDTOs,
-                Jugadores = jugadoresDTOs
+                Pistas = pistaDTOs
             };
 
             return View(pistasDTOs);

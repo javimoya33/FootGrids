@@ -7,7 +7,6 @@ C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\FootGrids.MvcAp
 C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\FootGrids.RazorAssemblyInfo.cache
 C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\FootGrids.RazorAssemblyInfo.cs
 C:\Users\34656\source\repos\FootGrids\FootGrids\bin\Debug\net6.0\appsettings.Development.json
-C:\Users\34656\source\repos\FootGrids\FootGrids\bin\Debug\net6.0\appsettings.json
 C:\Users\34656\source\repos\FootGrids\FootGrids\bin\Debug\net6.0\FootGrids.staticwebassets.runtime.json
 C:\Users\34656\source\repos\FootGrids\FootGrids\bin\Debug\net6.0\FootGrids.exe
 C:\Users\34656\source\repos\FootGrids\FootGrids\bin\Debug\net6.0\FootGrids.deps.json
@@ -83,3 +82,4 @@ C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\FootGrids.pdb
 C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\FootGrids.genruntimeconfig.cache
 C:\Users\34656\source\repos\FootGrids\FootGrids\obj\Debug\net6.0\ref\FootGrids.dll
 C:\Users\34656\source\repos\FootGrids\FootGrids\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\34656\source\repos\FootGrids\FootGrids\bin\Debug\net6.0\appsettings.json

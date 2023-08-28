@@ -4,10 +4,7 @@
     ViewData["Title"] = "FootGrids Index";
 }
 
-@foreach (var jugador in Model.Jugadores)
-{
-    <p>@jugador.Nombre</p>
-}
+<div id="api-keys" data-rapid-api-key="@ViewBag.RapidAPIKey" data-rapid-api-host="@ViewBag.RapidAPIHost"></div>
 
 
 <div class="container container-grid">

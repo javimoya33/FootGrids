@@ -46,7 +46,7 @@ input:focus, input.form-control:focus {
 }
 
 .colorFuenteTerciaria {
-    color: white;
+    color: #eeeeee;
 }
 
 .pd-3-0 {
@@ -145,4 +145,15 @@ input:focus, input.form-control:focus {
     position: fixed;
     top: 0;
     width: 100vw;
+}
+
+.div-result-busq {
+    background-color: #535ce2;
+    border-bottom: 1px solid #4a50af;
+    padding: 6px 12px;
+    cursor: pointer
+}
+
+.div-result-busq:hover {
+    color: #ff4388;
 }
