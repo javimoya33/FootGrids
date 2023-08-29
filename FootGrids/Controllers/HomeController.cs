@@ -61,5 +61,16 @@ namespace FootGrids.Controllers
             ).ToArray();
             return "?" + string.Join("&", array);
         }
+
+        [HttpGet("/Home/GetApiKeys")]
+        public IActionResult GetApiKeys()
+        {
+            var rapidAPIKey = _configuration["ApiKeys:RapidAPIKey"];
+            var rapidAPIHost = _configuration["ApiKeys:RapidAPIHost"];
+
+            var apiKeys = new { RapidAPIKey = rapidAPIKey, RapidAPIHost = rapidAPIHost };
+
+            return Json(apiKeys);
+        }
     }
 }

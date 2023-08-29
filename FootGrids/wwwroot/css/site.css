@@ -125,6 +125,27 @@ input:focus, input.form-control:focus {
     opacity: 1;
 }
 
+.div-close {
+    position: absolute;
+    right: -1vw;
+    top: -1vw;
+    cursor: pointer;
+    background-color: #4a50af;
+    border-radius: 0.4vw;
+}
+
+.div-close img {
+    width: 3.5vw;
+}
+
+#img-jug-seleccionado {
+    width: 200px;
+    border-radius: 100px;
+    margin: 10px;
+    border: 8px solid #4a50af;
+    padding: 0px;
+}
+
 .input-busq-jug {
     width: 100%;
     height: 45px;
@@ -148,12 +169,13 @@ input:focus, input.form-control:focus {
 }
 
 .div-result-busq {
-    background-color: #535ce2;
+    background-color: #eee;
     border-bottom: 1px solid #4a50af;
     padding: 6px 12px;
     cursor: pointer
 }
 
-.div-result-busq:hover {
-    color: #ff4388;
-}
+    .div-result-busq:hover {
+        background-color: #ffcadd;
+        color: #ff4388;
+    }

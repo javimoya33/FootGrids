@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PLG0Q6Sx3jMcdePlwS0HBjh/iGg4rN68cwjapk6VVLs=",
+  "Hash": "VkgpRTo9+1O4B83/Rc4fdvg+lvADI7jazffUpK+4Sus=",
   "Source": "FootGrids",
   "BasePath": "_content/FootGrids",
   "Mode": "Default",
@@ -100,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\campo_busq_jug.png"
+    },
+    {
+      "Identity": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\img\\close.png",
+      "SourceId": "FootGrids",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\",
+      "BasePath": "_content/FootGrids",
+      "RelativePath": "img/close.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\close.png"
     },
     {
       "Identity": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\img\\defaultavatar.webp",
