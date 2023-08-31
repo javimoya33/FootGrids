@@ -22,5 +22,6 @@ namespace FootGrids
         public DbSet<Grid> Grids { get; set; }
         public DbSet<Pista> Pistas { get; set; }
         public DbSet<GridPista> GridsPista { get; set; }
+        public DbSet<Solucion> Soluciones { get; set; }
     }
 }

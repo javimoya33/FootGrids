@@ -3,12 +3,38 @@
 
 // Write your JavaScript code.
 
-var yearsToQuery = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+var yearsToQuery = [/*2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, */2021, 2022, 2023];
 var delayBetweenRequests = 2000; 
 
 $(document).ready(function () {
 
-    realizarSolicitud(0);
+    let seconds = 0;
+    let minutes = 0;
+
+    function updateCrono() {
+
+        seconds++;
+
+        if (seconds == 60) {
+            seconds = 0;
+            minutes++;
+        }
+
+        const formatteTime = `${minutes < 10 ? '0' : ''}gf${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        $('#div-cronometro').text(formatteTime);
+    }
+
+    setInterval(updateCrono, 1000);
+
+    realizarSolicitud(0, 1);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 2);
+    }, 20000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 3);
+    }, 40000);
 
 
     /* Mostrar div de búsqueda de jugador cuando se clicka en una casilla oculta */
@@ -51,13 +77,14 @@ $(document).ready(function () {
     });
 });
 
-function realizarSolicitud(index) {
+function realizarSolicitud(index, page) {
     if (index < yearsToQuery.length) {
         var year = yearsToQuery[index];
         var queryString = {
-            team: 529,
+            team: 548,
             league: 140,
-            season: year
+            season: year,
+            page: page
         };
 
         $.ajax({
@@ -71,14 +98,13 @@ function realizarSolicitud(index) {
             data: queryString,
             success: function (data) {
                 // Procesar los datos aquí
-
                 data.response.forEach(function (jugadorData) {
                     console.log(jugadorData.player.name);
                 });
 
                 // Llamar a la siguiente solicitud después de un retraso
                 setTimeout(function () {
-                    realizarSolicitud(index + 1);
+                    realizarSolicitud(index + 1, page);
                 }, delayBetweenRequests);
             },
             error: function (xhr, textStatus, errorThrown) {
@@ -86,7 +112,7 @@ function realizarSolicitud(index) {
 
                 // Llamar a la siguiente solicitud después de un retraso
                 setTimeout(function () {
-                    realizarSolicitud(index + 1);
+                    realizarSolicitud(index + 1, page);
                 }, delayBetweenRequests);
             }
         });
