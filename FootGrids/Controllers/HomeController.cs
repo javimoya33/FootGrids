@@ -72,5 +72,31 @@ namespace FootGrids.Controllers
 
             return Json(apiKeys);
         }
+
+        [HttpGet("/Home/GetSolucionesCasilla")]
+        public async Task<IActionResult> GetSolucionesCasilla(int numeroSolucion, int idJugador)
+        {
+            var soluciones = await context.Soluciones
+                .Where(sl => sl.NumSolucion == numeroSolucion && sl.Grid.Id == 1)
+                .Join<Solucion, Grid, int, dynamic>(context.Grids, sl => sl.Grid.Id, gr => gr.Id,
+                    (sl, gr) => new
+                    {
+                        Solucion = sl,
+                        Grid = gr
+                    })
+                .ToListAsync();
+
+            bool jugadorEncontrado = false;
+
+            foreach (var solucion in soluciones)
+            {
+                if (solucion.Solucion.IdAPI == idJugador)
+                {
+                    jugadorEncontrado = true;
+                }
+            }
+
+            return Json(jugadorEncontrado);
+        }
     }
 }

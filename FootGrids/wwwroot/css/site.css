@@ -53,6 +53,22 @@ input:focus, input.form-control:focus {
     padding: 0px 3px;
 }
 
+.pd-10-30 {
+    padding: 10px 30px;
+}
+
+.fs12 {
+    font-size: 12pt;
+}
+
+.fs18 {
+    font-size: 18pt;
+}
+
+.fs24 {
+    font-size: 24pt;
+}
+
 /** ELEMENTOS DEL JUEGO **/
 
 .celda-titulo {
@@ -122,6 +138,12 @@ input:focus, input.form-control:focus {
     padding: 10px;
 }
 
+.container-victoria {
+    top: 40%;
+    background-color: #e1417c;
+    border: 4px solid #ffc21c;
+}
+
 .container-busq::before {
     opacity: 1;
 }
@@ -156,7 +178,7 @@ input:focus, input.form-control:focus {
 }
 
 .input-busq-jug::placeholder {
-    color: #ddd;
+    color: #3a4097;
 }
 
 .div-overlay-juego {
@@ -179,4 +201,37 @@ input:focus, input.form-control:focus {
 .div-result-busq:hover {
     background-color: #ffcadd;
     color: #ff4388;
+}
+
+.color-victoria {
+    color: #ffc21c;
+    text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+}
+
+.icon-redes-sociales {
+    width: 2vw;
+    border: 1px solid #000;
+    border-radius: 4px;
+    position: relative;
+}
+
+.icon-redes-sociales:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(255,255,255,0.4);
+    -webkit-transition: none;
+    -moz-transition: none;
+    transition: none;
+}
+
+.icon-redes-sociales:hover:after {
+    width: 120%;
+    background-color: rgba(255,255,255,0);
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
 }

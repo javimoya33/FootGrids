@@ -6,6 +6,7 @@
         public int IdAPI { get; set; }
         public string TablaAPI { get; set; }
         public int Valor { get; set; }
-        public Pista Pistas { get; set; }
+        public int NumSolucion { get; set; }
+        public Grid Grid { get; set; }
     }
 }

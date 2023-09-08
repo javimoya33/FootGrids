@@ -4,6 +4,7 @@ using FootGrids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FootGrids.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230902094156_Soluciones3")]
+    partial class Soluciones3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,16 +91,13 @@ namespace FootGrids.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("GridId")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdAPI")
                         .HasColumnType("int");
 
                     b.Property<int>("NumSolucion")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PistaId")
+                    b.Property<int?>("PistasId")
                         .HasColumnType("int");
 
                     b.Property<string>("TablaAPI")
@@ -108,9 +108,7 @@ namespace FootGrids.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GridId");
-
-                    b.HasIndex("PistaId");
+                    b.HasIndex("PistasId");
 
                     b.ToTable("Soluciones");
                 });
@@ -136,15 +134,11 @@ namespace FootGrids.Migrations
 
             modelBuilder.Entity("FootGrids.Models.Solucion", b =>
                 {
-                    b.HasOne("FootGrids.Models.Grid", "Grid")
-                        .WithMany()
-                        .HasForeignKey("GridId");
-
-                    b.HasOne("FootGrids.Models.Pista", null)
+                    b.HasOne("FootGrids.Models.Pista", "Pistas")
                         .WithMany("Soluciones")
-                        .HasForeignKey("PistaId");
+                        .HasForeignKey("PistasId");
 
-                    b.Navigation("Grid");
+                    b.Navigation("Pistas");
                 });
 
             modelBuilder.Entity("FootGrids.Models.Grid", b =>

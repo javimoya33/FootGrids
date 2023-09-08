@@ -2,6 +2,12 @@
 
 @{
     ViewData["Title"] = "FootGrids Index";
+
+    int contCasilla = 3;
+    int numeroCasilla = 0;
+    int numeroCasilla2 = 0;
+    int numeroCasilla3 = 0;
+    string claseCasilla = "";
 }
 
 <div id="api-keys" data-rapid-api-key="@ViewBag.RapidAPIKey" data-rapid-api-host="@ViewBag.RapidAPIHost"></div>
@@ -9,7 +15,7 @@
 <div class="container container-grid">
     <div class="row" style="width: 100%; margin: 0;">
         <div class="col-sm celda-grid" style="flex: 1; height: auto">
-            <div id="div-cronometro" class="celda-grid-container fuentePrincipal" style="font-size: 24pt">00:00</div>
+            <div id="div-cronometro" class="celda-grid-container fuentePrincipal fs24" style="font-size: 24pt">00:00</div>
         </div>
         <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria" style="text-shadow: 2px 2px #100000;">
             FootGrids
@@ -102,11 +108,16 @@
                     }
                 }
 
+                @{
+                    numeroCasilla = i - contCasilla;
+                    claseCasilla = "fg-casilla-" + numeroCasilla;
+                }
+
                 <div class="col-sm celda-grid d-flex pd-3-0">
                     @{
                         string styleCeldaEsq = "";
 
-                                    @if (i == 4)
+                                @if (i == 4)
                         {
                             styleCeldaEsq = " celda-esq-sup-izq";
                         }
@@ -116,20 +127,27 @@
                         }
                     }
 
-                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @styleCeldaEsq"></button>
+                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
                 </div>
 
-                    @{
-                        styleCeldaEsq = "";
-                    }
+                @{
+                    styleCeldaEsq = "";
+                    numeroCasilla2 = numeroCasilla + 1;
+                    claseCasilla = "fg-casilla-" + numeroCasilla2;
+                }
 
                 <div class="col-sm celda-grid d-flex pd-3-0">
-                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @styleCeldaEsq"></button>
+                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
                 </div>
 
+                @{
+                    numeroCasilla3 = numeroCasilla2 + 1;
+                    claseCasilla = "fg-casilla-" + numeroCasilla3;
+                }
+
                 <div class="col-sm celda-grid d-flex pd-3-0">
                     @{
-                        @if (i == 4)
+                                @if (i == 4)
                         {
                             styleCeldaEsq = " celda-esq-inf-izq";
                         }
@@ -139,9 +157,11 @@
                         }
                     }
 
-                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @styleCeldaEsq"></button>
+                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
                 </div>
             </div>
+
+            contCasilla -= 2;
         }
     }
 </div>
@@ -149,3 +169,50 @@
 <div id="div-overlay-juego" class="div-overlay-juego"></div>
 
 <div id="div-busq-jug" class="container container-grid container-busq rounded-3" style="display: none"></div>
+
+<div id="div-victoria" class="container container-grid container-busq container-victoria rounded-3" style="display: none">
+
+    <!--<div class="d-flex" style="align-items: start">
+        <div>
+            <img src="/img/trofeo.png" class="pd-10-30" style="width: 9vw" />
+        </div>
+        <div>
+            <div class="fuentePrincipal fs24 color-victoria">¡ENHORABUENA!</div>
+            <div class="fuentePrincipal fs12">¡Sos un fenómeno! Las metes como Julián Álvarez.</div>
+
+            <div class="d-flex" style="justify-content: space-around; padding: 10px 0px;">
+                <div>
+                    <div class="fuentePrincipal fs12 text-center">Puntuación</div>
+                    <div id="divPuntuacionFinal" class="fuentePrincipal fs18 text-center color-victoria">0</div>
+                </div>
+
+                <div>
+                    <div class="fuentePrincipal fs12 text-center">Tiempo</div>
+                    <div id="divTiempoFinal" class="fuentePrincipal fs18 text-center color-victoria">7:35</div>
+                </div>
+            </div>
+
+            <div class="fuentePrincipal fs12">Compártelo con tus pibes en redes sociales, che.</div>
+            <div class="d-flex" style="justify-content: space-around; padding-top: 10px">
+                <div>
+                    <button class="icon-redes-sociales p-0">
+                        <img src="/img/redes sociales/twitter.png" class="w-100" />
+                    </button>
+                </div>
+                <div>
+                    <button class="icon-redes-sociales p-0">
+                        <img src="/img/redes sociales/facebook.png" class="w-100" />
+                    </button>
+                </div>
+                <div>
+                    <button class="icon-redes-sociales p-0">
+                        <img src="/img/redes sociales/instagram.png" class="w-100" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+</div>
+
+
