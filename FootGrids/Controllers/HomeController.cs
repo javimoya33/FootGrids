@@ -87,16 +87,24 @@ namespace FootGrids.Controllers
                 .ToListAsync();
 
             bool jugadorEncontrado = false;
+            int handicap = 1;
 
             foreach (var solucion in soluciones)
             {
                 if (solucion.Solucion.IdAPI == idJugador)
                 {
                     jugadorEncontrado = true;
+                    handicap = solucion.Solucion.Handicap;
                 }
             }
 
-            return Json(jugadorEncontrado);
+            var resultado = new
+            {
+                JugadorEncontrado = jugadorEncontrado,
+                Handicap = handicap
+            };
+
+            return Json(resultado);
         }
     }
 }

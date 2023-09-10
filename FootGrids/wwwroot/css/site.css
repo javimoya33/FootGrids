@@ -34,39 +34,39 @@ input:focus, input.form-control:focus {
 }
 
 .fuentePrincipal {
-    font-family: 'Montserrat', cursive;
+    font-family: 'Montserrat', cursive !important;
 }
 
 .colorFuentePrincipal {
-    color: #212529;
+    color: #212529 !important;
 }
 
 .colorFuenteSecundaria {
-    color: #e1417c;
+    color: #e1417c !important;
 }
 
 .colorFuenteTerciaria {
-    color: #eeeeee;
+    color: #eeeeee !important;
 }
 
 .pd-3-0 {
-    padding: 0px 3px;
+    padding: 0px 3px !important;
 }
 
 .pd-10-30 {
-    padding: 10px 30px;
+    padding: 10px 30px !important;
 }
 
 .fs12 {
-    font-size: 12pt;
+    font-size: 12pt !important;
 }
 
 .fs18 {
-    font-size: 18pt;
+    font-size: 18pt !important;
 }
 
 .fs24 {
-    font-size: 24pt;
+    font-size: 24pt !important;
 }
 
 /** ELEMENTOS DEL JUEGO **/

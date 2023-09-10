@@ -16,6 +16,7 @@
     <div class="row" style="width: 100%; margin: 0;">
         <div class="col-sm celda-grid" style="flex: 1; height: auto">
             <div id="div-cronometro" class="celda-grid-container fuentePrincipal fs24" style="font-size: 24pt">00:00</div>
+            <div id="div-crono-desde-ultimo-acierto" style="display: none">0</div>
         </div>
         <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria" style="text-shadow: 2px 2px #100000;">
             FootGrids
@@ -26,6 +27,7 @@
         <div class="row">
             <div class="col-sm celda-grid">
                 <div class="celda-grid-container fuentePrincipal">Puntuación</div>
+                <div id="div-puntuacion" class="celda-grid-container fuentePrincipal fs24" style="line-height: 2vw">0</div>
             </div>
             @foreach (var pista in Model.Pistas)
             {

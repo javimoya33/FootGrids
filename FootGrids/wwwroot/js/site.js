@@ -12,6 +12,8 @@ var intervalId;
 var seconds = 0;
 var minutes = 0;
 
+var secondsDesdeUltimoAcierto = 0;
+
 $(document).ready(function () {
 
     // Si en las cookies del navegador hay fecha de la última visita al juego, y la fecha de esa última visitada es igual a la de hoy
@@ -34,6 +36,14 @@ $(document).ready(function () {
 
                 minutes = parseInt(arrTiempo[0]);
                 seconds = parseInt(arrTiempo[1]);
+            }
+
+            const tiempoDesdeUltimoAcierto = obtenerTiempoDesdeUltimoAciertoEnCookie();
+
+            if (tiempoDesdeUltimoAcierto !== null) {
+
+                secondsDesdeUltimoAcierto = tiempoDesdeUltimoAcierto;
+                $('#div-crono-desde-ultimo-acierto').text(tiempoDesdeUltimoAcierto);
             }
         }
     }
@@ -128,6 +138,7 @@ function fechaFormateada() {
 function updateCrono() {
 
     seconds++;
+    secondsDesdeUltimoAcierto++;
 
     if (seconds == 60) {
         seconds = 0;
@@ -136,8 +147,10 @@ function updateCrono() {
 
     const formatteTime = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     $('#div-cronometro').text(formatteTime);
+    $('#div-crono-desde-ultimo-acierto').text(secondsDesdeUltimoAcierto);
 
     guardarTiempoEnCookie();
+    guardarTiempoDesdeUltimoAciertoEnCookie();
 }
 
 
@@ -154,10 +167,19 @@ function guardarTiempoEnCookie() {
     $.cookie('tiempoJuego', tiempo, { expires: 1 });
 }
 
-
 // Obtener la cookie que contiene el tiempo de juego transcurrido
 function obtenerTiempoEnCookie() {
     return $.cookie('tiempoJuego');
+}
+
+function guardarTiempoDesdeUltimoAciertoEnCookie() {
+
+    const tiempo = $('#div-crono-desde-ultimo-acierto').text();
+    $.cookie('tiempoDesdeUltimoAcierto', tiempo, { expires: 1 });
+}
+
+function obtenerTiempoDesdeUltimoAciertoEnCookie() {
+    return $.cookie('tiempoDesdeUltimoAcierto');
 }
 
 // Guardar la fecha de la última visita al juego en una cookie del navegador 
@@ -249,12 +271,22 @@ function clickDivResultBusq(idJugador, imgJugador) {
         data: { numeroSolucion: numeroSolucion, idJugador: idJugador },
         success: function (data) {
 
-            if (data) {
+            var jugadorEncontrado = data.jugadorEncontrado;
+            var handicap = data.handicap;
+
+            console.log('DATA ' + jugadorEncontrado + ' *** ' + handicap);
+
+            if (jugadorEncontrado) {
                 $('.fg-casilla-' + numeroSolucion).css('background', 'url("' + imgJugador + '") center top no-repeat white');
 
                 jugadoresAcertados += 1;
 
+
+                sumarPuntuacion(handicap, secondsDesdeUltimoAcierto);
+
                 comprobarVictoria();
+
+                secondsDesdeUltimoAcierto = 0;
             }
         },
         error: function (xhr, status, error) {
@@ -419,4 +451,25 @@ function escribirBuscadorJugador() {
             });
         }
     }, 2000);
+}
+
+function sumarPuntuacion(handicap, tiempo) {
+
+    let puntuacion = $('#div-puntuacion').text();
+
+    let ptsDificultad = 80 * handicap;
+
+    let ptsTiempo = 300 - (10 * tiempo);
+
+    if (ptsTiempo < 0) {
+        ptsTiempo = 0;
+    }
+
+    let ptsAcierto = 300;
+
+    console.log('Puntuacion ' + ptsDificultad + ' ***** ' + ptsTiempo + ' ***** ' + ptsAcierto);
+
+    puntuacion = parseInt(puntuacion) + ptsDificultad + ptsTiempo + ptsAcierto;
+
+    $('#div-puntuacion').text(puntuacion);
 }
