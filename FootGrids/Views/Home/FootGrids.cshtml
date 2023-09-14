@@ -115,7 +115,7 @@
                     claseCasilla = "fg-casilla-" + numeroCasilla;
                 }
 
-                <div class="col-sm celda-grid d-flex pd-3-0">
+                <div id="div-casilla-@numeroCasilla" class="col-sm celda-grid d-flex pd-3-0">
                     @{
                         string styleCeldaEsq = "";
 
@@ -130,6 +130,8 @@
                     }
 
                     <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
+                    <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
+                    <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
                 </div>
 
                 @{
@@ -138,8 +140,10 @@
                     claseCasilla = "fg-casilla-" + numeroCasilla2;
                 }
 
-                <div class="col-sm celda-grid d-flex pd-3-0">
+                <div id="div-casilla-@numeroCasilla2" class="col-sm celda-grid d-flex pd-3-0">
                     <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
+                    <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
+                    <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
                 </div>
 
                 @{
@@ -147,7 +151,7 @@
                     claseCasilla = "fg-casilla-" + numeroCasilla3;
                 }
 
-                <div class="col-sm celda-grid d-flex pd-3-0">
+                <div id="div-casilla-@numeroCasilla3" class="col-sm celda-grid d-flex pd-3-0">
                     @{
                                 @if (i == 4)
                         {
@@ -160,6 +164,8 @@
                     }
 
                     <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
+                    <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
+                    <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
                 </div>
             </div>
 

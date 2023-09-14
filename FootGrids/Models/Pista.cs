@@ -11,6 +11,5 @@ namespace FootGrids.Models
         public string Tipo { get; set; }
         public string Link { get; set; }
         public List<GridPista> GridsPistas { get; set; }
-        public List<Solucion> Soluciones { get; set; }
     }
 }

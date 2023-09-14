@@ -83,6 +83,7 @@ input:focus, input.form-control:focus {
 }
 
 .celda-grid {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 10vw;
@@ -234,4 +235,24 @@ input:focus, input.form-control:focus {
     -webkit-transition: all 0.4s ease-in-out;
     -moz-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
+}
+
+.div-resultado-celda {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(225, 65, 124, 0.6);
+}
+
+.div-acierto-celda {
+    display: none;
+    background: rgba(65, 225, 174, 0.6);
+}
+
+.div-fallo-celda {
+    display: none;
+    background: rgba(225, 65, 124, 0.6);
 }

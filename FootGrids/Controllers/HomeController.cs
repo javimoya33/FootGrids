@@ -30,6 +30,7 @@ namespace FootGrids.Controllers
         public async Task<ActionResult> FootGrids()
         {
             var pistas = await context.Pistas
+                .Where(p => p.GridsPistas.Any(gp => gp.GridId == 2))
                 .Include(x => x.GridsPistas)
                 .ToListAsync();
 
@@ -77,7 +78,7 @@ namespace FootGrids.Controllers
         public async Task<IActionResult> GetSolucionesCasilla(int numeroSolucion, int idJugador)
         {
             var soluciones = await context.Soluciones
-                .Where(sl => sl.NumSolucion == numeroSolucion && sl.Grid.Id == 1)
+                .Where(sl => sl.NumSolucion == numeroSolucion && sl.Grid.Id == 2)
                 .Join<Solucion, Grid, int, dynamic>(context.Grids, sl => sl.Grid.Id, gr => gr.Id,
                     (sl, gr) => new
                     {

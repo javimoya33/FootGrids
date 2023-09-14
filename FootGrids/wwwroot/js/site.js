@@ -4,10 +4,11 @@
 // Write your JavaScript code.
 
 // Array de los años de los datos que se buscarán en la API
-var yearsToQuery = [/*2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, */2021, 2022, 2023];
+var yearsToQuery = [/*2010, 2011, */2012/*, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024*/];
 var delayBetweenRequests = 2000; 
 var jugadoresAcertados = 0;
 var intervalId;
+var intervalPts;
 
 var seconds = 0;
 var minutes = 0;
@@ -15,6 +16,21 @@ var minutes = 0;
 var secondsDesdeUltimoAcierto = 0;
 
 $(document).ready(function () {
+
+    // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
+    /*realizarSolicitud(0, 1);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 2);
+    }, 20000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 3);
+    }, 40000);*/
+
+    obtenerCasillasResueltasEnCookie();
+    rellenarCasillasResueltas();
+    rellenarPuntuacion();
 
     // Si en las cookies del navegador hay fecha de la última visita al juego, y la fecha de esa última visitada es igual a la de hoy
     // entonces se recuperará el tiempo transcurrido en la partida y se mostrará en el div del cronómetro
@@ -46,23 +62,22 @@ $(document).ready(function () {
                 $('#div-crono-desde-ultimo-acierto').text(tiempoDesdeUltimoAcierto);
             }
         }
+        else {
+            $('#div-crono-desde-ultimo-acierto').text('0');
+            guardarTiempoDesdeUltimoAciertoEnCookie();
+
+            $('#div-cronometro').text('00:00');
+            guardarTiempoEnCookie();
+
+            $('#div-puntuacion').text('0');
+            guardarPuntuacionEnCookie(0);
+        }
     }
 
     // Guardamos la fecha de hoy en las cookies del navegador como fecha de visita al juego
     guardarUltVisitaEnCookie();
 
     intervalId = setInterval(updateCrono, 1000);
-
-    // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
-    /*realizarSolicitud(0, 1);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 2);
-    }, 20000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 3);
-    }, 40000);*/
 
     // Mostrar div de búsqueda de jugador cuando se clicka en una casilla oculta 
     $('.celda-grid-jug-ocultos').click(function (event) {
@@ -193,12 +208,89 @@ function obtenerFechaUltVisita() {
     return $.cookie('ultVisita');
 }
 
+function obtenerPuntuacionEnCookie() {
+    return $.cookie('puntuacion');
+}
+
+function guardarPuntuacionEnCookie(puntuacion) {
+    $.cookie('puntuacion', puntuacion, { expires: 1 });
+}
+
+function rellenarPuntuacion() {
+
+    if (obtenerPuntuacionEnCookie() !== undefined) {
+        $('#div-puntuacion').text(obtenerPuntuacionEnCookie());
+    }
+}
+
+function obtenerCasillasResueltasEnCookie() {
+
+    if ($.cookie('casillasResueltas') === undefined || $.cookie('casillasResueltas') === '') {
+
+        $.cookie('casillasResueltas', '0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0', { expires: 1 });
+    }
+
+    return $.cookie('casillasResueltas');
+}
+
+function guardarCasillasResueltasEnCookie(txtCasillasResueltas) {
+
+    $.cookie('casillasResueltas', txtCasillasResueltas, { expires: 1 });
+}
+
+function rellenarNuevaCasilla(idJugador, numeroDeCasilla) {
+
+    let casillasRellenas = obtenerCasillasResueltasEnCookie();
+
+    console.log('CasillasRellenas1 ' + casillasRellenas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla);
+
+    const arrCasillasRellenas = casillasRellenas.split(' *** ');
+
+    let txtCasillasResueltas = '';
+
+    for (let i = 0; i < arrCasillasRellenas.length; i++) {
+
+        if (i == numeroDeCasilla) {
+
+            arrCasillasRellenas[i] = idJugador;
+        }
+
+        txtCasillasResueltas += arrCasillasRellenas[i];
+
+        if (i != arrCasillasRellenas.length - 1) {
+
+            txtCasillasResueltas += ' *** ';
+        }
+    }
+
+    console.log('CasillasRellenas1 ' + casillasRellenas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla);
+
+    guardarCasillasResueltasEnCookie(txtCasillasResueltas);
+}
+
+function rellenarCasillasResueltas() {
+
+    let casillasResueltas = obtenerCasillasResueltasEnCookie();
+
+    const arrCasillasResueltas = casillasResueltas.split(" *** ");
+
+    for (let i = 0; i < arrCasillasResueltas.length; i++) {
+
+        if (arrCasillasResueltas[i] > 0) {
+
+            let imgCasilla = 'https://media-4.api-sports.io/football/players/' + arrCasillasResueltas[i] + '.png';
+
+            $('.fg-casilla-' + i).css('background', 'url("' + imgCasilla + '") center top no-repeat white');
+        }
+    }
+}
+
 // Función utilizada para buscar y obtener las soluciones a cada celda que utilizo para crear la partida
 function realizarSolicitud(index, page) {
     if (index < yearsToQuery.length) {
         var year = yearsToQuery[index];
         var queryString = {
-            team: 548,
+            team: 727,
             league: 140,
             season: year,
             page: page
@@ -216,7 +308,7 @@ function realizarSolicitud(index, page) {
             success: function (data) {
                 // Procesar los datos aquí
                 data.response.forEach(function (jugadorData) {
-                    console.log(jugadorData.player.name);
+                    console.log(jugadorData.player.name + ' *** ' + jugadorData.player.id);
                 });
 
                 // Llamar a la siguiente solicitud después de un retraso
@@ -259,7 +351,7 @@ function mouseEnterDivResultBusq(elemento) {
         '<div>Nacionalidad: ' + jugadorNacionalidad + '</div>');
 }
 
-// Cuando se clicka sobre un resultado de bñusqueda se comprueba si la solución al jugador oculto es correcta y se comprueba si el jugador 
+// Cuando se clicka sobre un resultado de búsqueda se comprueba si la solución al jugador oculto es correcta y se comprueba si el jugador 
 // ya ha resuelto toda la partida
 function clickDivResultBusq(idJugador, imgJugador) {
 
@@ -281,12 +373,25 @@ function clickDivResultBusq(idJugador, imgJugador) {
 
                 jugadoresAcertados += 1;
 
+                secondsDesdeUltimoAcierto = obtenerTiempoDesdeUltimoAciertoEnCookie();
+                console.log('tiempoDesdeUltimoAcierto ' + secondsDesdeUltimoAcierto);
 
                 sumarPuntuacion(handicap, secondsDesdeUltimoAcierto);
 
                 comprobarVictoria();
 
                 secondsDesdeUltimoAcierto = 0;
+
+                rellenarNuevaCasilla(idJugador, numeroSolucion);
+
+                $('#div-casilla-' + numeroSolucion).find('.div-acierto-celda').css('display', 'block');
+                efectoParpadeo(3, '#div-casilla-' + numeroSolucion, true);
+            }
+            else {
+                restarPuntuacion();
+
+                $('#div-casilla-' + numeroSolucion).find('.div-fallo-celda').css('display', 'block');
+                efectoParpadeo(3, '#div-casilla-' + numeroSolucion, false);
             }
         },
         error: function (xhr, status, error) {
@@ -319,12 +424,12 @@ function comprobarVictoria() {
                                         '<div class="d-flex" style="justify-content: space-around; padding: 10px 0px;">' + 
                                             '<div>' + 
                                                 '<div class="fuentePrincipal fs12 text-center">Puntuación</div>' + 
-                                                '<div id="divPuntuacionFinal" class="fuentePrincipal fs18 text-center color-victoria">0</div>' + 
+                                                '<div id="div-puntuacion-final" class="fuentePrincipal fs18 text-center color-victoria">0</div>' + 
                                             '</div>' + 
 
                                             '<div>' + 
                                                 '<div class="fuentePrincipal fs12 text-center">Tiempo</div>' + 
-                                                '<div id="divTiempoFinal" class="fuentePrincipal fs18 text-center color-victoria">' + crono + '</div>' + 
+                                                '<div id="div-tiempo-final" class="fuentePrincipal fs18 text-center color-victoria">' + crono + '</div>' + 
                                             '</div>' + 
                                         '</div>' + 
 
@@ -364,6 +469,8 @@ function escribirBuscadorJugador() {
 
         if ($('#input-busq-jug').val() == busqueda) {
 
+            busqueda = normalizarTexto(busqueda);
+
             var urlKeys = "/Home/GetApiKeys";
             //$('#div-result-busq').empty();
 
@@ -376,7 +483,7 @@ function escribirBuscadorJugador() {
                     var url = "https://api-football-v1.p.rapidapi.com/v3/players";
                     var apiKey = data.rapidAPIKey;
                     var apiHost = data.rapidAPIHost;
-                    var ligasToQuery = ["140", "39", "135", "78", "61"];
+                    var ligasToQuery = ["140", "141", "39", "135", "78", "61"];
                     var queryString = {
                         search: busqueda
                     };
@@ -426,12 +533,18 @@ function escribirBuscadorJugador() {
                                     datosProcesados.forEach(function (jugador) {
 
                                         if (iteracciones < maxIteracciones) {
-                                            $('#div-result-busq').append(
-                                                '<div onmouseenter="mouseEnterDivResultBusq(this)" onclick="clickDivResultBusq(' + jugador.id + ', \'' + jugador.imagen + '\')" class="div-result-busq fuentePrincipal">' +
-                                                '<span class="fuentePrincipal">' + jugador.nombre + '</span>' +
-                                                '<div class="div-info-jugador" data-jugador-id="' + jugador.id + '" data-jugador-nombre="' + jugador.nombre + '" data-jugador-img="' + jugador.imagen + '" data-jugador-edad="' + jugador.edad + '" data-jugador-nacionalidad="' + jugador.nacionalidad + '"></div>' +
-                                                '</div>'
-                                            );
+
+                                            // Verificar que el resultado de búsqueda no esté ya repetido entre los que se muestran
+                                            var jugadorRepetido = $('#div-result-busq [data-jugador-id="' + jugador.id + '"]').length > 0;
+
+                                            if (!jugadorRepetido) {
+                                                $('#div-result-busq').append(
+                                                    '<div onmouseenter="mouseEnterDivResultBusq(this)" onclick="clickDivResultBusq(' + jugador.id + ', \'' + jugador.imagen + '\')" class="div-result-busq fuentePrincipal">' +
+                                                    '<span class="fuentePrincipal">' + jugador.nombre + '</span>' +
+                                                    '<div class="div-info-jugador" data-jugador-id="' + jugador.id + '" data-jugador-nombre="' + jugador.nombre + '" data-jugador-img="' + jugador.imagen + '" data-jugador-edad="' + jugador.edad + '" data-jugador-nacionalidad="' + jugador.nacionalidad + '"></div>' +
+                                                    '</div>'
+                                                );
+                                            }
                                         }
                                     });
                                 }
@@ -453,13 +566,14 @@ function escribirBuscadorJugador() {
     }, 2000);
 }
 
+// Sumar puntuación en función del handicap de la solución, del tiempo empleado y del acierto
 function sumarPuntuacion(handicap, tiempo) {
 
     let puntuacion = $('#div-puntuacion').text();
 
     let ptsDificultad = 80 * handicap;
 
-    let ptsTiempo = 300 - (10 * tiempo);
+    let ptsTiempo = 300 - tiempo;
 
     if (ptsTiempo < 0) {
         ptsTiempo = 0;
@@ -471,5 +585,92 @@ function sumarPuntuacion(handicap, tiempo) {
 
     puntuacion = parseInt(puntuacion) + ptsDificultad + ptsTiempo + ptsAcierto;
 
-    $('#div-puntuacion').text(puntuacion);
+    efectoCambioPuntuacion(puntuacion, true);
+}
+
+// Restar puntuación en caso de que el jugador falle en la solución dada
+function restarPuntuacion() {
+
+    let puntuacion = $('#div-puntuacion').text();
+
+    console.log('Entraaa aqui ' + obtenerTiempoDesdeUltimoAciertoEnCookie());
+
+    puntuacion = puntuacion - (80 + parseInt(obtenerTiempoDesdeUltimoAciertoEnCookie()));
+
+    if (puntuacion < 0) {
+        puntuacion = 0;
+    }
+
+    efectoCambioPuntuacion(puntuacion, false);
+}
+
+// Efecto en la suma o resta de la puntuación
+function efectoCambioPuntuacion(nuevaPuntuacion, sumar) {
+
+    let valorInicial = parseInt($('#div-puntuacion').text());
+    let incremento = nuevaPuntuacion - valorInicial;
+    const duracion = 2000;
+    const intervalo = 50;
+    let numIncrementos = duracion / intervalo;
+    let incrementoPorIntervalo = incremento / numIncrementos;
+
+    let valorActual = valorInicial;
+    intervalPts = setInterval(function () {
+
+        if (sumar) {
+            valorActual += incrementoPorIntervalo;
+        }
+        else {
+            valorActual -= incrementoPorIntervalo;
+        }
+
+        $('#div-puntuacion').text(Math.round(valorActual));
+        $('#div-puntuacion-final').text(Math.round(valorActual));
+
+        if (Math.abs(valorActual - nuevaPuntuacion) < Math.abs(incrementoPorIntervalo)) {
+            clearInterval(intervalPts);
+            $('#div-puntuacion').text(nuevaPuntuacion); // Asegurarse de que la puntuación sea exactamente igual a la nueva puntuación al final.
+            $('#div-puntuacion-final').text(nuevaPuntuacion);
+            guardarPuntuacionEnCookie($('#div-puntuacion').text());
+        }
+    }, intervalo);
+}
+
+// Quitamos las tildes y las ñ a la hora de buscar el nombre de un jugador
+function normalizarTexto(texto) {
+
+    texto = texto.replace(/ñ/g, 'n');
+
+    texto = texto.replace(/[áÁäÄ]/g, 'a');
+    texto = texto.replace(/[éÉ]/g, 'e');
+    texto = texto.replace(/[íÍ]/g, 'i');
+    texto = texto.replace(/[óÓöÖ]/g, 'o');
+    texto = texto.replace(/[úÚüÜ]/g, 'u');
+
+    texto = texto.replace(/[^\w\s]/g, '');
+
+    return texto;
+}
+
+// Efecto utilizado en las casillas cuando se produce un acierto o un fallo
+function efectoParpadeo(veces, divCasilla, acierto = true) {
+
+    let divAciertoCelda = $(divCasilla).find('.div-acierto-celda');
+
+    if (!acierto)
+    {
+        divAciertoCelda = $(divCasilla).find('.div-fallo-celda');
+    }
+
+    if (veces === 0) {
+
+        divAciertoCelda.css('display', 'none');
+        return;
+    }
+
+    divAciertoCelda.animate({ opacity: 1 }, 500, function () {
+        divAciertoCelda.animate({ opacity: 0 }, 500, function () {
+            efectoParpadeo(veces - 1, divCasilla, acierto);
+        })
+    });
 }
