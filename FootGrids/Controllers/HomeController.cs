@@ -4,8 +4,10 @@ using FootGrids.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
 using System.Text.Json.Serialization;
 
 namespace FootGrids.Controllers
@@ -29,9 +31,12 @@ namespace FootGrids.Controllers
 
         public async Task<ActionResult> FootGrids()
         {
+            DateTime fechaHoy = DateTime.Now.Date;
+
             var pistas = await context.Pistas
-                .Where(p => p.GridsPistas.Any(gp => gp.GridId == 2))
+                .Where(p => p.GridsPistas.Any(gp => gp.Grids.Fecha.Date == fechaHoy))
                 .Include(x => x.GridsPistas)
+                .OrderBy(x => x.GridsPistas.First(gp => gp.Grids.Fecha == fechaHoy).NumPista)
                 .ToListAsync();
 
             var pistaDTOs = pistas.Select(pista => new PistaDTO
@@ -77,8 +82,10 @@ namespace FootGrids.Controllers
         [HttpGet("/Home/GetSolucionesCasilla")]
         public async Task<IActionResult> GetSolucionesCasilla(int numeroSolucion, int idJugador)
         {
+            DateTime fechaHoy = DateTime.Now.Date;
+
             var soluciones = await context.Soluciones
-                .Where(sl => sl.NumSolucion == numeroSolucion && sl.Grid.Id == 2)
+                .Where(sl => sl.NumSolucion == numeroSolucion && sl.Grid.Fecha.Date == fechaHoy)
                 .Join<Solucion, Grid, int, dynamic>(context.Grids, sl => sl.Grid.Id, gr => gr.Id,
                     (sl, gr) => new
                     {

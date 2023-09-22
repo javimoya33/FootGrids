@@ -4,7 +4,9 @@
 // Write your JavaScript code.
 
 // Array de los años de los datos que se buscarán en la API
-var yearsToQuery = [/*2010, 2011, */2012/*, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024*/];
+var yearsToQuery = [2010, 2011, 2012, 2013];
+var yearsToQuery2 = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+
 var delayBetweenRequests = 2000; 
 var jugadoresAcertados = 0;
 var intervalId;
@@ -15,22 +17,50 @@ var minutes = 0;
 
 var secondsDesdeUltimoAcierto = 0;
 
+var idsEquipo1 = new Set();
+var idsEquipo2 = new Set();
+
 $(document).ready(function () {
 
     // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
-    /*realizarSolicitud(0, 1);
+    //realizarSolicitud(0, 1);
+    /*setTimeout(function () {
+        realizarSolicitud(0, 33, 39, 1, true, yearsToQuery);
+    }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 2);
-    }, 20000);
+        realizarSolicitud(0, 33, 39, 2, true, yearsToQuery);
+    }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 3);
-    }, 40000);*/
+        realizarSolicitud(0, 33, 39, 3, true, yearsToQuery);
+    }, 4000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 496, 135, 1, false, yearsToQuery2);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 496, 135, 2, false, yearsToQuery2);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 496, 135, 3, false, yearsToQuery2);
+    }, 10000);*/
+
+    let casillasRellenas = obtenerCasillasResueltasEnCookie();
+
+    console.log('CasillasRellenas1 ' + casillasRellenas);
+
 
     obtenerCasillasResueltasEnCookie();
     rellenarCasillasResueltas();
     rellenarPuntuacion();
+    jugadoresAcertados = numJugadoresAcertados(jugadoresAcertados);
+
+    console.log('Jugadores Acertados ' + jugadoresAcertados);
 
     // Si en las cookies del navegador hay fecha de la última visita al juego, y la fecha de esa última visitada es igual a la de hoy
     // entonces se recuperará el tiempo transcurrido en la partida y se mostrará en el div del cronómetro
@@ -250,7 +280,7 @@ function rellenarNuevaCasilla(idJugador, numeroDeCasilla) {
 
     for (let i = 0; i < arrCasillasRellenas.length; i++) {
 
-        if (i == numeroDeCasilla) {
+        if (i == numeroDeCasilla - 1) {
 
             arrCasillasRellenas[i] = idJugador;
         }
@@ -263,7 +293,7 @@ function rellenarNuevaCasilla(idJugador, numeroDeCasilla) {
         }
     }
 
-    console.log('CasillasRellenas1 ' + casillasRellenas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla);
+    console.log('CasillasRellenas1 ' + txtCasillasResueltas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla + ' *** ' + jugadoresAcertados);
 
     guardarCasillasResueltasEnCookie(txtCasillasResueltas);
 }
@@ -280,18 +310,21 @@ function rellenarCasillasResueltas() {
 
             let imgCasilla = 'https://media-4.api-sports.io/football/players/' + arrCasillasResueltas[i] + '.png';
 
-            $('.fg-casilla-' + i).css('background', 'url("' + imgCasilla + '") center top no-repeat white');
+            $('.fg-casilla-' + (i + 1)).css('background', 'url("' + imgCasilla + '") center top no-repeat white');
         }
     }
 }
 
 // Función utilizada para buscar y obtener las soluciones a cada celda que utilizo para crear la partida
-function realizarSolicitud(index, page) {
-    if (index < yearsToQuery.length) {
-        var year = yearsToQuery[index];
+function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
+
+    console.log('*******************************************');
+    console.log('Index ' + index + ' *** ' + 'Equipo ' + team + ' *** ' + 'Liga ' + league + ' *** ' + 'Pagina ' + page + ' *** ' + 'Equipo1 ' + equipo1);
+    console.log('*******************************************');
+    if (index < yearsQuery.length) {
+        var year = yearsQuery[index];
         var queryString = {
-            team: 727,
-            league: 140,
+            team: team,
             season: year,
             page: page
         };
@@ -309,19 +342,34 @@ function realizarSolicitud(index, page) {
                 // Procesar los datos aquí
                 data.response.forEach(function (jugadorData) {
                     console.log(jugadorData.player.name + ' *** ' + jugadorData.player.id);
+
+                    var playerId = jugadorData.player.id;
+
+                    if (equipo1 === true) {
+                        idsEquipo1.add(playerId);
+                    } else {
+                        idsEquipo2.add(playerId);
+                    }
                 });
 
                 // Llamar a la siguiente solicitud después de un retraso
                 setTimeout(function () {
-                    realizarSolicitud(index + 1, page);
+                    realizarSolicitud(index + 1, team, league, page, equipo1, yearsQuery);
                 }, delayBetweenRequests);
+
+                if (!equipo1 === false && page === 3) {
+                    setTimeout(function () {
+                        var idsComunes = Array.from(idsEquipo1).filter(id => idsEquipo2.has(id));
+                        console.log("IDs de jugadores comunes: " + idsComunes);
+                    }, 30000);
+                }
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.error("Error:", textStatus, errorThrown);
 
                 // Llamar a la siguiente solicitud después de un retraso
                 setTimeout(function () {
-                    realizarSolicitud(index + 1, page);
+                    realizarSolicitud(index + 1, team, league, page, equipo1, yearsQuery);
                 }, delayBetweenRequests);
             }
         });
@@ -369,6 +417,7 @@ function clickDivResultBusq(idJugador, imgJugador) {
             console.log('DATA ' + jugadorEncontrado + ' *** ' + handicap);
 
             if (jugadorEncontrado) {
+                console.log('Holaaa123');
                 $('.fg-casilla-' + numeroSolucion).css('background', 'url("' + imgJugador + '") center top no-repeat white');
 
                 jugadoresAcertados += 1;
@@ -378,14 +427,14 @@ function clickDivResultBusq(idJugador, imgJugador) {
 
                 sumarPuntuacion(handicap, secondsDesdeUltimoAcierto);
 
-                comprobarVictoria();
-
                 secondsDesdeUltimoAcierto = 0;
 
                 rellenarNuevaCasilla(idJugador, numeroSolucion);
 
                 $('#div-casilla-' + numeroSolucion).find('.div-acierto-celda').css('display', 'block');
                 efectoParpadeo(3, '#div-casilla-' + numeroSolucion, true);
+
+                comprobarVictoria();
             }
             else {
                 restarPuntuacion();
@@ -414,6 +463,7 @@ function comprobarVictoria() {
         $('#div-overlay-juego').show();
 
         $('#div-victoria').append('<div class="d-flex" style="align-items: start">' + 
+                                    '<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>' + 
                                     '<div>' + 
                                         '<img src="/img/trofeo.png" class="pd-10-30" style="width: 9vw" />' + 
                                     '</div>' + 
@@ -563,7 +613,7 @@ function escribirBuscadorJugador() {
                 }
             });
         }
-    }, 2000);
+    }, 1200);
 }
 
 // Sumar puntuación en función del handicap de la solución, del tiempo empleado y del acierto
@@ -609,6 +659,14 @@ function efectoCambioPuntuacion(nuevaPuntuacion, sumar) {
 
     let valorInicial = parseInt($('#div-puntuacion').text());
     let incremento = nuevaPuntuacion - valorInicial;
+
+    if (!sumar) {
+        incremento = valorInicial - nuevaPuntuacion;
+        iniciarAnimacionPuntuacion(sumar);
+    } else {
+        iniciarAnimacionPuntuacion(sumar);
+    }
+
     const duracion = 2000;
     const intervalo = 50;
     let numIncrementos = duracion / intervalo;
@@ -632,6 +690,8 @@ function efectoCambioPuntuacion(nuevaPuntuacion, sumar) {
             $('#div-puntuacion').text(nuevaPuntuacion); // Asegurarse de que la puntuación sea exactamente igual a la nueva puntuación al final.
             $('#div-puntuacion-final').text(nuevaPuntuacion);
             guardarPuntuacionEnCookie($('#div-puntuacion').text());
+
+            detenerAnimacionPuntuacion();
         }
     }, intervalo);
 }
@@ -673,4 +733,36 @@ function efectoParpadeo(veces, divCasilla, acierto = true) {
             efectoParpadeo(veces - 1, divCasilla, acierto);
         })
     });
+}
+
+function iniciarAnimacionPuntuacion(acierto) {
+
+    if (acierto) {
+        $('#div-puntuacion').css('animation', 'fuenteAcierto 1s infinite alternate');
+    }
+    else {
+        $('#div-puntuacion').css('animation', 'fuenteFallo 1s infinite alternate');
+    }
+}
+
+function detenerAnimacionPuntuacion() {
+
+    $('#div-puntuacion').css('animation', 'none');
+}
+
+function numJugadoresAcertados(jugAcertados) {
+
+    let casillasResueltas = obtenerCasillasResueltasEnCookie();
+    const arrCasillasResueltas = casillasResueltas.split(' *** ');
+
+    for (let i = 0; i < arrCasillasResueltas.length; i++) {
+
+        console.log('arrCasillasResueltas[i] ' + arrCasillasResueltas[i]);
+
+        if (parseInt(arrCasillasResueltas[i]) > 0) {
+            jugAcertados += 1;
+        }
+    }
+
+    return jugAcertados;
 }

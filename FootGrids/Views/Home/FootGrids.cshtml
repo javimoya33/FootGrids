@@ -8,6 +8,8 @@
     int numeroCasilla2 = 0;
     int numeroCasilla3 = 0;
     string claseCasilla = "";
+
+    ViewBag.FechaHoy = DateTime.Now.Date;
 }
 
 <div id="api-keys" data-rapid-api-key="@ViewBag.RapidAPIKey" data-rapid-api-host="@ViewBag.RapidAPIHost"></div>
@@ -27,7 +29,9 @@
         <div class="row">
             <div class="col-sm celda-grid">
                 <div class="celda-grid-container fuentePrincipal">Puntuación</div>
-                <div id="div-puntuacion" class="celda-grid-container fuentePrincipal fs24" style="line-height: 2vw">0</div>
+                <div id="div-contenedor-pts">
+                    <div id="div-puntuacion" class="fs24 celda-grid-container fuentePrincipal pulse" style="line-height: 2vw">0</div>
+                </div>
             </div>
             @foreach (var pista in Model.Pistas)
             {
@@ -47,7 +51,7 @@
                                 <div class="celda-grid-container">
                                     <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
                                 </div>
-                                <div class="celda-grid-subdato fuentePrincipal">Compañero de...</div>
+                                <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
                             </div>
                         }
                         else if (pista.Tipo == "Dato")
@@ -89,7 +93,7 @@
                                     <div class="celda-grid-container">
                                         <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
                                     </div>
-                                    <div class="celda-grid-subdato fuentePrincipal">Compañero de...</div>
+                                    <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
                                 </div>
                             }
                             else if (pista.Tipo == "Dato")
@@ -119,7 +123,7 @@
                     @{
                         string styleCeldaEsq = "";
 
-                                @if (i == 4)
+                                    @if (i == 4)
                         {
                             styleCeldaEsq = " celda-esq-sup-izq";
                         }
@@ -153,7 +157,7 @@
 
                 <div id="div-casilla-@numeroCasilla3" class="col-sm celda-grid d-flex pd-3-0">
                     @{
-                                @if (i == 4)
+                                    @if (i == 4)
                         {
                             styleCeldaEsq = " celda-esq-inf-izq";
                         }
@@ -179,8 +183,8 @@
 <div id="div-busq-jug" class="container container-grid container-busq rounded-3" style="display: none"></div>
 
 <div id="div-victoria" class="container container-grid container-busq container-victoria rounded-3" style="display: none">
-
-    <!--<div class="d-flex" style="align-items: start">
+    <!--<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>
+    <div class="d-flex" style="align-items: start; justify-content: space-between;">
         <div>
             <img src="/img/trofeo.png" class="pd-10-30" style="width: 9vw" />
         </div>
@@ -191,12 +195,12 @@
             <div class="d-flex" style="justify-content: space-around; padding: 10px 0px;">
                 <div>
                     <div class="fuentePrincipal fs12 text-center">Puntuación</div>
-                    <div id="divPuntuacionFinal" class="fuentePrincipal fs18 text-center color-victoria">0</div>
+                    <div id="div-puntuacion-final" class="fuentePrincipal fs18 text-center color-victoria">0</div>
                 </div>
 
                 <div>
                     <div class="fuentePrincipal fs12 text-center">Tiempo</div>
-                    <div id="divTiempoFinal" class="fuentePrincipal fs18 text-center color-victoria">7:35</div>
+                    <div id="div-tiempo-final" class="fuentePrincipal fs18 text-center color-victoria">crono</div>
                 </div>
             </div>
 
@@ -219,8 +223,15 @@
                 </div>
             </div>
         </div>
+        <div>
+            <div class="fuentePrincipal fs18 text-center color-victoria" style="margin-top: 0.8vw">RANKING</div>
+            <div class="fuentePrincipal fs12">1. Jugador981247583</div>
+            <div class="fuentePrincipal fs12">.........................................</div>
+            <div class="fuentePrincipal fs12">21. Jugador546802356</div>
+            <div class="fuentePrincipal fs12">22. Jugador334578999</div>
+            <div class="fuentePrincipal fs12">23. Jugador568088123</div>
+        </div>
     </div>-->
-
 </div>
 
 
