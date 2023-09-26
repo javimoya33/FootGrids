@@ -1,4 +1,4 @@
-﻿@model FootGrids.DTOs.PistasDTO
+﻿@model FootGrids.DTOs.GridsPistasDTO
 
 @{
     ViewData["Title"] = "FootGrids Index";
@@ -14,7 +14,7 @@
 
 <div id="api-keys" data-rapid-api-key="@ViewBag.RapidAPIKey" data-rapid-api-host="@ViewBag.RapidAPIHost"></div>
 
-<div class="container container-grid">
+<div id="contenedor" class="container container-grid">
     <div class="row" style="width: 100%; margin: 0;">
         <div class="col-sm celda-grid" style="flex: 1; height: auto">
             <div id="div-cronometro" class="celda-grid-container fuentePrincipal fs24" style="font-size: 24pt">00:00</div>
@@ -22,6 +22,21 @@
         </div>
         <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria" style="text-shadow: 2px 2px #100000;">
             FootGrids
+        </div>
+        <div>
+            <select id="select-fecha-grid" onchange="seleccionarGridPasado(this)">
+                @foreach (var grid in Model.Grids)
+                {
+                    if (grid.Fecha == @ViewBag.FechaHoy)
+                    {
+                        <option selected>@grid.Fecha.ToString("dd/MM/yyyy")</option>
+                    }
+                    else
+                    {
+                        <option>@grid.Fecha.ToString("dd/MM/yyyy")</option>
+                    }
+                }
+            </select>
         </div>
     </div>
     @if (Model is not null)
@@ -33,7 +48,7 @@
                     <div id="div-puntuacion" class="fs24 celda-grid-container fuentePrincipal pulse" style="line-height: 2vw">0</div>
                 </div>
             </div>
-            @foreach (var pista in Model.Pistas)
+            @foreach (var pista in Model.GridsPistas)
             {
                 if (pista.NumPista >= 1 && pista.NumPista <= 3)
                 {
@@ -75,7 +90,7 @@
         @for (int i = 4; i < 7; i++)
         {
             <div class="row">
-                @foreach (var pista in Model.Pistas)
+                @foreach (var pista in Model.GridsPistas)
                 {
                     if (pista.NumPista == i)
                     {

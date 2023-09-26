@@ -3,9 +3,13 @@ using FootGrids.DTOs;
 using FootGrids.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
+using System.Drawing;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text.Json.Serialization;
@@ -29,34 +33,55 @@ namespace FootGrids.Controllers
             _configuration = configuration;
         }
 
-        public async Task<ActionResult> FootGrids()
+        // Vista principal del juego donde se cargan las pistas de hoy si no ha seleccionado previamente una fecha para el grid
+        // que se quiere mostrar
+        [HttpGet("/FootGrids")]
+        public async Task<IActionResult> FootGrids(DateTime? fechaElegida = null)
         {
             DateTime fechaHoy = DateTime.Now.Date;
 
-            var pistas = await context.Pistas
-                .Where(p => p.GridsPistas.Any(gp => gp.Grids.Fecha.Date == fechaHoy))
-                .Include(x => x.GridsPistas)
-                .OrderBy(x => x.GridsPistas.First(gp => gp.Grids.Fecha == fechaHoy).NumPista)
+            if (fechaElegida == null)
+            {
+                fechaElegida = fechaHoy;
+            }
+
+            var gridPistas = await context.GridsPista
+                .Where(gp => gp.GridId == gp.Grids.Id && gp.Grids.Fecha == fechaElegida)
+                .Include(gp => gp.Pistas)
+                .OrderBy(gp => gp.NumPista)
                 .ToListAsync();
 
-            var pistaDTOs = pistas.Select(pista => new PistaDTO
+            var gridPistaDTOs = gridPistas.Select(gridPistas => new GridPistaDTO
             {
-                Nombre = pista.Nombre,
-                NumPista = pista.GridsPistas.FirstOrDefault()?.NumPista ?? 0,
-                Tipo = pista.Tipo,
-                Link = pista.Link
+                Nombre = gridPistas.Pistas.Nombre,
+                NumPista = gridPistas.NumPista,
+                Tipo = gridPistas.Pistas.Tipo,
+                Link = gridPistas.Pistas.Link
             }).ToList();
 
             ViewBag.RapidAPIKey = _configuration["ApiKeys:RapidAPIKey"];
             ViewBag.RapidAPIHost = _configuration["ApiKeys:RapidAPIHost"];
 
-            var pistasDTOs = new PistasDTO
+            var gridsPasados = await context.Grids
+                .Where(g => g.Fecha <= fechaHoy)
+                .OrderBy(g => g.Fecha)
+                .ToListAsync();
+
+            var gridPasadosDTOs = gridsPasados.Select(grid => new GridDTO
             {
-                Pistas = pistaDTOs
+                Id = grid.Id,
+                Fecha = grid.Fecha.Date
+            }).ToList();
+
+            var gridPistasDTO = new GridsPistasDTO
+            {
+                GridsPistas = gridPistaDTOs,
+                Grids = gridPasadosDTOs
             };
 
-            return View(pistasDTOs);
+            return View(gridPistasDTO);
         }
+
 
         static string ToQueryString(System.Collections.Specialized.NameValueCollection nvc)
         {
@@ -68,6 +93,7 @@ namespace FootGrids.Controllers
             return "?" + string.Join("&", array);
         }
 
+        // Acción que devuelve la key y el Host de la API usada para buscar a los jugadores
         [HttpGet("/Home/GetApiKeys")]
         public IActionResult GetApiKeys()
         {
@@ -79,6 +105,8 @@ namespace FootGrids.Controllers
             return Json(apiKeys);
         }
 
+        // Acción que devuelve por consola las soluciones del juego cuando preparo la partida
+        // ELIMINAR CUANDO VAYA A PUBLICAR EL JUEGO
         [HttpGet("/Home/GetSolucionesCasilla")]
         public async Task<IActionResult> GetSolucionesCasilla(int numeroSolucion, int idJugador)
         {

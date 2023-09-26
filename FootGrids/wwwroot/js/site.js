@@ -4,8 +4,9 @@
 // Write your JavaScript code.
 
 // Array de los años de los datos que se buscarán en la API
-var yearsToQuery = [2010, 2011, 2012, 2013];
-var yearsToQuery2 = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+var yearsToQuery6 = [2017, 2018, 2019, 2020, 2021, 2022];
+var yearsToQuery7 = [2022, 2023, 2024];
+var yearsToQuery = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 
 var delayBetweenRequests = 2000; 
 var jugadoresAcertados = 0;
@@ -25,30 +26,44 @@ $(document).ready(function () {
     // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
     //realizarSolicitud(0, 1);
     /*setTimeout(function () {
-        realizarSolicitud(0, 33, 39, 1, true, yearsToQuery);
+        realizarSolicitud(0, 548, 140, 1, true, yearsToQuery6);
     }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 33, 39, 2, true, yearsToQuery);
+        realizarSolicitud(0, 548, 140, 2, true, yearsToQuery6);
     }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 33, 39, 3, true, yearsToQuery);
+        realizarSolicitud(0, 548, 140, 3, true, yearsToQuery6);
+    }, 4000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 538, 140, 1, true, yearsToQuery7);
+    }, 0);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 538, 140, 2, true, yearsToQuery7);
+    }, 2000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 538, 140, 3, true, yearsToQuery7);
     }, 4000);
 
 
 
     setTimeout(function () {
-        realizarSolicitud(0, 496, 135, 1, false, yearsToQuery2);
+        realizarSolicitud(0, 541, 140, 1, false, yearsToQuery);
     }, 6000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 496, 135, 2, false, yearsToQuery2);
+        realizarSolicitud(0, 541, 140, 2, false, yearsToQuery);
     }, 8000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 496, 135, 3, false, yearsToQuery2);
+        realizarSolicitud(0, 541, 140, 3, false, yearsToQuery);
     }, 10000);*/
+
 
     let casillasRellenas = obtenerCasillasResueltasEnCookie();
 
@@ -735,6 +750,7 @@ function efectoParpadeo(veces, divCasilla, acierto = true) {
     });
 }
 
+// Efecto que hacer cambio el tamaño de la puntuación mientras va cambiando de cifra
 function iniciarAnimacionPuntuacion(acierto) {
 
     if (acierto) {
@@ -745,24 +761,51 @@ function iniciarAnimacionPuntuacion(acierto) {
     }
 }
 
+// Detiene el efecto anterior
 function detenerAnimacionPuntuacion() {
 
     $('#div-puntuacion').css('animation', 'none');
 }
 
+// Función que recupera el número de jugadores acertados cuando vuelves al juego
 function numJugadoresAcertados(jugAcertados) {
 
     let casillasResueltas = obtenerCasillasResueltasEnCookie();
     const arrCasillasResueltas = casillasResueltas.split(' *** ');
 
-    for (let i = 0; i < arrCasillasResueltas.length; i++) {
-
-        console.log('arrCasillasResueltas[i] ' + arrCasillasResueltas[i]);
-
+    for (let i = 0; i < arrCasillasResueltas.length; i++)
+    {
         if (parseInt(arrCasillasResueltas[i]) > 0) {
             jugAcertados += 1;
         }
     }
 
     return jugAcertados;
+}
+
+// Función que recarga el juego con el grid pasado seleccionado
+function seleccionarGridPasado(elemento) {
+
+    var fechaElegida = $(elemento).val();
+
+    fechaElegida = convertirFormatoFecha(fechaElegida) + ' 00:00:00.0000000'
+
+    window.location.href = '/FootGrids?fechaElegida=' + fechaElegida;
+}
+
+// Función que convierte el formato fecha mostrado por pantalla en el formato estándar mostrado en la base de datos
+function convertirFormatoFecha(fechaConFormatoDDMMYYYY) {
+    // Parsear la fecha en formato dd/mm/yyyy
+    var partesFecha = fechaConFormatoDDMMYYYY.split('/');
+    var dia = partesFecha[0];
+    var mes = partesFecha[1] - 1; // Los meses en JavaScript van de 0 a 11
+    var anio = partesFecha[2];
+
+    // Crear un objeto Date con el formato deseado (yyyy/mm/dd)
+    var fecha = new Date(anio, mes, dia);
+
+    // Formatear la fecha en el formato deseado
+    var fechaFormateada = fecha.getFullYear() + '/' + ('0' + (fecha.getMonth() + 1)).slice(-2) + '/' + ('0' + fecha.getDate()).slice(-2);
+
+    return fechaFormateada;
 }
