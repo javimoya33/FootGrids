@@ -40,11 +40,14 @@
     text-align: center;
 }
 
-.celda-grid-jug-ocultos {
+.celda-grid-jug {
     height: 100%;
     width: 100%;
-    background-color: #4c54d1;
     margin: 3px 0px;
+}
+
+.celda-grid-jug-ocultos {
+    background-color: #4c54d1;
 }
 
 .row .celda-grid:first-child .celda-grid-jug-ocultos:hover {

@@ -92,6 +92,14 @@ namespace FootGrids.Controllers
             return "?" + string.Join("&", array);
         }
 
+        [HttpGet("/Home/GetSecretKey")]
+        public IActionResult GetSecretKey()
+        {
+            var secretKey = _configuration["Cookies:ClaveSecreta"];
+
+            return Json(secretKey);
+        }
+
         // Acción que devuelve la key y el Host de la API usada para buscar a los jugadores
         [HttpGet("/Home/GetApiKeys")]
         public IActionResult GetApiKeys()
