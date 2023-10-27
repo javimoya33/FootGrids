@@ -3,21 +3,9 @@ using FootGrids.DTOs;
 using FootGrids.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
-using System.Diagnostics;
-using System.Drawing;
-using System.Net.Http.Json;
-using System.Security.Cryptography;
-using System.Text.Json.Serialization;
 
 namespace FootGrids.Controllers
 {
-    [ApiController]
-    [Route("FootGrids")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -35,7 +23,6 @@ namespace FootGrids.Controllers
 
         // Vista principal del juego donde se cargan las pistas de hoy si no ha seleccionado previamente una fecha para el grid
         // que se quiere mostrar
-        [HttpGet("/FootGrids")]
         public async Task<IActionResult> FootGrids(DateTime? fechaElegida = null)
         {
             DateTime fechaHoy = DateTime.Now.Date;
@@ -44,6 +31,15 @@ namespace FootGrids.Controllers
             {
                 fechaElegida = fechaHoy;
             }
+
+            if (fechaElegida > fechaHoy)
+            {
+                fechaElegida = fechaHoy;
+            }
+
+            var idGridHoy = await context.Grids
+                .Where(gd => gd.Fecha == fechaElegida)
+                .FirstOrDefaultAsync();
 
             var gridPistas = await context.GridsPista
                 .Where(gp => gp.GridId == gp.Grids.Id && gp.Grids.Fecha == fechaElegida)
@@ -76,8 +72,11 @@ namespace FootGrids.Controllers
             var gridPistasDTO = new GridsPistasDTO
             {
                 GridsPistas = gridPistaDTOs,
-                Grids = gridPasadosDTOs
+                Grids = gridPasadosDTOs,
+                GridId = idGridHoy.Id
             };
+
+            ViewBag.FechaSeleccionada = fechaElegida;
 
             return View(gridPistasDTO);
         }
@@ -108,12 +107,10 @@ namespace FootGrids.Controllers
         // Acción que devuelve por consola las soluciones del juego cuando preparo la partida
         // ELIMINAR CUANDO VAYA A PUBLICAR EL JUEGO
         [HttpGet("/Home/GetSolucionesCasilla")]
-        public async Task<IActionResult> GetSolucionesCasilla(int numeroSolucion, int idJugador)
+        public async Task<IActionResult> GetSolucionesCasilla(int numeroSolucion, int idJugador, DateTime fechaSeleccionada)
         {
-            DateTime fechaHoy = DateTime.Now.Date;
-
             var soluciones = await context.Soluciones
-                .Where(sl => sl.NumSolucion == numeroSolucion && sl.Grid.Fecha.Date == fechaHoy)
+                .Where(sl => sl.NumSolucion == numeroSolucion && sl.Grid.Fecha.Date == fechaSeleccionada)
                 .Join<Solucion, Grid, int, dynamic>(context.Grids, sl => sl.Grid.Id, gr => gr.Id,
                     (sl, gr) => new
                     {

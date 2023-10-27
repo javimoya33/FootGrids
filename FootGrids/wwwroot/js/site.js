@@ -4,12 +4,19 @@
 // Write your JavaScript code.
 
 // Array de los años de los datos que se buscarán en la API
-var yearsToQuery6 = [2017, 2018, 2019, 2020, 2021, 2022];
-var yearsToQuery7 = [2022, 2023, 2024];
+var yearsToQuery1 = [2010];
+var yearsToQuery2 = [2011, 2015];
+var yearsToQuery3 = [2012, 2021];
+var yearsToQuery4 = [2013, 2020];
+var yearsToQuery5 = [2014, 2016, 2017, 2018, 2022];
+var yearsToQuery6 = [2019];
+var yearsToQuery7 = [2023];
 var yearsToQuery = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 
+var txtCasillasRRSS = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X']
+
 var delayBetweenRequests = 2000; 
-var jugadoresAcertados = 0;
+var jugadoresAcertados = 8;
 var intervalId;
 var intervalPts;
 
@@ -21,56 +28,146 @@ var secondsDesdeUltimoAcierto = 0;
 var idsEquipo1 = new Set();
 var idsEquipo2 = new Set();
 
+const fechaHoy = fechaFormateada();
+const fechaSeleccionada = $('#select-fecha-grid').val();
+
 $(document).ready(function () {
 
     // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
     //realizarSolicitud(0, 1);
     /*setTimeout(function () {
-        realizarSolicitud(0, 548, 140, 1, true, yearsToQuery6);
+        realizarSolicitud(0, 42, 39, 1, true, yearsToQuery);
     }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 548, 140, 2, true, yearsToQuery6);
+        realizarSolicitud(0, 42, 39, 2, true, yearsToQuery);
     }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 548, 140, 3, true, yearsToQuery6);
-    }, 4000);
-
-
-    setTimeout(function () {
-        realizarSolicitud(0, 538, 140, 1, true, yearsToQuery7);
-    }, 0);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 538, 140, 2, true, yearsToQuery7);
-    }, 2000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 538, 140, 3, true, yearsToQuery7);
+        realizarSolicitud(0, 42, 39, 3, true, yearsToQuery);
     }, 4000);
 
 
 
     setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 1, false, yearsToQuery);
+        realizarSolicitud(0, 505, 135, 1, false, yearsToQuery1);
     }, 6000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 2, false, yearsToQuery);
+        realizarSolicitud(0, 505, 135, 2, false, yearsToQuery1);
     }, 8000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 3, false, yearsToQuery);
+        realizarSolicitud(0, 505, 135, 3, false, yearsToQuery1);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 1, false, yearsToQuery2);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 2, false, yearsToQuery2);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 3, false, yearsToQuery2);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 1, false, yearsToQuery3);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 2, false, yearsToQuery3);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 3, false, yearsToQuery3);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 1, false, yearsToQuery4);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 2, false, yearsToQuery4);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 3, false, yearsToQuery4);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 1, false, yearsToQuery5);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 2, false, yearsToQuery5);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 3, false, yearsToQuery5);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 1, false, yearsToQuery6);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 2, false, yearsToQuery6);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 3, false, yearsToQuery6);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 1, false, yearsToQuery7);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 2, false, yearsToQuery7);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 3, false, yearsToQuery7);
     }, 10000);*/
 
+    let casillasColores = obtenerCasillasColoresEnCookie();
+    console.log('CasillasRRSS ' + casillasColores);
 
-    let casillasRellenas = obtenerCasillasResueltasEnCookie();
+    if (casillasColores != null) {
+
+        let caractCasillasColores = casillasColores.split('');
+
+        for (var i = 0; i < 9; i++) {
+
+            txtCasillasRRSS[i] = caractCasillasColores[i];
+            console.log('CasillasRRSS ' + txtCasillasRRSS[i] + ' *** ' + i);
+        }
+    }
+
+    for (var i = 0; i < 9; i++) {
+
+        //console.log('CasillasRRSS ' + txtCasillasRRSS[i]);
+    }
+
+    let casillasRellenas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
 
     console.log('CasillasRellenas1 ' + casillasRellenas);
 
 
-    obtenerCasillasResueltasEnCookie();
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada);
     rellenarCasillasResueltas();
     rellenarPuntuacion();
     jugadoresAcertados = numJugadoresAcertados(jugadoresAcertados);
@@ -82,8 +179,6 @@ $(document).ready(function () {
     const ultVisita = obtenerFechaUltVisita();
 
     if (ultVisita !== null) {
-
-        const fechaHoy = fechaFormateada();
 
         if (fechaHoy == ultVisita) {
 
@@ -131,7 +226,7 @@ $(document).ready(function () {
             '<div class="d-flex">' +
                 '<div class="div-close" onclick="cerrarVentanaBusq()">' + '<img src="../img/close.png" />' + '</div>' + 
                 '<div>' + 
-                    '<img src="../img/defaultavatar.webp" id="img-jug-seleccionado" style="width: 200px" />' + 
+                    '<img src="../img/defaultavatar.webp" id="img-jug-seleccionado" />' + 
                 '</div>' + 
                 '<div id="div-jug-info-seleccionado" class="fuentePrincipal colorFuenteTerciaria d-grid" style="place-content: center;">' + 
                     '<img src="../img/campo_busq_jug.png" style="width: 100%" />' + 
@@ -193,6 +288,22 @@ function fechaFormateada() {
     return fechaFormateada;
 }
 
+function DateTimeFormateada(fechaString) {
+    var partesFecha = fechaString.split("/");
+    var dia = parseInt(partesFecha[0], 10);
+    var mes = parseInt(partesFecha[1], 10) - 1;  // Restamos 1 porque los meses en JavaScript comienzan desde 0 (enero es 0)
+    var anio = parseInt(partesFecha[2], 10);
+
+    // Crear el objeto Date
+    var fecha = new Date(anio, mes, dia);
+
+    var fechaFormateada = fecha.getFullYear() + '-' +
+        ('0' + (fecha.getMonth() + 1)).slice(-2) + '-' +
+        ('0' + fecha.getDate()).slice(-2);
+
+    return fechaFormateada;
+}
+
 
 // Actualizar el crono del juego a cada segundo
 function updateCrono() {
@@ -242,6 +353,23 @@ function obtenerTiempoDesdeUltimoAciertoEnCookie() {
     return $.cookie('tiempoDesdeUltimoAcierto');
 }
 
+function guardarCasillaColoresEnCookie() {
+
+    var casillasColores = '';
+
+    for (var i = 0; i < 9; i++) {
+
+        casillasColores += txtCasillasRRSS[i];
+    }
+
+    $.cookie('casillasColores', casillasColores, { expires: 1 });
+}
+
+function obtenerCasillasColoresEnCookie() {
+
+    return $.cookie('casillasColores');
+}
+
 // Guardar la fecha de la última visita al juego en una cookie del navegador 
 function guardarUltVisitaEnCookie() {
     const fechaUltVisita = fechaFormateada();
@@ -268,24 +396,24 @@ function rellenarPuntuacion() {
     }
 }
 
-function obtenerCasillasResueltasEnCookie() {
+function obtenerCasillasResueltasEnCookie(fecha) {
 
-    if ($.cookie('casillasResueltas') === undefined || $.cookie('casillasResueltas') === '') {
+    if ($.cookie('casillasResueltas ' + fecha) === undefined || $.cookie('casillasResueltas ' + fecha) === '') {
 
-        $.cookie('casillasResueltas', '0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0', { expires: 1 });
+        $.cookie('casillasResueltas ' + fecha, '0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0', { expires: 1 });
     }
 
-    return $.cookie('casillasResueltas');
+    return $.cookie('casillasResueltas ' + fecha);
 }
 
-function guardarCasillasResueltasEnCookie(txtCasillasResueltas) {
+function guardarCasillasResueltasEnCookie(txtCasillasResueltas, fecha) {
 
-    $.cookie('casillasResueltas', txtCasillasResueltas, { expires: 1 });
+    $.cookie('casillasResueltas ' + fecha, txtCasillasResueltas, { expires: 1 });
 }
 
 function rellenarNuevaCasilla(idJugador, numeroDeCasilla) {
 
-    let casillasRellenas = obtenerCasillasResueltasEnCookie();
+    let casillasRellenas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
 
     console.log('CasillasRellenas1 ' + casillasRellenas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla);
 
@@ -308,14 +436,14 @@ function rellenarNuevaCasilla(idJugador, numeroDeCasilla) {
         }
     }
 
-    console.log('CasillasRellenas1 ' + txtCasillasResueltas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla + ' *** ' + jugadoresAcertados);
+    console.log('CasillasRellenas' + fechaSeleccionada + ' ' + txtCasillasResueltas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla + ' *** ' + jugadoresAcertados);
 
-    guardarCasillasResueltasEnCookie(txtCasillasResueltas);
+    guardarCasillasResueltasEnCookie(txtCasillasResueltas, fechaSeleccionada);
 }
 
 function rellenarCasillasResueltas() {
 
-    let casillasResueltas = obtenerCasillasResueltasEnCookie();
+    let casillasResueltas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
 
     const arrCasillasResueltas = casillasResueltas.split(" *** ");
 
@@ -420,10 +548,14 @@ function clickDivResultBusq(idJugador, imgJugador) {
 
     var numeroSolucion = $('#input-casilla').val();
 
+    var dateTimeFormateado = DateTimeFormateada(fechaSeleccionada);
+
+    console.log('FechaSeleccionada ' + dateTimeFormateado);
+
     $.ajax({
         type: 'GET',
         url: '/Home/GetSolucionesCasilla',
-        data: { numeroSolucion: numeroSolucion, idJugador: idJugador },
+        data: { numeroSolucion: numeroSolucion, idJugador: idJugador, fechaSeleccionada: dateTimeFormateado },
         success: function (data) {
 
             var jugadorEncontrado = data.jugadorEncontrado;
@@ -440,6 +572,7 @@ function clickDivResultBusq(idJugador, imgJugador) {
                 secondsDesdeUltimoAcierto = obtenerTiempoDesdeUltimoAciertoEnCookie();
                 console.log('tiempoDesdeUltimoAcierto ' + secondsDesdeUltimoAcierto);
 
+                generarTxtRRSS(handicap, numeroSolucion - 1);
                 sumarPuntuacion(handicap, secondsDesdeUltimoAcierto);
 
                 secondsDesdeUltimoAcierto = 0;
@@ -449,6 +582,7 @@ function clickDivResultBusq(idJugador, imgJugador) {
                 $('#div-casilla-' + numeroSolucion).find('.div-acierto-celda').css('display', 'block');
                 efectoParpadeo(3, '#div-casilla-' + numeroSolucion, true);
 
+                guardarCasillaColoresEnCookie();
                 comprobarVictoria();
             }
             else {
@@ -466,8 +600,77 @@ function clickDivResultBusq(idJugador, imgJugador) {
     cerrarVentanaBusq();
 }
 
+function generarTextoParaRRSS() {
+
+    var txtCompletoRRSS = '';
+
+    var txtRRSS1 = '⚽ FootGrids del día ';
+    var txtRRSS2 = '%0a🏅 Puntuación: ';
+    var txtRRSS3 = 'Supérame 👉 https://www.footsandgrids.somee.com/';
+
+    var idGridHoy = $('#grid-hoy').val();
+    var puntuacion = $('#div-puntuacion').text();
+
+    var txtCompletoCasillasRRSS = '';
+    var contadorCasillasRRSS = 0;
+
+    var cookieCasillasColores = obtenerCasillasColoresEnCookie();
+    console.log('CasillaColores ' + cookieCasillasColores);
+    var caractCookieCasillasColores = cookieCasillasColores.split('');
+
+    for (var i = 0; i < 9; i++) {
+
+        contadorCasillasRRSS += 1;
+
+        console.log('CasillaColor ' + caractCookieCasillasColores[i])
+
+        txtCompletoCasillasRRSS += obtenerColorParaCasilla(caractCookieCasillasColores[i], i);
+
+        if (contadorCasillasRRSS == 3) {
+
+            txtCompletoCasillasRRSS += '%0a';
+            contadorCasillasRRSS = 0;
+        }
+    }
+
+    txtCompletoRRSS = txtRRSS1 + idGridHoy + txtRRSS2 + '*' + puntuacion + '*' + '%0a' + '%0a' + txtCompletoCasillasRRSS + '%0a' + txtRRSS3;
+
+    return txtCompletoRRSS;
+}
+
+function obtenerColorParaCasilla(handicap, numeroSolucion) {
+
+    var txtColorRRSS = '';
+
+    switch (handicap) {
+
+        case '1':
+            txtColorRRSS = '🟥';
+            break;
+        case '2':
+            txtColorRRSS = '🟧';
+            break;
+        case '3':
+            txtColorRRSS = '🟨';
+            break;
+        case '4':
+            txtColorRRSS = '🟩';
+            break;
+        case '5':
+            txtColorRRSS = '🟦';
+            break;
+        case 'X':
+            txtColorRRSS = '⬜';
+            break;
+    }
+
+    return txtColorRRSS;
+}
+
 // Comprobamos si el jugador ha resuelto toda la partida y si es así se muestra un marco de victoria
 function comprobarVictoria() {
+
+    console.log('Holaaa ' + generarTextoParaRRSS());
 
     if (jugadoresAcertados >= 9) {
 
@@ -506,12 +709,15 @@ function comprobarVictoria() {
                                                 '</button>' + 
                                             '</div>' + 
                                             '<div>' + 
-                                                '<button class="icon-redes-sociales p-0">' + 
-                                                    '<img src="/img/redes sociales/facebook.png" class="w-100" />' + 
+                                                '<button class="icon-redes-sociales p-0">' +
+                                                    '<a href="https://api.whatsapp.com/send?text=' + generarTextoParaRRSS() + '" data-action="share / whatsapp / share" style="color: white">' +
+                                                        'Holaaa' + 
+                                                    '</a>' + 
                                                 '</button>' + 
                                             '</div>' + 
                                             '<div>' + 
                                                 '<button class="icon-redes-sociales p-0">' + 
+                                                    '<a href="whatsapp://send?text=My Text">WhatsApp</a>' +
                                                     '<img src="/img/redes sociales/instagram.png" class="w-100" />' + 
                                                 '</button>' + 
                                             '</div>' + 
@@ -552,6 +758,8 @@ function escribirBuscadorJugador() {
                     var queryString = {
                         search: busqueda
                     };
+
+                    console.log('ApiKey ' + apiKey);
 
                     // Objeto para almacenar todos los datos procesados por liga
                     var allDatosProcesados = {};
@@ -629,6 +837,21 @@ function escribirBuscadorJugador() {
             });
         }
     }, 1200);
+
+    setTimeout(function () {
+
+        var primerDivCritBusq = $('#div-result-busq .div-result-busq:first');
+
+        primerDivCritBusq.css('background-color', '#ffcadd');
+        primerDivCritBusq.css('color', '#ff4388');
+
+        mouseEnterDivResultBusq(primerDivCritBusq);
+    }, 2500);
+}
+
+function generarTxtRRSS(handicap, numeroSolucion) {
+
+    txtCasillasRRSS[numeroSolucion] = handicap;
 }
 
 // Sumar puntuación en función del handicap de la solución, del tiempo empleado y del acierto
@@ -770,7 +993,7 @@ function detenerAnimacionPuntuacion() {
 // Función que recupera el número de jugadores acertados cuando vuelves al juego
 function numJugadoresAcertados(jugAcertados) {
 
-    let casillasResueltas = obtenerCasillasResueltasEnCookie();
+    let casillasResueltas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
     const arrCasillasResueltas = casillasResueltas.split(' *** ');
 
     for (let i = 0; i < arrCasillasResueltas.length; i++)
@@ -779,6 +1002,8 @@ function numJugadoresAcertados(jugAcertados) {
             jugAcertados += 1;
         }
     }
+
+    console.log('Jugadores acertados ' + jugAcertados);
 
     return jugAcertados;
 }
@@ -808,4 +1033,27 @@ function convertirFormatoFecha(fechaConFormatoDDMMYYYY) {
     var fechaFormateada = fecha.getFullYear() + '/' + ('0' + (fecha.getMonth() + 1)).slice(-2) + '/' + ('0' + fecha.getDate()).slice(-2);
 
     return fechaFormateada;
+}
+
+function mostrarComoJugar() {
+
+    if ($('#div-como-jugar').is(':visible')) {
+
+        $('#div-como-jugar').hide(200);
+        $('#div-temporizador').show(200);
+        $('#div-tablero').show(200);
+    }
+    else {
+
+        $('#div-como-jugar').show(200);
+        $('#div-temporizador').hide(200);
+        $('#div-tablero').hide(200);
+    }
+}
+
+function cerrarComoJugar() {
+
+    $('#div-como-jugar').hide(200);
+    $('#div-temporizador').show(200);
+    $('#div-tablero').show(200);
 }

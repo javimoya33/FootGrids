@@ -1,4 +1,8 @@
 /** ELEMENTOS DEL JUEGO **/
+.img-logo {
+    max-width: 15vw;
+    padding: 0.5vw;
+}
 
 .celda-titulo {
     flex: 3;
@@ -12,6 +16,10 @@
     background: radial-gradient(at 62% 66%, #686fe6, #676ee3, #5d67fb 50%);
 }
 
+.celda-grid-container {
+    text-align: center;
+}
+
 .celda-grid {
     position: relative;
     display: flex;
@@ -20,6 +28,11 @@
     width: 10vw;
     justify-content: center;
     align-items: center;
+}
+
+.celda-grid-row {
+    flex-direction: row;
+    column-gap: 10px;
 }
 
 .celda-grid-subdato {
@@ -225,9 +238,35 @@
     }
 }
 
+.div-logo {
+    padding: 0px;
+}
+
+.select-fecha-grid {
+    padding: 0.2vw;
+    border-radius: 4px;
+}
+
+.img-pista-equipo {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.img-pista-jugador {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.img-pista-dato {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+#div-puntuacion {
+    line-height: 2vw;
+}
 
 /** ELEMENTOS PRINCIPALES **/
-
 html {
     font-size: 14px;
 }
@@ -263,6 +302,12 @@ input:focus, input.form-control:focus {
 
 .fuentePrincipal {
     font-family: 'Montserrat', cursive !important;
+    font-weight: 800;
+}
+
+.fuenteSecundaria {
+    font-family: 'Montserrat', cursive !important;
+    font-weight: 500;
 }
 
 .colorFuentePrincipal {
@@ -295,4 +340,48 @@ input:focus, input.form-control:focus {
 
 .fs24 {
     font-size: 24pt;
+}
+
+.border-top {
+    border-top: 1px solid #212529 !important;
+}
+
+.container-como-jugar {
+    width: 55vw;
+    padding: 1vw 3vw;
+    border-radius: 5px;
+    background: #efe7ea;
+}
+
+.container-como-jugar-seccion {
+    margin-bottom: 50px;
+}
+
+.container-como-jugar-seccion div {
+    font-family: 'Montserrat', cursive !important;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+
+.container-como-jugar-titulo {
+    font-size: 15pt;
+}
+
+#btn-como-jugar {
+    padding: 0px;
+    border-radius: 100%;
+    background: #4c54d1;
+}
+
+#btn-como-jugar:hover {
+    background: #f0377b;
+}
+
+#volverComoJugar {
+    background: transparent;
+    color: #4c54d1;
+}
+
+#volverComoJugar:hover {
+    color: #f0377b;
 }

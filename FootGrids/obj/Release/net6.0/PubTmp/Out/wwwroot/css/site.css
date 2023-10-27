@@ -1,0 +1,347 @@
+/** ELEMENTOS DEL JUEGO **/
+.img-logo {
+    max-width: 15vw;
+    padding: 0.5vw;
+}
+
+.celda-titulo {
+    flex: 3;
+    font-size: 38pt;
+    text-align: center;
+}
+
+.container-grid {
+    width: 55vw;
+    padding: 0;
+    background: radial-gradient(at 62% 66%, #686fe6, #676ee3, #5d67fb 50%);
+}
+
+.celda-grid-container {
+    text-align: center;
+}
+
+.celda-grid {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 10vw;
+    width: 10vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.celda-grid-row {
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.celda-grid-subdato {
+    font-size: 12pt;
+    text-align: center;
+}
+
+.celda-grid-jug-ocultos {
+    height: 100%;
+    width: 100%;
+    background-color: #4c54d1;
+    margin: 3px 0px;
+}
+
+.row .celda-grid:first-child .celda-grid-jug-ocultos:hover {
+    background-color: #ff4388;
+}
+
+.row .celda-grid:last-child .celda-grid-jug-ocultos:hover {
+    background-color: #e12c6f;
+}
+
+.row .celda-grid-jug-ocultos:hover {
+    background-color: #f0377b;
+}
+
+.celda-esq-sup-izq {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.celda-esq-sup-der {
+    border-radius: 0px 0px 0px 10px;
+}
+
+.celda-esq-inf-izq {
+    border-radius: 0px 10px 0px 0px;
+}
+
+.celda-esq-inf-der {
+    border-radius: 0px 0px 10px 0px;
+}
+
+.container-busq {
+    position: absolute;
+    top: 10%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: rgb(93, 103, 251);
+    padding: 10px;
+    z-index: 9999;
+}
+
+.container-victoria {
+    top: 40%;
+    background-color: #e1417c;
+    border: 4px solid #ffc21c;
+}
+
+.container-busq::before {
+    opacity: 1;
+}
+
+.div-close {
+    position: absolute;
+    right: -1vw;
+    top: -1vw;
+    cursor: pointer;
+    background-color: #4a50af;
+    border-radius: 0.4vw;
+}
+
+.div-close img {
+    width: 3.5vw;
+}
+
+#img-jug-seleccionado {
+    width: 200px;
+    border-radius: 100px;
+    margin: 10px;
+    border: 8px solid #4a50af;
+    padding: 0px;
+}
+
+.input-busq-jug {
+    width: 100%;
+    height: 45px;
+    border: 4px solid #ff4388;
+    background-color: #4c54d1;
+    padding: 10px;
+}
+
+.input-busq-jug::placeholder {
+    color: #3a4097;
+}
+
+.div-overlay-juego {
+    display: none;
+    background-color: rgba(0,0,0,.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+}
+
+.div-result-busq {
+    background-color: #eee;
+    border-bottom: 1px solid #4a50af;
+    padding: 6px 12px;
+    cursor: pointer
+}
+
+.div-result-busq:hover {
+    background-color: #ffcadd;
+    color: #ff4388;
+}
+
+.color-victoria {
+    color: #ffc21c;
+    text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+}
+
+.icon-redes-sociales {
+    width: 2vw;
+    border: 1px solid #000;
+    border-radius: 4px;
+    position: relative;
+}
+
+.icon-redes-sociales:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(255,255,255,0.4);
+    -webkit-transition: none;
+    -moz-transition: none;
+    transition: none;
+}
+
+.icon-redes-sociales:hover:after {
+    width: 120%;
+    background-color: rgba(255,255,255,0);
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.div-resultado-celda {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(225, 65, 124, 0.6);
+}
+
+.div-acierto-celda {
+    display: none;
+    background: rgba(65, 225, 174, 0.6);
+}
+
+.div-fallo-celda {
+    display: none;
+    background: rgba(225, 65, 124, 0.6);
+}
+
+@keyframes fuenteAcierto {
+    0% {
+        font-size: 24pt;
+        color: #212529;
+    }
+
+    50% {
+        font-size: 30pt;
+        color: rgba(65, 225, 174, 1);
+    }
+
+    100% {
+        font-size: 24pt;
+        color: #212529;
+    }
+}
+
+@keyframes fuenteFallo {
+    0% {
+        font-size: 24pt;
+        color: #212529;
+    }
+
+    50% {
+        font-size: 30pt;
+        color: rgba(225, 65, 124, 1);
+    }
+
+    100% {
+        font-size: 24pt;
+        color: #212529;
+    }
+}
+
+.div-logo {
+    padding: 0px;
+}
+
+.select-fecha-grid {
+    padding: 0.2vw;
+    border-radius: 4px;
+}
+
+.img-pista-equipo {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.img-pista-jugador {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.img-pista-dato {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+#div-puntuacion {
+    line-height: 2vw;
+}
+
+/** ELEMENTOS PRINCIPALES **/
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: rgb(93, 103, 251);
+}
+
+.row {
+    margin: 0;
+}
+
+button {
+    border: none;
+}
+
+input:focus, input.form-control:focus {
+    outline: none !important;
+    outline-width: 0 !important;
+}
+
+.fuentePrincipal {
+    font-family: 'Montserrat', cursive !important;
+    font-weight: 800;
+}
+
+.fuenteSecundaria {
+    font-family: 'Montserrat', cursive !important;
+    font-weight: 500;
+}
+
+.colorFuentePrincipal {
+    color: #212529 !important;
+}
+
+.colorFuenteSecundaria {
+    color: #e1417c !important;
+}
+
+.colorFuenteTerciaria {
+    color: #eeeeee !important;
+}
+
+.pd-3-0 {
+    padding: 0px 3px !important;
+}
+
+.pd-10-30 {
+    padding: 10px 30px !important;
+}
+
+.fs12 {
+    font-size: 12pt !important;
+}
+
+.fs18 {
+    font-size: 18pt !important;
+}
+
+.fs24 {
+    font-size: 24pt;
+}
+
+.border-top {
+    border-top: 1px solid #212529 !important;
+}

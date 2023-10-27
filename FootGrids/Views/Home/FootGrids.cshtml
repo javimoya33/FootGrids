@@ -12,22 +12,100 @@
     ViewBag.FechaHoy = DateTime.Now.Date;
 }
 
+@if (Model is not null)
+{
+    <input type="hidden" id="grid-hoy" value="@Model.GridId" />
+}
+
 <div id="api-keys" data-rapid-api-key="@ViewBag.RapidAPIKey" data-rapid-api-host="@ViewBag.RapidAPIHost"></div>
 
 <div id="contenedor" class="container container-grid">
     <div class="row" style="width: 100%; margin: 0;">
         <div class="col-sm celda-grid" style="flex: 1; height: auto">
-            <div id="div-cronometro" class="celda-grid-container fuentePrincipal fs24" style="font-size: 24pt">00:00</div>
+            <button id="btn-como-jugar" onclick="mostrarComoJugar()">
+                <img src="/img/como-jugar.png" style="width: 3vw; background: transparent;" />
+            </button>
+        </div>
+        <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria div-logo" style="flex: 3">
+            <a href="/FootGrids" alt="Foot&Grids">
+                <img src="/img/footgrids-logo.png" title="Foot&Grids" class="img-logo" />
+            </a>
+        </div>
+    </div>
+    <div id="div-como-jugar" class="container container-grid container-como-jugar" style="display: none">
+        <div class="container-como-jugar-seccion" style="margin-bottom: 20px;">
+            <button id="volverComoJugar" onclick="cerrarComoJugar()" class="fuentePrincipal">
+                ← Volver
+            </button>
+        </div>
+        <div class="container-como-jugar-seccion">
+            <div class="col-sm fuentePrincipal container-como-jugar-titulo" style="font-size: 20pt;">Cómo jugar</div>
+            <div>
+                Completa las 9 casillas del tablero con 9 futbolistas que cumplan con los criterios de su fila y su columna. Pincha en una casilla vacía y busca al jugador que cumpla con todos los criterios (Recomendable buscar por el apellido del jugador).
+            </div>
+            <div>
+                <b>IMPORTANTE: </b>Sólo son válidos aquellos jugadores que hayan jugado al menos una temporada desde el 2010 hasta hoy y que cumplan con los criterios de su fila y su columna entre el 2010 y hoy.
+            </div>
+            <div>
+                Por ejemplo:
+            </div>
+        </div>
+        <div class="container-como-jugar-seccion">
+            <div class="col-sm fuentePrincipal container-como-jugar-titulo">JUGADOR - EQUIPO</div>
+            <img src="/img/jugador-equipo.png" style="width: 15vw" />
+            <div>
+                Completa la casilla con un futbolista que haya sido compañero de Griezmann y haya jugado en el Real Madrid entre el 2010 y hoy.
+            </div>
+            <div>
+                <b>IMPORTANTE: </b>No vale haber compartido equipo con Griezmann a nivel de selección. Sólo vale a nivel de clubes.
+            </div>
+        </div>
+        <div class="container-como-jugar-seccion">
+            <div class="col-sm fuentePrincipal container-como-jugar-titulo">JUGADOR - DATO</div>
+            <img src="/img/jugador-dato.png" style="width: 15vw" />
+            <div>
+                Completa la casilla con un futbolista que haya sido compañero de Griezmann y haya ganado una Copa del Mundo entre el 2010 y hoy.
+            </div>
+            <div>
+                <b>IMPORTANTE: </b>No vale haber compartido equipo con Griezmann a nivel de selección. Sólo vale a nivel de clubes.
+            </div>
+        </div>
+        <div class="container-como-jugar-seccion">
+            <div class="col-sm fuentePrincipal container-como-jugar-titulo">DATO - EQUIPO</div>
+            <img src="/img/dato-equipo.png" style="width: 15vw" />
+            <div>
+                Completa la casilla con un futbolista que sea argentino y haya jugado en el Real Madrid entre el 2010 y hoy.
+            </div>
+        </div>
+        <div class="container-como-jugar-seccion">
+            <div class="col-sm fuentePrincipal container-como-jugar-titulo">Cómo ganar</div>
+            <div>
+                Ganarás cuando hayas completado el tablero con los 9 jugadores con la máxima puntuación del día.
+            </div>
+        </div>
+        <div class="container-como-jugar-seccion">
+            <div class="col-sm fuentePrincipal container-como-jugar-titulo">Cómo se puntúa</div>
+            <div>
+                Tu puntuación se sumará cuando hayas acertado un jugador del tablero. El criterio para la puntuación generada es el siguiente:
+            </div>
+            <div>
+                <ul>
+                    <li><b>Acierto: </b>Por cada acierto se suman 300 puntos.</li>
+                    <li><b>Tiempo: </b>Cuanto menos segundos hayan pasado desde el último acierto o desde el inicio de la partida (si aún no has acertado ningún jugador) mayor será la puntuación que se te sume.</li>
+                    <li><b>Handicap: </b>Cada jugador acertado tiene asignado un handicap. Cuanto más rebuscada sea la respuesta mayor handicap y mayor puntuación obtendrás. Por ejemplo, si buscamos un futbolista argentino que haya jugado en el FC Barcelona, el handicap de Messi será menor que el de Mascherano.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="div-temporizador" class="row" style="width: 100%; margin: 0; margin-bottom: 25px;">
+        <div class="col-sm celda-grid" style="flex: 1; height: auto">
+            <div id="div-cronometro" class="celda-grid-container fuentePrincipal fs24">00:00</div>
             <div id="div-crono-desde-ultimo-acierto" style="display: none">0</div>
-        </div>
-        <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria" style="text-shadow: 2px 2px #100000;">
-            FootGrids
-        </div>
-        <div>
-            <select id="select-fecha-grid" onchange="seleccionarGridPasado(this)">
+            <div class="celda-grid-container fuentePrincipal" style="margin-bottom: 0.2vw; white-space: nowrap; display: none">Últimos Grids</div>
+            <select id="select-fecha-grid" class="fuenteSecundaria select-fecha-grid" onchange="seleccionarGridPasado(this)" style="display: none">
                 @foreach (var grid in Model.Grids)
                 {
-                    if (grid.Fecha == @ViewBag.FechaHoy)
+                    if (grid.Fecha == @ViewBag.FechaSeleccionada)
                     {
                         <option selected>@grid.Fecha.ToString("dd/MM/yyyy")</option>
                     }
@@ -38,61 +116,23 @@
                 }
             </select>
         </div>
+        <div class="col-sm fuentePrincipal text-center d-flex" style="flex: 3; align-items: center;">
+            Completa cada día el tablero con jugadores desde el 2010 hasta hoy
+        </div>
     </div>
     @if (Model is not null)
     {
-        <div class="row">
-            <div class="col-sm celda-grid">
-                <div class="celda-grid-container fuentePrincipal">Puntuación</div>
-                <div id="div-contenedor-pts">
-                    <div id="div-puntuacion" class="fs24 celda-grid-container fuentePrincipal pulse" style="line-height: 2vw">0</div>
-                </div>
-            </div>
-            @foreach (var pista in Model.GridsPistas)
-            {
-                if (pista.NumPista >= 1 && pista.NumPista <= 3)
-                {
-                    if (pista.Link is null)
-                    {
-                        <div class="col-sm celda-grid">
-                            <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
-                        </div>
-                    }
-                    else 
-                    {
-                        if (pista.Tipo == "Jugador")
-                        {
-                            <div class="col-sm celda-grid">
-                                <div class="celda-grid-container">
-                                    <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
-                                </div>
-                                <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
-                            </div>
-                        }
-                        else if (pista.Tipo == "Dato")
-                        {
-                            <div class="col-sm celda-grid">
-                                <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col-sm celda-grid">
-                                <div class="celda-grid-container">
-                                    <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
-                                </div>
-                            </div>
-                        }
-                    }
-                }
-            }
-        </div>
-        @for (int i = 4; i < 7; i++)
-        {
+        <div id="div-tablero" class="div-tablero">
             <div class="row">
+                <div class="col-sm celda-grid">
+                    <div class="celda-grid-container fuentePrincipal">Puntuación</div>
+                    <div id="div-contenedor-pts">
+                        <div id="div-puntuacion" class="fs24 celda-grid-container fuentePrincipal pulse">0</div>
+                    </div>
+                </div>
                 @foreach (var pista in Model.GridsPistas)
                 {
-                    if (pista.NumPista == i)
+                    if (pista.NumPista >= 1 && pista.NumPista <= 3)
                     {
                         if (pista.Link is null)
                         {
@@ -106,7 +146,9 @@
                             {
                                 <div class="col-sm celda-grid">
                                     <div class="celda-grid-container">
-                                        <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
+                                        <a alt="@pista.Nombre">
+                                            <img src="@pista.Link" title="@pista.Nombre" class="img-pista-jugador" />
+                                        </a>
                                     </div>
                                     <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
                                 </div>
@@ -114,82 +156,155 @@
                             else if (pista.Tipo == "Dato")
                             {
                                 <div class="col-sm celda-grid">
-                                    <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
+                                    @if (pista.Link != null)
+                                    {
+                                        <div class="celda-grid-container">
+                                            <a alt="@pista.Nombre">
+                                                <img src="@pista.Link" title="@pista.Nombre" class="img-pista-dato" />
+                                            </a>
+                                        </div>
+                                        <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="celda-grid-subdato fuentePrincipal div-pista-dato">@pista.Nombre</div>
+                                    }
                                 </div>
                             }
                             else
                             {
                                 <div class="col-sm celda-grid">
                                     <div class="celda-grid-container">
-                                        <img src="@pista.Link" style="max-width: 100px; max-height: 100px" />
+                                        <a alt="@pista.Nombre">
+                                            <img src="@pista.Link" title="@pista.Nombre" class="img-pista-equipo" />
+                                        </a>
                                     </div>
                                 </div>
                             }
                         }
                     }
                 }
-
-                @{
-                    numeroCasilla = i - contCasilla;
-                    claseCasilla = "fg-casilla-" + numeroCasilla;
-                }
-
-                <div id="div-casilla-@numeroCasilla" class="col-sm celda-grid d-flex pd-3-0">
-                    @{
-                        string styleCeldaEsq = "";
-
-                                    @if (i == 4)
-                        {
-                            styleCeldaEsq = " celda-esq-sup-izq";
-                        }
-                        else if (i == 6)
-                        {
-                            styleCeldaEsq = " celda-esq-sup-der";
-                        }
-                    }
-
-                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
-                    <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
-                    <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
-                </div>
-
-                @{
-                    styleCeldaEsq = "";
-                    numeroCasilla2 = numeroCasilla + 1;
-                    claseCasilla = "fg-casilla-" + numeroCasilla2;
-                }
-
-                <div id="div-casilla-@numeroCasilla2" class="col-sm celda-grid d-flex pd-3-0">
-                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
-                    <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
-                    <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
-                </div>
-
-                @{
-                    numeroCasilla3 = numeroCasilla2 + 1;
-                    claseCasilla = "fg-casilla-" + numeroCasilla3;
-                }
-
-                <div id="div-casilla-@numeroCasilla3" class="col-sm celda-grid d-flex pd-3-0">
-                    @{
-                                    @if (i == 4)
-                        {
-                            styleCeldaEsq = " celda-esq-inf-izq";
-                        }
-                        else if (i == 6)
-                        {
-                            styleCeldaEsq = " celda-esq-inf-der";
-                        }
-                    }
-
-                    <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
-                    <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
-                    <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
-                </div>
             </div>
+            @for (int i = 4; i < 7; i++)
+            {
+                <div class="row">
+                    @foreach (var pista in Model.GridsPistas)
+                    {
+                        if (pista.NumPista == i)
+                        {
+                            if (pista.Link is null)
+                            {
+                                <div class="col-sm celda-grid">
+                                    <div class="celda-grid-container fuentePrincipal">@pista.Nombre</div>
+                                </div>
+                            }
+                            else
+                            {
+                                if (pista.Tipo == "Jugador")
+                                {
+                                    <div class="col-sm celda-grid">
+                                        <div class="celda-grid-container">
+                                            <a alt="@pista.Nombre">
+                                                <img src="@pista.Link" title="@pista.Nombre" class="img-pista-jugador" />
+                                            </a>
+                                        </div>
+                                        <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
+                                    </div>
+                                }
+                                else if (pista.Tipo == "Dato")
+                                {
+                                    <div class="col-sm celda-grid celda-grid-row">
+                                        @if (pista.Link != null)
+                                        {
+                                            <div class="celda-grid-container">
+                                                <a alt="@pista.Nombre">
+                                                    <img src="@pista.Link" title="@pista.Nombre" class="img-pista-dato" />
+                                                </a>
+                                            </div>
+                                            <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="celda-grid-subdato fuentePrincipal div-pista-dato">@pista.Nombre</div>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm celda-grid">
+                                        <div class="celda-grid-container">
+                                            <a alt="@pista.Nombre">
+                                                <img src="@pista.Link" title="@pista.Nombre" class="img-pista-equipo" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    }
 
-            contCasilla -= 2;
-        }
+                    @{
+                        numeroCasilla = i - contCasilla;
+                        claseCasilla = "fg-casilla-" + numeroCasilla;
+                    }
+
+                    <div id="div-casilla-@numeroCasilla" class="col-sm celda-grid d-flex pd-3-0">
+                        @{
+                            string styleCeldaEsq = "";
+
+                                                            @if (i == 4)
+                            {
+                                styleCeldaEsq = " celda-esq-sup-izq";
+                            }
+                            else if (i == 6)
+                            {
+                                styleCeldaEsq = " celda-esq-sup-der";
+                            }
+                        }
+
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
+                        <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
+                        <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
+                    </div>
+
+                    @{
+                        styleCeldaEsq = "";
+                        numeroCasilla2 = numeroCasilla + 1;
+                        claseCasilla = "fg-casilla-" + numeroCasilla2;
+                    }
+
+                    <div id="div-casilla-@numeroCasilla2" class="col-sm celda-grid d-flex pd-3-0">
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
+                        <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
+                        <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
+                    </div>
+
+                    @{
+                        numeroCasilla3 = numeroCasilla2 + 1;
+                        claseCasilla = "fg-casilla-" + numeroCasilla3;
+                    }
+
+                    <div id="div-casilla-@numeroCasilla3" class="col-sm celda-grid d-flex pd-3-0">
+                        @{
+                                                            @if (i == 4)
+                            {
+                                styleCeldaEsq = " celda-esq-inf-izq";
+                            }
+                            else if (i == 6)
+                            {
+                                styleCeldaEsq = " celda-esq-inf-der";
+                            }
+                        }
+
+                        <button id="btn-jug-oculto" class="celda-grid-jug-ocultos @claseCasilla @styleCeldaEsq"></button>
+                        <div class="div-resultado-celda div-acierto-celda container-victoria @styleCeldaEsq"></div>
+                        <div class="div-resultado-celda div-fallo-celda container-victoria @styleCeldaEsq"></div>
+                    </div>
+                </div>
+
+                contCasilla -= 2;
+            }
+        </div>
     }
 </div>
 

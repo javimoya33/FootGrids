@@ -1,0 +1,88 @@
+﻿@media (max-width: 1200px) {
+
+    .container, .container-md, .container-sm {
+        max-width: 720px;
+        padding-left: 0vw;
+        padding-right: 0vw;
+        margin-left: 0px;
+    }
+
+    .div-tablero {
+        margin-top: 30px;
+    }
+
+    .container-grid {
+        width: 100vw;
+    }
+
+    .img-logo {
+        max-width: 45vw;
+        padding: 2vw;
+    }
+
+    .celda-grid {
+        width: 23vw;
+        height: 20vw;
+    }
+
+    .img-pista-equipo {
+        max-width: 90px;
+        max-height: 90px;
+    }
+
+    .img-pista-jugador {
+        max-width: 72px;
+        max-height: 72px;
+    }
+
+    .img-pista-dato {
+        max-width: 72px;
+        max-height: 72px;
+    }
+
+    #div-puntuacion {
+        line-height: 5vw;
+    }
+
+    .celda-grid-jug-ocultos {
+        background-size: contain !important;
+        margin: 1px 0px;
+    }
+
+    .celda-grid-subdato {
+        font-size: 10pt;
+        line-height: 15px;
+        margin-top: 4px;
+    }
+
+    .div-pista-dato {
+        line-height: 4vw;
+        font-size: 10pt;
+    }
+
+    #div-busq-jug {
+        width: 80vw;
+        margin: auto;
+        padding: 10px;
+    }
+
+    #img-jug-seleccionado {
+        width: 90px;
+        margin: 8px;
+        border: 5px solid #4a50af;
+    }
+
+    .input-busq-jug {
+        height: 35px;
+        border: 3px solid #ff4388;
+        padding: 5px;
+    }
+
+    .div-close img {
+        width: 6vw;
+    }
+
+    .pd-3-0 {
+        padding: 0px 1px !important;
+    }
+}

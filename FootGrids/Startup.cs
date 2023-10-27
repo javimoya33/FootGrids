@@ -46,7 +46,7 @@ namespace FootGrids
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "FootGrids{controller=Home}/{action=FootGrids}");
+                    pattern: "{controller=Home}/{action=FootGrids}");
             });
         }
     }

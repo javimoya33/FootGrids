@@ -5,5 +5,7 @@
         public List<GridPistaDTO> GridsPistas { get; set; }
 
         public List<GridDTO> Grids { get; set; }
+
+        public int GridId { get; set; }
     }
 }
