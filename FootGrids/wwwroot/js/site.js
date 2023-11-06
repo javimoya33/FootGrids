@@ -16,7 +16,7 @@ var yearsToQuery = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 
 var txtCasillasRRSS = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'];
 
 var delayBetweenRequests = 2000; 
-var jugadoresAcertados = 7;
+var jugadoresAcertados = 0;
 var intervalId;
 var intervalPts;
 
@@ -158,15 +158,20 @@ $(document).ready(function () {
         }
     });
 
-    let casillasRellenas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
 
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada, function (casillasResueltas) {
 
-    obtenerCasillasResueltasEnCookie(fechaSeleccionada);
-    rellenarCasillasResueltas();
-    rellenarPuntuacion();
-    jugadoresAcertados = numJugadoresAcertados(jugadoresAcertados);
+        if (casillasResueltas !== null) {
 
-    console.log('Jugadores Acertados ' + jugadoresAcertados);
+            rellenarCasillasResueltas();
+            rellenarPuntuacion();
+
+            numJugadoresAcertados(jugadoresAcertados, function (total) {
+
+                jugadoresAcertados = total;
+            });
+        }
+    });
 
     // Si en las cookies del navegador hay fecha de la última visita al juego, y la fecha de esa última visitada es igual a la de hoy
     // entonces se recuperará el tiempo transcurrido en la partida y se mostrará en el div del cronómetro
@@ -177,15 +182,9 @@ $(document).ready(function () {
 
             if (fechaHoy == ultVisita) {
 
-                console.log('Llega hasta aqui1');
-
                 obtenerTiempoEnCookie(function (tiempoGuardado) {
 
-                    console.log('Llega hasta aqui2 ' + tiempoGuardado);
-
                     if (tiempoGuardado !== null) {
-
-                        console.log('Llega hasta aqui3 ' + tiempoGuardado);
 
                         $('#div-cronometro').text(tiempoGuardado);
 
@@ -213,7 +212,7 @@ $(document).ready(function () {
                 guardarTiempoEnCookie();
 
                 $('#div-puntuacion').text('0');
-                guardarPuntuacionEnCookie(0);
+                guardarPuntuacionEnCookie('0');
             }
         }
 
@@ -225,7 +224,7 @@ $(document).ready(function () {
     
 
     // Mostrar div de búsqueda de jugador cuando se clicka en una casilla oculta 
-    $('.celda-grid-jug-ocultos').click(function (event) {
+    $('#div-tablero').on('click', '.celda-grid-jug-ocultos', function (event) {
 
         $('#div-busq-jug').append(
             '<div class="d-flex">' +
@@ -268,12 +267,17 @@ $(document).ready(function () {
         event.stopPropagation();
     });
 
+    $('#div-victoria').click(function (event) {
+        event.stopPropagation();
+    });
+
     // Ocultar div de búsqueda de jugador cuando se clicka fuera de su contenedor 
     $(document).click(function () {
         $('#div-busq-jug').hide(200);
         $('#div-busq-jug').empty();
         $('#div-overlay-juego').hide();
-        $('#div-victoria').hide();
+        $('#div-victoria').hide(200);
+        $('#div-victoria').empty();
     });
 });
 
@@ -366,11 +370,15 @@ function guardarTiempoEnCookie() {
 // Obtener la cookie que contiene el tiempo de juego transcurrido
 function obtenerTiempoEnCookie(callback) {
 
+    if ($.cookie('tiempoJuego') === undefined || $.cookie('tiempoJuego') === '') {
+
+        guardarTiempoEnCookie();
+    }
+
     if (globalSecretKey != null) {
 
         var tiempoJuegoEncriptado = $.cookie('tiempoJuego');
         var tiempoJuegoDesencriptado = CryptoJS.AES.decrypt(tiempoJuegoEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
-
         callback(tiempoJuegoDesencriptado);
     }
     else {
@@ -421,6 +429,11 @@ function guardarTiempoDesdeUltimoAciertoEnCookie() {
 }
 
 function obtenerTiempoDesdeUltimoAciertoEnCookie(callback) {
+
+    if ($.cookie('tiempoDesdeUltimoAcierto') === undefined || $.cookie('tiempoDesdeUltimoAcierto') === '') {
+
+        guardarTiempoDesdeUltimoAciertoEnCookie();
+    }
 
     if (globalSecretKey != null) {
 
@@ -481,6 +494,11 @@ function guardarCasillaColoresEnCookie() {
 
 function obtenerCasillasColoresEnCookie(callback) {
 
+    if ($.cookie('casillasColores') === undefined || $.cookie('casillasColores') === '') {
+
+        guardarCasillaColoresEnCookie();
+    }
+
     if (globalSecretKey != null) {
 
         var casillasColoresEncriptado = $.cookie('casillasColores');
@@ -507,6 +525,7 @@ function obtenerCasillasColoresEnCookie(callback) {
             }
         });
     }
+    return null;
 }
 
 // Guardar la fecha de la última visita al juego en una cookie del navegador 
@@ -537,6 +556,11 @@ function guardarUltVisitaEnCookie() {
 // Obtener la cookie que aloja la fecha de la última visita al juego
 function obtenerFechaUltVisita(callback) {
 
+    if ($.cookie('ultVisita') === undefined || $.cookie('ultVisita') === '') {
+
+        guardarUltVisitaEnCookie();
+    }
+
     if (globalSecretKey != null) {
 
         var fechaUltVisitaEncriptado = $.cookie('ultVisita');
@@ -556,36 +580,6 @@ function obtenerFechaUltVisita(callback) {
                 var fechaUltVisitaDesencriptado = CryptoJS.AES.decrypt(fechaUltVisitaEncriptado, secretKey).toString(CryptoJS.enc.Utf8);
 
                 callback(fechaUltVisitaDesencriptado);
-            }
-            else {
-
-                callback(null);
-            }
-        });
-    }
-}
-
-function obtenerPuntuacionEnCookie(callback) {
-
-    if (globalSecretKey != null) {
-
-        var puntuacionEncriptado = $.cookie('puntuacion');
-        var puntuacionDesencriptado = CryptoJS.AES.decrypt(puntuacionEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
-
-        callback(puntuacionDesencriptado);
-    }
-    else {
-
-        $.getJSON("/Home/GetSecretKey", function (secretKey) {
-
-            if (secretKey) {
-
-                globalSecretKey = secretKey;
-
-                var puntuacionEncriptado = $.cookie('puntuacion');
-                var puntuacionDesencriptado = CryptoJS.AES.decrypt(puntuacionEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
-
-                callback(puntuacionDesencriptado);
             }
             else {
 
@@ -617,6 +611,41 @@ function guardarPuntuacionEnCookie(puntuacion) {
     }
 }
 
+function obtenerPuntuacionEnCookie(callback) {
+
+    if ($.cookie('puntuacion') === undefined || $.cookie('puntuacion') === '') {
+
+        guardarPuntuacionEnCookie('0');
+    }
+
+    if (globalSecretKey != null) {
+
+        var puntuacionEncriptado = $.cookie('puntuacion');
+        var puntuacionDesencriptado = CryptoJS.AES.decrypt(puntuacionEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+        callback(puntuacionDesencriptado);
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var puntuacionEncriptado = $.cookie('puntuacion');
+                var puntuacionDesencriptado = CryptoJS.AES.decrypt(puntuacionEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+                callback(puntuacionDesencriptado);
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
+}
+
 function rellenarPuntuacion() {
 
     obtenerPuntuacionEnCookie(function (puntuacion) {
@@ -625,72 +654,121 @@ function rellenarPuntuacion() {
     });
 }
 
-function obtenerCasillasResueltasEnCookie(fecha) {
+function guardarCasillasResueltasEnCookie(txtCasillasResueltas, fecha) {
+
+    if (globalSecretKey != null) {
+
+        const casillasResueltasEncriptado = CryptoJS.AES.encrypt(txtCasillasResueltas, globalSecretKey).toString();
+        $.cookie('casillasResueltas ' + fecha, casillasResueltasEncriptado, { expires: 1 });
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                const casillasResueltasEncriptado = CryptoJS.AES.encrypt(txtCasillasResueltas, globalSecretKey).toString();
+                $.cookie('casillasResueltas ' + fecha, casillasResueltasEncriptado, { expires: 1 });
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
+}
+
+function obtenerCasillasResueltasEnCookie(fecha, callback) {
 
     if ($.cookie('casillasResueltas ' + fecha) === undefined || $.cookie('casillasResueltas ' + fecha) === '') {
 
-        $.cookie('casillasResueltas ' + fecha, '0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0', { expires: 1 });
+        txtCasillasResueltas = '0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0';
+        guardarCasillasResueltasEnCookie(txtCasillasResueltas, fecha);
     }
 
-    return $.cookie('casillasResueltas ' + fecha);
-}
+    if (globalSecretKey != null) {
 
-function guardarCasillasResueltasEnCookie(txtCasillasResueltas, fecha) {
+        var casillasResueltasEncriptado = $.cookie('casillasResueltas ' + fecha);
+        var casillasResueltasDesencriptado = CryptoJS.AES.decrypt(casillasResueltasEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
 
-    $.cookie('casillasResueltas ' + fecha, txtCasillasResueltas, { expires: 1 });
+        callback(casillasResueltasDesencriptado);
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var casillasResueltasEncriptado = $.cookie('casillasResueltas ' + fecha);
+                var casillasResueltasDesencriptado = CryptoJS.AES.decrypt(casillasResueltasEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+                callback(casillasResueltasDesencriptado);
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
 }
 
 function rellenarNuevaCasilla(idJugador, numeroDeCasilla) {
 
-    let casillasRellenas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada, function (casillasRellenas) {
 
-    const arrCasillasRellenas = casillasRellenas.split(' *** ');
+        if (casillasRellenas !== null) {
 
-    let txtCasillasResueltas = '';
+            const arrCasillasRellenas = casillasRellenas.split(' *** ');
 
-    for (let i = 0; i < arrCasillasRellenas.length; i++) {
+            let txtCasillasResueltas = '';
 
-        if (i == numeroDeCasilla - 1) {
+            for (let i = 0; i < arrCasillasRellenas.length; i++) {
 
-            arrCasillasRellenas[i] = idJugador;
+                if (i == numeroDeCasilla - 1) {
+
+                    arrCasillasRellenas[i] = idJugador;
+                }
+
+                txtCasillasResueltas += arrCasillasRellenas[i];
+
+                if (i != arrCasillasRellenas.length - 1) {
+
+                    txtCasillasResueltas += ' *** ';
+                }
+            }
+
+            guardarCasillasResueltasEnCookie(txtCasillasResueltas, fechaSeleccionada);
         }
-
-        txtCasillasResueltas += arrCasillasRellenas[i];
-
-        if (i != arrCasillasRellenas.length - 1) {
-
-            txtCasillasResueltas += ' *** ';
-        }
-    }
-
-    guardarCasillasResueltasEnCookie(txtCasillasResueltas, fechaSeleccionada);
+    });
 }
 
 function rellenarCasillasResueltas() {
 
-    let casillasResueltas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada, function (casillasResueltas) {
 
-    const arrCasillasResueltas = casillasResueltas.split(" *** ");
+        const arrCasillasResueltas = casillasResueltas.split(" *** ");
 
-    for (let i = 0; i < arrCasillasResueltas.length; i++) {
+        for (let i = 0; i < arrCasillasResueltas.length; i++) {
 
-        if (arrCasillasResueltas[i] > 0) {
+            if (arrCasillasResueltas[i] > 0) {
 
-            let imgCasilla = 'https://media-4.api-sports.io/football/players/' + arrCasillasResueltas[i] + '.png';
+                let imgCasilla = 'https://media-4.api-sports.io/football/players/' + arrCasillasResueltas[i] + '.png';
 
-            $('.fg-casilla-' + (i + 1)).css('background', 'url("' + imgCasilla + '") center top no-repeat white');
-            $('.fg-casilla-' + (i + 1)).removeClass('celda-grid-jug-ocultos');
-            $('.fg-casilla-' + (i + 1)).addClass('celda-grid-jug-resueltos');
+                $('.fg-casilla-' + (i + 1)).css('background', 'url("' + imgCasilla + '") center top no-repeat white');
+                $('.fg-casilla-' + (i + 1)).removeClass('celda-grid-jug-ocultos');
+                $('.fg-casilla-' + (i + 1)).addClass('celda-grid-jug-resueltos');
+            }
         }
-    }
+    });
 }
 
 // Función utilizada para buscar y obtener las soluciones a cada celda que utilizo para crear la partida
 function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
 
-    console.log('*******************************************');
-    console.log('Index ' + index + ' *** ' + 'Equipo ' + team + ' *** ' + 'Liga ' + league + ' *** ' + 'Pagina ' + page + ' *** ' + 'Equipo1 ' + equipo1);
-    console.log('*******************************************');
     if (index < yearsQuery.length) {
         var year = yearsQuery[index];
         var queryString = {
@@ -711,7 +789,6 @@ function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
             success: function (data) {
                 // Procesar los datos aquí
                 data.response.forEach(function (jugadorData) {
-                    console.log(jugadorData.player.name + ' *** ' + jugadorData.player.id);
 
                     var playerId = jugadorData.player.id;
 
@@ -730,7 +807,6 @@ function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
                 if (!equipo1 === false && page === 3) {
                     setTimeout(function () {
                         var idsComunes = Array.from(idsEquipo1).filter(id => idsEquipo2.has(id));
-                        console.log("IDs de jugadores comunes: " + idsComunes);
                     }, 30000);
                 }
             },
@@ -760,13 +836,16 @@ function mouseEnterDivResultBusq(elemento) {
     var jugadorEdad = $(elemento).find('.div-info-jugador').data('jugador-edad');
     var jugadorNacionalidad = $(elemento).find('.div-info-jugador').data('jugador-nacionalidad');
 
-    $('#img-jug-seleccionado').attr('src', jugadorImg);
+    if (jugadorNombre !== undefined) {
 
-    $('#div-jug-info-seleccionado').empty();
-    $('#div-jug-info-seleccionado').append(
-        '<div>Nombre: ' + jugadorNombre + '</div>' +
-        '<div>Edad: ' + jugadorEdad + '</div>' +
-        '<div>Nacionalidad: ' + jugadorNacionalidad + '</div>');
+        $('#img-jug-seleccionado').attr('src', jugadorImg);
+
+        $('#div-jug-info-seleccionado').empty();
+        $('#div-jug-info-seleccionado').append(
+            '<div>Nombre: ' + jugadorNombre + '</div>' +
+            '<div>Edad: ' + jugadorEdad + '</div>' +
+            '<div>Nacionalidad: ' + jugadorNacionalidad + '</div>');
+    }
 }
 
 // Cuando se clicka sobre un resultado de búsqueda se comprueba si la solución al jugador oculto es correcta y se comprueba si el jugador 
@@ -774,10 +853,7 @@ function mouseEnterDivResultBusq(elemento) {
 function clickDivResultBusq(idJugador, imgJugador) {
 
     var numeroSolucion = $('#input-casilla').val();
-
     var dateTimeFormateado = DateTimeFormateada(fechaSeleccionada);
-
-    console.log('FechaSeleccionada ' + dateTimeFormateado);
 
     $.ajax({
         type: 'GET',
@@ -796,8 +872,6 @@ function clickDivResultBusq(idJugador, imgJugador) {
                 jugadoresAcertados += 1;
 
                 obtenerTiempoDesdeUltimoAciertoEnCookie(function (segundos) {
-
-                    console.log('tiempoDesdeUltimoAciertooo ' + segundos);
 
                     generarTxtRRSS(handicap, numeroSolucion - 1);
                     sumarPuntuacion(handicap);
@@ -830,7 +904,7 @@ function clickDivResultBusq(idJugador, imgJugador) {
     cerrarVentanaBusq();
 }
 
-function generarTextoParaRRSS() {
+function generarTextoParaRRSS(callback) {
 
     var txtCompletoRRSS = '';
 
@@ -862,11 +936,8 @@ function generarTextoParaRRSS() {
         }
 
         txtCompletoRRSS = txtRRSS1 + idGridHoy + txtRRSS2 + '*' + puntuacion + '*' + '%0a' + '%0a' + txtCompletoCasillasRRSS + '%0a' + txtRRSS3;
-        console.log('txtCompletoRRSS ' + txtCompletoRRSS)
-        return txtCompletoRRSS;
+        callback(txtCompletoRRSS);
     });
-
-    return null;
 }
 
 function obtenerColorParaCasilla(handicap, numeroSolucion) {
@@ -909,52 +980,46 @@ function comprobarVictoria() {
 
         $('#div-overlay-juego').show();
 
-        $('#div-victoria').append('<div class="d-flex" style="align-items: start">' + 
-                                    '<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>' + 
-                                    '<div>' + 
-                                        '<img src="/img/trofeo.png" class="pd-10-30" style="width: 9vw" />' + 
-                                    '</div>' + 
-                                    '<div>' + 
-                                    '<div class="fuentePrincipal fs24 color-victoria">¡ENHORABUENA!</div>' + 
-                                        '<div class="fuentePrincipal fs12">¡Sos un fenómeno! Las metes como Julián Álvarez.</div>' + 
+        generarTextoParaRRSS(function(textoRRSS) {
 
-                                        '<div class="d-flex" style="justify-content: space-around; padding: 10px 0px;">' + 
-                                            '<div>' + 
-                                                '<div class="fuentePrincipal fs12 text-center">Puntuación</div>' + 
-                                                '<div id="div-puntuacion-final" class="fuentePrincipal fs18 text-center color-victoria">0</div>' + 
-                                            '</div>' + 
+            $('#div-victoria').append('<div class="d-flex" style="align-items: start">' +
+                                        '<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>' +
+                                        '<div>' +
+                                            '<img src="/img/trofeo.png" class="img-trofeo pd-10-30" />' +
+                                        '</div>' +
+                                        '<div>' +
+                                            '<div class="fuentePrincipal fs24 color-victoria">¡ENHORABUENA!</div>' +
+                                            '<div class="fuentePrincipal fs12">¡Sos un fenómeno! Las metes como Julián Álvarez.</div>' +
 
-                                            '<div>' + 
-                                                '<div class="fuentePrincipal fs12 text-center">Tiempo</div>' + 
-                                                '<div id="div-tiempo-final" class="fuentePrincipal fs18 text-center color-victoria">' + crono + '</div>' + 
-                                            '</div>' + 
-                                        '</div>' + 
+                                            '<div class="d-flex" style="justify-content: space-around; padding: 10px 0px;">' +
+                                                '<div>' +
+                                                    '<div class="fuentePrincipal fs12 text-center">Puntuación</div>' +
+                                                    '<div id="div-puntuacion-final" class="fuentePrincipal fs18 text-center color-victoria">0</div>' +
+                                                '</div>' +
 
-                                        '<div class="fuentePrincipal fs12">Compártelo con tus pibes en redes sociales, che.</div>' + 
-                                        '<div class="d-flex" style="justify-content: space-around; padding-top: 10px">' + 
-                                            '<div>' + 
-                                                '<button class="icon-redes-sociales p-0">' + 
-                                                    '<img src="/img/redes sociales/twitter.png" class="w-100" />' + 
-                                                '</button>' + 
-                                            '</div>' + 
-                                            '<div>' + 
-                                                '<button class="icon-redes-sociales p-0">' +
-                                                    '<a href="https://api.whatsapp.com/send?text=' + generarTextoParaRRSS() + '" data-action="share / whatsapp / share" style="color: white">' +
-                                                        'Holaaa' + 
-                                                    '</a>' + 
-                                                '</button>' + 
-                                            '</div>' + 
-                                            '<div>' + 
-                                                '<button class="icon-redes-sociales p-0">' + 
-                                                    '<a href="whatsapp://send?text=My Text">WhatsApp</a>' +
-                                                    '<img src="/img/redes sociales/instagram.png" class="w-100" />' + 
-                                                '</button>' + 
-                                            '</div>' + 
-                                        '</div>' + 
-                                    '</div>' + 
-                                '</div> ');
+                                                '<div>' +
+                                                    '<div class="fuentePrincipal fs12 text-center">Tiempo</div>' +
+                                                    '<div id="div-tiempo-final" class="fuentePrincipal fs18 text-center color-victoria">' + crono + '</div>' +
+                                                '</div>' +
+                                            '</div>' +
 
-        $('#div-victoria').show();
+                                            '<div class="fuentePrincipal fs12">Compártelo con tus pibes en redes sociales, che.</div>' +
+                                            '<div class="d-flex" style="justify-content: space-around; padding-top: 10px">' +
+                                                '<div>' +
+                                                '</div>' +
+                                                '<div>' +
+                                                    '<a href="https://api.whatsapp.com/send?text=' + textoRRSS + '"  target="_blank" class="icon-redes-sociales p-0" data-action="share / whatsapp / share" style="color: white">' +
+                                                        '<img src="/img/redes sociales/whatsapp.png" class="w-100" />' +
+                                                    '</a>' +
+                                                '</div>' +
+                                                '<div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div> ');
+
+            $('#div-victoria').show();
+        });
     }
 }
 
@@ -972,7 +1037,6 @@ function escribirBuscadorJugador() {
             busqueda = normalizarTexto(busqueda);
 
             var urlKeys = "/Home/GetApiKeys";
-            //$('#div-result-busq').empty();
 
             $.ajax({
                 url: urlKeys,
@@ -987,8 +1051,6 @@ function escribirBuscadorJugador() {
                     var queryString = {
                         search: busqueda
                     };
-
-                    console.log('ApiKey ' + apiKey);
 
                     // Objeto para almacenar todos los datos procesados por liga
                     var allDatosProcesados = {};
@@ -1034,20 +1096,18 @@ function escribirBuscadorJugador() {
 
                                     datosProcesados.forEach(function (jugador) {
 
-                                        if (iteracciones < maxIteracciones) {
+                                        // Verificar que el resultado de búsqueda no esté ya repetido entre los que se muestran
+                                        var jugadorRepetido = $('#div-result-busq [data-jugador-id="' + jugador.id + '"]').length > 0;
 
-                                            // Verificar que el resultado de búsqueda no esté ya repetido entre los que se muestran
-                                            var jugadorRepetido = $('#div-result-busq [data-jugador-id="' + jugador.id + '"]').length > 0;
-
-                                            if (!jugadorRepetido) {
-                                                $('#div-result-busq').append(
-                                                    '<div onmouseenter="mouseEnterDivResultBusq(this)" onclick="clickDivResultBusq(' + jugador.id + ', \'' + jugador.imagen + '\')" class="div-result-busq fuentePrincipal">' +
-                                                    '<span class="fuentePrincipal">' + jugador.nombre + '</span>' +
-                                                    '<div class="div-info-jugador" data-jugador-id="' + jugador.id + '" data-jugador-nombre="' + jugador.nombre + '" data-jugador-img="' + jugador.imagen + '" data-jugador-edad="' + jugador.edad + '" data-jugador-nacionalidad="' + jugador.nacionalidad + '"></div>' +
-                                                    '</div>'
-                                                );
-                                            }
+                                        if (!jugadorRepetido) {
+                                            $('#div-result-busq').append(
+                                                '<div onmouseenter="mouseEnterDivResultBusq(this)" onclick="clickDivResultBusq(' + jugador.id + ', \'' + jugador.imagen + '\')" class="div-result-busq fuentePrincipal">' +
+                                                '<span class="fuentePrincipal">' + jugador.nombre + '</span>' +
+                                                '<div class="div-info-jugador" data-jugador-id="' + jugador.id + '" data-jugador-nombre="' + jugador.nombre + '" data-jugador-img="' + jugador.imagen + '" data-jugador-edad="' + jugador.edad + '" data-jugador-nacionalidad="' + jugador.nacionalidad + '"></div>' +
+                                                '</div>'
+                                            );
                                         }
+                                        
                                     });
                                 }
 
@@ -1068,6 +1128,15 @@ function escribirBuscadorJugador() {
     }, 1200);
 
     setTimeout(function () {
+
+        $('#div-result-busq').on('mouseenter', '.div-result-busq', function (event) {
+
+            $('.div-result-busq').css('background-color', '#eee');
+            $('.div-result-busq').css('color', '#212529');
+
+            $(this).css('background-color', 'rgb(255, 202, 221)');
+            $(this).css('color', 'rgb(255, 67, 136)');
+        });
 
         var primerDivCritBusq = $('#div-result-busq .div-result-busq:first');
 
@@ -1110,7 +1179,7 @@ function restarPuntuacion() {
 
     obtenerTiempoDesdeUltimoAciertoEnCookie(function (secondsDesdeUltimoAcierto) {
 
-        puntuacion = puntuacion - (80 + parseInt(secondsDesdeUltimoAcierto()));
+        puntuacion = puntuacion - (80 + parseInt(secondsDesdeUltimoAcierto));
 
         if (puntuacion < 0) {
             puntuacion = 0;
@@ -1219,21 +1288,20 @@ function detenerAnimacionPuntuacion() {
 }
 
 // Función que recupera el número de jugadores acertados cuando vuelves al juego
-function numJugadoresAcertados(jugAcertados) {
+function numJugadoresAcertados(jugAcertados, callback) {
 
-    let casillasResueltas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
-    const arrCasillasResueltas = casillasResueltas.split(' *** ');
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada, function (casillasResueltas) {
 
-    for (let i = 0; i < arrCasillasResueltas.length; i++)
-    {
-        if (parseInt(arrCasillasResueltas[i]) > 0) {
-            jugAcertados += 1;
+        const arrCasillasResueltas = casillasResueltas.split(' *** ');
+
+        for (let i = 0; i < arrCasillasResueltas.length; i++) {
+            if (parseInt(arrCasillasResueltas[i]) > 0) {
+                jugAcertados += 1;
+            }
         }
-    }
 
-    console.log('Jugadores acertados ' + jugAcertados);
-
-    return jugAcertados;
+        callback(jugAcertados);
+    });
 }
 
 // Función que recarga el juego con el grid pasado seleccionado

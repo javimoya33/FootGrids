@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "B7tFQAVPfrr5qZ/hObZ8K+S9gGASz6ZpbQgiZFGUJNk=",
+  "Hash": "9fGSplXDywePzGDh9Ey+yK7x90ZsAZqtR5j/Bkl2gBs=",
   "Source": "FootGrids",
   "BasePath": "_content/FootGrids",
   "Mode": "Default",
@@ -355,6 +355,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\redes sociales\\twitter.png"
+    },
+    {
+      "Identity": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\img\\redes sociales\\whatsapp.png",
+      "SourceId": "FootGrids",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\",
+      "BasePath": "_content/FootGrids",
+      "RelativePath": "img/redes sociales/whatsapp.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\redes sociales\\whatsapp.png"
     },
     {
       "Identity": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\img\\trofeo.png",
