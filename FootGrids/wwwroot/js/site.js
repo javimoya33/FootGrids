@@ -4,6 +4,7 @@
 // Write your JavaScript code.
 
 // Array de los años de los datos que se buscarán en la API
+// Arrays de campeones de la Champions
 var yearsToQuery1 = [2010];
 var yearsToQuery2 = [2011, 2015];
 var yearsToQuery3 = [2012, 2021];
@@ -11,12 +12,46 @@ var yearsToQuery4 = [2013, 2020];
 var yearsToQuery5 = [2014, 2016, 2017, 2018, 2022];
 var yearsToQuery6 = [2019];
 var yearsToQuery7 = [2023];
+
+// Arrays de campeones de la Libertadores
+var yearsToQuery11 = [2010];
+var yearsToQuery12 = [2011];
+var yearsToQuery13 = [2012];
+var yearsToQuery14 = [2013];
+var yearsToQuery15 = [2014];
+var yearsToQuery16 = [2015, 2018];
+var yearsToQuery17 = [2016];
+var yearsToQuery18 = [2017];
+var yearsToQuery19 = [2019, 2022];
+var yearsToQuery20 = [2020, 2021];
+var yearsToQuery21 = [2023];
+
+// Arrays de campeones de La Liga
+var yearsToQuery11 = [2010, 2011, 2013, 2015, 2016, 2018, 2019, 2023];
+var yearsToQuery12 = [2012, 2017, 2020, 2022];
+var yearsToQuery13 = [2014, 2021];
+
+// Arrays de campeones de la Serie A Italiana
+var yearsToQuery21 = [2010, 2021];
+var yearsToQuery22 = [2011, 2022];
+var yearsToQuery23 = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
+var yearsToQuery24 = [2023];
+
+var yearsToQuery1 = [2010];
+var yearsToQuery2 = [2011];
+var yearsToQuery3 = [2012];
+var yearsToQuery4 = [2013];
+var yearsToQuery5 = [2014, 2015, 2016];
+var yearsToQuery6 = [2018, 2019, 2020];
+var yearsToQuery7 = [2021, 2022];
+var yearsToQuery8 = [2023];
+
 var yearsToQuery = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 
 var txtCasillasRRSS = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'];
 
 var delayBetweenRequests = 2000; 
-var jugadoresAcertados = 0;
+var jugadoresAcertados = 9;
 var intervalId;
 var intervalPts;
 
@@ -37,113 +72,35 @@ $(document).ready(function () {
 
     // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
     //realizarSolicitud(0, 1);
-    /*setTimeout(function () {
-        realizarSolicitud(0, 42, 39, 1, true, yearsToQuery);
+    setTimeout(function () {
+        realizarSolicitud(0, 33, 39, 1, true, yearsToQuery);
     }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 42, 39, 2, true, yearsToQuery);
+        realizarSolicitud(0, 33, 39, 2, true, yearsToQuery);
     }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 42, 39, 3, true, yearsToQuery);
+        realizarSolicitud(0, 33, 39, 3, true, yearsToQuery);
     }, 4000);
 
 
 
-    setTimeout(function () {
-        realizarSolicitud(0, 505, 135, 1, false, yearsToQuery1);
-    }, 6000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 505, 135, 2, false, yearsToQuery1);
-    }, 8000);
+        realizarSolicitud(0, 496, 135, 1, false, yearsToQuery);
+    }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 505, 135, 3, false, yearsToQuery1);
-    }, 10000);
-
-
+        realizarSolicitud(0, 496, 135, 2, false, yearsToQuery);
+    }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 529, 140, 1, false, yearsToQuery2);
-    }, 6000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 529, 140, 2, false, yearsToQuery2);
-    }, 8000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 529, 140, 3, false, yearsToQuery2);
-    }, 10000);
+        realizarSolicitud(0, 496, 135, 3, false, yearsToQuery);
+    }, 4000);
+    
 
 
-    setTimeout(function () {
-        realizarSolicitud(0, 49, 39, 1, false, yearsToQuery3);
-    }, 6000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 49, 39, 2, false, yearsToQuery3);
-    }, 8000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 49, 39, 3, false, yearsToQuery3);
-    }, 10000);
-
-
-    setTimeout(function () {
-        realizarSolicitud(0, 157, 78, 1, false, yearsToQuery4);
-    }, 6000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 157, 78, 2, false, yearsToQuery4);
-    }, 8000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 157, 78, 3, false, yearsToQuery4);
-    }, 10000);
-
-
-
-    setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 1, false, yearsToQuery5);
-    }, 6000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 2, false, yearsToQuery5);
-    }, 8000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 3, false, yearsToQuery5);
-    }, 10000);
-
-
-
-    setTimeout(function () {
-        realizarSolicitud(0, 40, 39, 1, false, yearsToQuery6);
-    }, 6000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 40, 39, 2, false, yearsToQuery6);
-    }, 8000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 40, 39, 3, false, yearsToQuery6);
-    }, 10000);
-
-
-
-    setTimeout(function () {
-        realizarSolicitud(0, 50, 39, 1, false, yearsToQuery7);
-    }, 6000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 50, 39, 2, false, yearsToQuery7);
-    }, 8000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 50, 39, 3, false, yearsToQuery7);
-    }, 10000);*/
 
     obtenerCasillasColoresEnCookie(function (casillasColores) {
 
@@ -769,6 +726,9 @@ function rellenarCasillasResueltas() {
 // Función utilizada para buscar y obtener las soluciones a cada celda que utilizo para crear la partida
 function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
 
+    console.log('*******************************************');
+    console.log('Index ' + index + ' *** ' + 'Equipo ' + team + ' *** ' + 'Liga ' + league + ' *** ' + 'Pagina ' + page + ' *** ' + 'Equipo1 ' + equipo1);
+    console.log('*******************************************');
     if (index < yearsQuery.length) {
         var year = yearsQuery[index];
         var queryString = {
@@ -789,6 +749,7 @@ function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
             success: function (data) {
                 // Procesar los datos aquí
                 data.response.forEach(function (jugadorData) {
+                    console.log(jugadorData.player.name + ' *** ' + jugadorData.player.id);
 
                     var playerId = jugadorData.player.id;
 
@@ -807,6 +768,7 @@ function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
                 if (!equipo1 === false && page === 3) {
                     setTimeout(function () {
                         var idsComunes = Array.from(idsEquipo1).filter(id => idsEquipo2.has(id));
+                        console.log("IDs de jugadores comunes: " + idsComunes);
                     }, 30000);
                 }
             },
@@ -983,7 +945,7 @@ function comprobarVictoria() {
         generarTextoParaRRSS(function(textoRRSS) {
 
             $('#div-victoria').append('<div class="d-flex" style="align-items: start">' +
-                                        '<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>' +
+                                        /*'<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>' +*/
                                         '<div>' +
                                             '<img src="/img/trofeo.png" class="img-trofeo pd-10-30" />' +
                                         '</div>' +
@@ -1001,6 +963,11 @@ function comprobarVictoria() {
                                                     '<div class="fuentePrincipal fs12 text-center">Tiempo</div>' +
                                                     '<div id="div-tiempo-final" class="fuentePrincipal fs18 text-center color-victoria">' + crono + '</div>' +
                                                 '</div>' +
+
+                                                '<div>' + 
+                                                    '<div class="fuentePrincipal fs12 text-center">Siguiente partida</div>' + 
+                                                    '<div id="div-tiempo-sig-partida" class="fuentePrincipal fs18 text-center color-victoria">00:00:00</div>' + 
+                                                '</div>' + 
                                             '</div>' +
 
                                             '<div class="fuentePrincipal fs12">Compártelo con tus pibes en redes sociales, che.</div>' +
@@ -1020,7 +987,30 @@ function comprobarVictoria() {
 
             $('#div-victoria').show();
         });
+
+        obtenerTiempoParaSiguientePartida();
+
+        setInterval(obtenerTiempoParaSiguientePartida, 1000);
     }
+}
+
+// Obtener el tiempo que queda entre ahora y mañana a las 12 de la noche
+function obtenerTiempoParaSiguientePartida() {
+
+    var horaActual = new Date();
+
+    var horaManana = new Date();
+    horaManana.setHours(24, 0, 0, 0);
+
+    var diferenciaMilisegundos = horaManana - horaActual;
+
+    var horas = Math.floor(diferenciaMilisegundos / 3600000);
+    var minutos = Math.floor((diferenciaMilisegundos % 3600000) / 60000);
+    var segundos = Math.floor((diferenciaMilisegundos % 60000) / 1000);
+
+    var diferenciaTexto = horas + ':' + minutos + ':' + segundos;
+
+    $('#div-tiempo-sig-partida').text(diferenciaTexto);
 }
 
 // Buscar en la API los datos que el jugador está introduciendo en el cuadro de búsqueda y muestra de los resultados de búsqueda
@@ -1047,7 +1037,7 @@ function escribirBuscadorJugador() {
                     var url = "https://api-football-v1.p.rapidapi.com/v3/players";
                     var apiKey = data.rapidAPIKey;
                     var apiHost = data.rapidAPIHost;
-                    var ligasToQuery = ["140", "141", "39", "135", "78", "61"];
+                    var ligasToQuery = ["140", "39", "135", "78", "61", "141"];
                     var queryString = {
                         search: busqueda
                     };
@@ -1056,12 +1046,12 @@ function escribirBuscadorJugador() {
                     var allDatosProcesados = {};
                     var ligasBuscadas = 0;
                     var iteracciones = 0;
-                    var maxIteracciones = 10;
+                    var maxIteracciones = 30;
+                    var datosProcesados = [];
 
-                    ligasToQuery.forEach(function (liga) {
-                        queryString.league = liga;
-
-                        $.ajax({
+                    // Función para realizar la búsqueda en una liga específica
+                    function buscarEnLiga(liga) {
+                        return $.ajax({
                             url: url,
                             type: "GET",
                             dataType: "json",
@@ -1069,56 +1059,99 @@ function escribirBuscadorJugador() {
                                 "X-RapidAPI-Key": apiKey,
                                 "X-RapidAPI-Host": apiHost
                             },
-                            data: queryString,
-                            success: function (data) {
+                            data: { ...queryString, league: liga },
+                        });
+                    }
 
+                    // Array de promesas para las solicitudes AJAX
+                    var promesas = ligasToQuery.map(function (liga) {
+                        return buscarEnLiga(liga);
+                    });
+
+                    // Ejecutar todas las promesas y esperar a que todas se resuelvan
+                    Promise.all(promesas)
+                        .then(function (results) {
+                            // Procesar los resultados de todas las solicitudes
+                            results.forEach(function (data) {
                                 if (data && data.response) {
-
-                                    var datosProcesados = [];
-
                                     data.response.forEach(function (jugadorData) {
                                         if (iteracciones < maxIteracciones) {
 
-                                            datosProcesados.push({
-                                                id: jugadorData.player.id,
-                                                nombre: jugadorData.player.name,
-                                                imagen: jugadorData.player.photo,
-                                                edad: jugadorData.player.age,
-                                                nacionalidad: jugadorData.player.nationality
-                                            });
+                                            var ultimaEstadistica = jugadorData.statistics[0];
+                                            var ultTemporada = ultimaEstadistica.league.season.toString();
+                                            const arrUltTemporada = ultTemporada.split("-");
 
-                                            iteracciones++;
-                                        }
-                                        else {
+                                            const liga = jugadorData.statistics[0].league.id;
+
+                                            if (arrUltTemporada[0] >= 2009) {
+
+                                                // Verificar si un jugador no tiene el nombre completo en jugadorData.player.name
+                                                if (jugadorData.player.name.includes(". ")) {
+
+                                                    // Split de nombre para que solo muestre en el criterio de búsqueda el primer nombre si es compuesto
+                                                    const arrNombreJugador = jugadorData.player.firstname.split(" ");
+
+                                                    datosProcesados.push({
+                                                        id: jugadorData.player.id,
+                                                        nombre: arrNombreJugador[0] + ' ' + jugadorData.player.lastname,
+                                                        imagen: jugadorData.player.photo,
+                                                        edad: jugadorData.player.age,
+                                                        nacionalidad: jugadorData.player.nationality,
+                                                        liga: liga,
+                                                        ultTemporada: arrUltTemporada[0]
+                                                    });
+                                                }
+                                                else {
+
+                                                    datosProcesados.push({
+                                                        id: jugadorData.player.id,
+                                                        nombre: jugadorData.player.name,
+                                                        imagen: jugadorData.player.photo,
+                                                        edad: jugadorData.player.age,
+                                                        nacionalidad: jugadorData.player.nationality,
+                                                        liga: liga,
+                                                        ultTemporada: arrUltTemporada[0]
+                                                    });
+                                                }
+
+                                                iteracciones++;
+                                            }
+                                        } else {
                                             return false;
                                         }
                                     });
+                                }
+                                ligasBuscadas++;
+                            });
 
-                                    datosProcesados.forEach(function (jugador) {
 
-                                        // Verificar que el resultado de búsqueda no esté ya repetido entre los que se muestran
-                                        var jugadorRepetido = $('#div-result-busq [data-jugador-id="' + jugador.id + '"]').length > 0;
+                            datosProcesados.sort(function (a, b) {
+                                // Compara las edades para determinar el orden
+                                return b.ultTemporada - a.ultTemporada;
+                            });
 
-                                        if (!jugadorRepetido) {
-                                            $('#div-result-busq').append(
-                                                '<div onmouseenter="mouseEnterDivResultBusq(this)" onclick="clickDivResultBusq(' + jugador.id + ', \'' + jugador.imagen + '\')" class="div-result-busq fuentePrincipal">' +
-                                                '<span class="fuentePrincipal">' + jugador.nombre + '</span>' +
-                                                '<div class="div-info-jugador" data-jugador-id="' + jugador.id + '" data-jugador-nombre="' + jugador.nombre + '" data-jugador-img="' + jugador.imagen + '" data-jugador-edad="' + jugador.edad + '" data-jugador-nacionalidad="' + jugador.nacionalidad + '"></div>' +
-                                                '</div>'
-                                            );
-                                        }
-                                        
-                                    });
+                            datosProcesados.forEach(function (jugador) {
+
+                                console.log('Jugador: ' + jugador.nombre + ' *** ' + jugador.ultTemporada + ' *** ' + jugador.liga);
+
+                                // Verificar que el resultado de búsqueda no esté ya repetido entre los que se muestran
+                                var jugadorRepetido = $('#div-result-busq [data-jugador-id="' + jugador.id + '"]').length > 0;
+
+                                if (!jugadorRepetido) {
+                                    $('#div-result-busq').append(
+                                        '<div onmouseenter="mouseEnterDivResultBusq(this)" onclick="clickDivResultBusq(' + jugador.id + ', \'' + jugador.imagen + '\')" class="div-result-busq fuentePrincipal">' +
+                                        '<img src="' + jugador.imagen + '" class="img-foto-jugador-busq">' +
+                                        '<span class="fuentePrincipal">' + jugador.nombre + '</span>' +
+                                        '<div class="div-info-jugador" data-jugador-id="' + jugador.id + '" data-jugador-nombre="' + jugador.nombre + '" data-jugador-img="' + jugador.imagen + '" data-jugador-edad="' + jugador.edad + '" data-jugador-nacionalidad="' + jugador.nacionalidad + '"></div>' +
+                                        '</div>'
+                                    );
                                 }
 
-                                ligasBuscadas++;
-                            },
-                            error: function (xhr, textStatus, errorThrown) {
-                                console.error("Error:", textStatus, errorThrown);
-                            }
-
+                            });
+                        })
+                        .catch(function (error) {
+                            console.error("Error en alguna solicitud AJAX:", error);
                         });
-                    });
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     console.error("Error:", textStatus, errorThrown);
@@ -1352,4 +1385,262 @@ function cerrarComoJugar() {
     $('#div-como-jugar').hide(200);
     $('#div-temporizador').show(200);
     $('#div-tablero').show(200);
+}
+
+function similarity(str1, str2) {
+    const set1 = new Set(str1);
+    const set2 = new Set(str2);
+    const intersection = new Set([...set1].filter(x => set2.has(x)));
+    const union = new Set([...set1, ...set2]);
+    return intersection.size / union.size;
+}
+
+function timeOutChampions() {
+
+    setTimeout(function () {
+        realizarSolicitud(0, 505, 135, 1, false, yearsToQuery1);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 505, 135, 2, false, yearsToQuery1);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 505, 135, 3, false, yearsToQuery1);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 1, false, yearsToQuery2);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 2, false, yearsToQuery2);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 3, false, yearsToQuery2);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 1, false, yearsToQuery3);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 2, false, yearsToQuery3);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 3, false, yearsToQuery3);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 1, false, yearsToQuery4);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 2, false, yearsToQuery4);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 3, false, yearsToQuery4);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 1, false, yearsToQuery5);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 2, false, yearsToQuery5);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 3, false, yearsToQuery5);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 1, false, yearsToQuery6);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 2, false, yearsToQuery6);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 3, false, yearsToQuery6);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 1, false, yearsToQuery7);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 2, false, yearsToQuery7);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 3, false, yearsToQuery7);
+    }, 10000);
+}
+
+function timeOutLibertadores() {
+
+    setTimeout(function () {
+        realizarSolicitud(0, 119, 71, 1, false, yearsToQuery11);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 119, 71, 2, false, yearsToQuery11);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 119, 71, 3, false, yearsToQuery11);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 128, 71, 1, false, yearsToQuery12);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 128, 71, 2, false, yearsToQuery12);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 128, 71, 3, false, yearsToQuery12);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 131, 71, 1, false, yearsToQuery13);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 131, 71, 2, false, yearsToQuery13);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 131, 71, 3, false, yearsToQuery13);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 117, 71, 1, false, yearsToQuery14);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 117, 71, 2, false, yearsToQuery14);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 117, 71, 3, false, yearsToQuery14);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 460, 133, 1, false, yearsToQuery15);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 460, 133, 2, false, yearsToQuery15);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 460, 133, 3, false, yearsToQuery15);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 435, 133, 1, false, yearsToQuery16);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 435, 133, 2, false, yearsToQuery16);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 435, 133, 3, false, yearsToQuery16);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 1137, 239, 1, false, yearsToQuery17);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 1137, 239, 2, false, yearsToQuery17);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 1137, 239, 3, false, yearsToQuery17);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 130, 71, 1, false, yearsToQuery18);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 130, 71, 2, false, yearsToQuery18);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 130, 71, 3, false, yearsToQuery18);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 127, 71, 1, false, yearsToQuery19);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 127, 71, 2, false, yearsToQuery19);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 127, 71, 3, false, yearsToQuery19);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 121, 71, 1, false, yearsToQuery20);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 121, 71, 2, false, yearsToQuery20);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 121, 71, 3, false, yearsToQuery20);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 124, 71, 1, false, yearsToQuery21);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 124, 71, 2, false, yearsToQuery21);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 124, 71, 3, false, yearsToQuery21);
+    }, 10000);
 }

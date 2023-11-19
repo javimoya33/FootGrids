@@ -153,6 +153,11 @@
     width: 100vw;
 }
 
+#div-result-busq {
+    max-height: 294px;
+    overflow: auto;
+}
+
 .div-result-busq {
     background-color: #eee;
     border-bottom: 1px solid #4a50af;
@@ -163,6 +168,11 @@
 .div-result-busq:hover {
     background-color: #ffcadd;
     color: #ff4388;
+}
+
+.img-foto-jugador-busq {
+    width: 25px;
+    margin-right: 10px;
 }
 
 .color-victoria {

@@ -40,11 +40,19 @@
     text-align: center;
 }
 
-.celda-grid-jug-ocultos {
+.celda-grid-jug {
     height: 100%;
     width: 100%;
-    background-color: #4c54d1;
     margin: 3px 0px;
+    background-size: contain !important;
+}
+
+.celda-grid-jug-ocultos {
+    background-color: #4c54d1;
+}
+
+.celda-grid-jug-resueltos {
+    cursor: auto !important;
 }
 
 .row .celda-grid:first-child .celda-grid-jug-ocultos:hover {
@@ -90,6 +98,12 @@
     top: 40%;
     background-color: #e1417c;
     border: 4px solid #ffc21c;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.img-trofeo {
+    width: 9vw;
 }
 
 .container-busq::before {
@@ -139,6 +153,11 @@
     width: 100vw;
 }
 
+#div-result-busq {
+    max-height: 294px;
+    overflow: auto;
+}
+
 .div-result-busq {
     background-color: #eee;
     border-bottom: 1px solid #4a50af;
@@ -151,12 +170,18 @@
     color: #ff4388;
 }
 
+.img-foto-jugador-busq {
+    width: 25px;
+    margin-right: 10px;
+}
+
 .color-victoria {
     color: #ffc21c;
     text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
 }
 
 .icon-redes-sociales {
+    display: block;
     width: 2vw;
     border: 1px solid #000;
     border-radius: 4px;
@@ -182,6 +207,10 @@
     -webkit-transition: all 0.4s ease-in-out;
     -moz-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
+}
+
+.icon-redes-sociales img {
+    margin-top: 0px;
 }
 
 .div-resultado-celda {
@@ -264,6 +293,56 @@
 
 #div-puntuacion {
     line-height: 2vw;
+}
+
+/** COMO JUGAR **/
+.container-como-jugar {
+    width: 55vw;
+    padding: 1vw 3vw;
+    border-radius: 5px;
+    background: #efe7ea;
+}
+
+.container-como-jugar-seccion {
+    margin-bottom: 50px;
+}
+
+.container-como-jugar-seccion div {
+    font-family: 'Montserrat', cursive !important;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+
+.container-como-jugar-titulo {
+    font-size: 15pt;
+}
+
+#btn-como-jugar {
+    padding: 0px;
+    border-radius: 100%;
+    background: #4c54d1;
+}
+
+#btn-como-jugar:hover {
+    background: #f0377b;
+}
+
+#volverComoJugar {
+    background: transparent;
+    color: #4c54d1;
+}
+
+#volverComoJugar:hover {
+    color: #f0377b;
+}
+
+.img-como-jugar {
+    width: 3vw;
+    background: transparent;
+}
+
+.img-contenido-como-jugar {
+    width: 15vw;
 }
 
 /** ELEMENTOS PRINCIPALES **/

@@ -4,12 +4,54 @@
 // Write your JavaScript code.
 
 // Array de los años de los datos que se buscarán en la API
-var yearsToQuery6 = [2017, 2018, 2019, 2020, 2021, 2022];
-var yearsToQuery7 = [2022, 2023, 2024];
+// Arrays de campeones de la Champions
+var yearsToQuery1 = [2010];
+var yearsToQuery2 = [2011, 2015];
+var yearsToQuery3 = [2012, 2021];
+var yearsToQuery4 = [2013, 2020];
+var yearsToQuery5 = [2014, 2016, 2017, 2018, 2022];
+var yearsToQuery6 = [2019];
+var yearsToQuery7 = [2023];
+
+// Arrays de campeones de la Libertadores
+var yearsToQuery11 = [2010];
+var yearsToQuery12 = [2011];
+var yearsToQuery13 = [2012];
+var yearsToQuery14 = [2013];
+var yearsToQuery15 = [2014];
+var yearsToQuery16 = [2015, 2018];
+var yearsToQuery17 = [2016];
+var yearsToQuery18 = [2017];
+var yearsToQuery19 = [2019, 2022];
+var yearsToQuery20 = [2020, 2021];
+var yearsToQuery21 = [2023];
+
+// Arrays de campeones de La Liga
+var yearsToQuery11 = [2010, 2011, 2013, 2015, 2016, 2018, 2019, 2023];
+var yearsToQuery12 = [2012, 2017, 2020, 2022];
+var yearsToQuery13 = [2014, 2021];
+
+// Arrays de campeones de la Serie A Italiana
+var yearsToQuery21 = [2010, 2021];
+var yearsToQuery22 = [2011, 2022];
+var yearsToQuery23 = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
+var yearsToQuery24 = [2023];
+
+var yearsToQuery1 = [2010];
+var yearsToQuery2 = [2011];
+var yearsToQuery3 = [2012];
+var yearsToQuery4 = [2013];
+var yearsToQuery5 = [2014, 2015, 2016];
+var yearsToQuery6 = [2018, 2019, 2020];
+var yearsToQuery7 = [2021, 2022];
+var yearsToQuery8 = [2023];
+
 var yearsToQuery = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 
+var txtCasillasRRSS = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'];
+
 var delayBetweenRequests = 2000; 
-var jugadoresAcertados = 0;
+var jugadoresAcertados = 9;
 var intervalId;
 var intervalPts;
 
@@ -24,109 +66,122 @@ var idsEquipo2 = new Set();
 const fechaHoy = fechaFormateada();
 const fechaSeleccionada = $('#select-fecha-grid').val();
 
+var globalSecretKey = null;
+
 $(document).ready(function () {
 
     // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
     //realizarSolicitud(0, 1);
     /*setTimeout(function () {
-        realizarSolicitud(0, 548, 140, 1, true, yearsToQuery6);
+        realizarSolicitud(0, 489, 135, 1, true, yearsToQuery);
     }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 548, 140, 2, true, yearsToQuery6);
+        realizarSolicitud(0, 489, 135, 2, true, yearsToQuery);
     }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 548, 140, 3, true, yearsToQuery6);
-    }, 4000);
-
-
-    setTimeout(function () {
-        realizarSolicitud(0, 538, 140, 1, true, yearsToQuery7);
-    }, 0);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 538, 140, 2, true, yearsToQuery7);
-    }, 2000);
-
-    setTimeout(function () {
-        realizarSolicitud(0, 538, 140, 3, true, yearsToQuery7);
+        realizarSolicitud(0, 489, 135, 3, true, yearsToQuery);
     }, 4000);
 
 
 
-    setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 1, false, yearsToQuery);
-    }, 6000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 2, false, yearsToQuery);
-    }, 8000);
+        realizarSolicitud(0, 40, 39, 1, false, yearsToQuery);
+    }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 541, 140, 3, false, yearsToQuery);
-    }, 10000);*/
+        realizarSolicitud(0, 40, 39, 2, false, yearsToQuery);
+    }, 2000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 3, false, yearsToQuery);
+    }, 4000);*/
+    
 
 
-    let casillasRellenas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
 
-    console.log('CasillasRellenas1 ' + casillasRellenas);
+    obtenerCasillasColoresEnCookie(function (casillasColores) {
+
+        if (casillasColores != null) {
+
+            let caractCasillasColores = casillasColores.split('');
+
+            for (var i = 0; i < 9; i++) {
+
+                txtCasillasRRSS[i] = caractCasillasColores[i];
+            }
+        }
+    });
 
 
-    obtenerCasillasResueltasEnCookie(fechaSeleccionada);
-    rellenarCasillasResueltas();
-    rellenarPuntuacion();
-    jugadoresAcertados = numJugadoresAcertados(jugadoresAcertados);
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada, function (casillasResueltas) {
 
-    console.log('Jugadores Acertados ' + jugadoresAcertados);
+        if (casillasResueltas !== null) {
+
+            rellenarCasillasResueltas();
+            rellenarPuntuacion();
+
+            numJugadoresAcertados(jugadoresAcertados, function (total) {
+
+                jugadoresAcertados = total;
+            });
+        }
+    });
 
     // Si en las cookies del navegador hay fecha de la última visita al juego, y la fecha de esa última visitada es igual a la de hoy
     // entonces se recuperará el tiempo transcurrido en la partida y se mostrará en el div del cronómetro
-    const ultVisita = obtenerFechaUltVisita();
 
-    if (ultVisita !== null) {
+    obtenerFechaUltVisita(function (ultVisita) {
 
-        if (fechaHoy == ultVisita) {
+        if (ultVisita !== null) {
 
-            const tiempoGuardado = obtenerTiempoEnCookie();
+            if (fechaHoy == ultVisita) {
 
-            if (tiempoGuardado !== null) {
+                obtenerTiempoEnCookie(function (tiempoGuardado) {
 
-                $('#div-cronometro').text(tiempoGuardado);
+                    if (tiempoGuardado !== null) {
 
-                const arrTiempo = tiempoGuardado.split(":");
+                        $('#div-cronometro').text(tiempoGuardado);
 
-                minutes = parseInt(arrTiempo[0]);
-                seconds = parseInt(arrTiempo[1]);
+                        const arrTiempo = tiempoGuardado.split(":");
+
+                        minutes = parseInt(arrTiempo[0]);
+                        seconds = parseInt(arrTiempo[1]);
+                    }
+
+                    obtenerTiempoDesdeUltimoAciertoEnCookie(function (tiempoDesdeUltimoAcierto) {
+
+                        if (tiempoDesdeUltimoAcierto !== null) {
+
+                            secondsDesdeUltimoAcierto = tiempoDesdeUltimoAcierto;
+                            $('#div-crono-desde-ultimo-acierto').text(tiempoDesdeUltimoAcierto);
+                        }
+                    });
+                });
             }
+            else {
+                $('#div-crono-desde-ultimo-acierto').text('0');
+                guardarTiempoDesdeUltimoAciertoEnCookie();
 
-            const tiempoDesdeUltimoAcierto = obtenerTiempoDesdeUltimoAciertoEnCookie();
+                $('#div-cronometro').text('00:00');
+                guardarTiempoEnCookie();
 
-            if (tiempoDesdeUltimoAcierto !== null) {
-
-                secondsDesdeUltimoAcierto = tiempoDesdeUltimoAcierto;
-                $('#div-crono-desde-ultimo-acierto').text(tiempoDesdeUltimoAcierto);
+                $('#div-puntuacion').text('0');
+                guardarPuntuacionEnCookie('0');
             }
         }
-        else {
-            $('#div-crono-desde-ultimo-acierto').text('0');
-            guardarTiempoDesdeUltimoAciertoEnCookie();
 
-            $('#div-cronometro').text('00:00');
-            guardarTiempoEnCookie();
+        // Guardamos la fecha de hoy en las cookies del navegador como fecha de visita al juego
+        guardarUltVisitaEnCookie();
 
-            $('#div-puntuacion').text('0');
-            guardarPuntuacionEnCookie(0);
-        }
-    }
-
-    // Guardamos la fecha de hoy en las cookies del navegador como fecha de visita al juego
-    guardarUltVisitaEnCookie();
-
-    intervalId = setInterval(updateCrono, 1000);
+        intervalId = setInterval(updateCrono, 1000);
+    });
+    
 
     // Mostrar div de búsqueda de jugador cuando se clicka en una casilla oculta 
-    $('.celda-grid-jug-ocultos').click(function (event) {
+    $('#div-tablero').on('click', '.celda-grid-jug-ocultos', function (event) {
 
         $('#div-busq-jug').append(
             '<div class="d-flex">' +
@@ -169,12 +224,17 @@ $(document).ready(function () {
         event.stopPropagation();
     });
 
+    $('#div-victoria').click(function (event) {
+        event.stopPropagation();
+    });
+
     // Ocultar div de búsqueda de jugador cuando se clicka fuera de su contenedor 
     $(document).click(function () {
         $('#div-busq-jug').hide(200);
         $('#div-busq-jug').empty();
         $('#div-overlay-juego').hide();
-        $('#div-victoria').hide();
+        $('#div-victoria').hide(200);
+        $('#div-victoria').empty();
     });
 });
 
@@ -240,111 +300,427 @@ function stopCronometro() {
 // Guardar el tiempo de juego transcurrido en una cookie del navegador
 function guardarTiempoEnCookie() {
 
-    const tiempo = $('#div-cronometro').text();
-    $.cookie('tiempoJuego', tiempo, { expires: 1 });
+    if (globalSecretKey) {
+
+        const tiempo = $('#div-cronometro').text();
+        var tiempoEncriptado = CryptoJS.AES.encrypt(tiempo, globalSecretKey).toString();
+
+        $.cookie('tiempoJuego', tiempoEncriptado, { expires: 1 });
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                const tiempo = $('#div-cronometro').text();
+                var tiempoEncriptado = CryptoJS.AES.encrypt(tiempo, secretKey).toString();
+
+                $.cookie('tiempoJuego', tiempoEncriptado, { expires: 1 });
+            }
+        });
+    }
 }
 
 // Obtener la cookie que contiene el tiempo de juego transcurrido
-function obtenerTiempoEnCookie() {
-    return $.cookie('tiempoJuego');
+function obtenerTiempoEnCookie(callback) {
+
+    if ($.cookie('tiempoJuego') === undefined || $.cookie('tiempoJuego') === '') {
+
+        guardarTiempoEnCookie();
+    }
+
+    if (globalSecretKey != null) {
+
+        var tiempoJuegoEncriptado = $.cookie('tiempoJuego');
+        var tiempoJuegoDesencriptado = CryptoJS.AES.decrypt(tiempoJuegoEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+        callback(tiempoJuegoDesencriptado);
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var tiempoJuegoEncriptado = $.cookie('tiempoJuego');
+                var tiempoJuegoDesencriptado = CryptoJS.AES.decrypt(tiempoJuegoEncriptado, secretKey).toString(CryptoJS.enc.Utf8);
+
+                callback(tiempoJuegoDesencriptado);
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
 }
 
 function guardarTiempoDesdeUltimoAciertoEnCookie() {
 
-    const tiempo = $('#div-crono-desde-ultimo-acierto').text();
-    $.cookie('tiempoDesdeUltimoAcierto', tiempo, { expires: 1 });
+    if (globalSecretKey != null) {
+
+        const tiempo = $('#div-crono-desde-ultimo-acierto').text();
+        var tiempoEncriptado = CryptoJS.AES.encrypt(tiempo, globalSecretKey).toString();
+
+        $.cookie('tiempoDesdeUltimoAcierto', tiempoEncriptado, { expires: 1 });
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                const tiempoDesdeUltimoAcierto = $('#div-crono-desde-ultimo-acierto').text();
+                var tiempoEncriptado = CryptoJS.AES.encrypt(tiempoDesdeUltimoAcierto, secretKey).toString();
+
+                $.cookie('tiempoDesdeUltimoAcierto', tiempoEncriptado, { expires: 1 });
+            }
+        });
+    }
 }
 
-function obtenerTiempoDesdeUltimoAciertoEnCookie() {
-    return $.cookie('tiempoDesdeUltimoAcierto');
+function obtenerTiempoDesdeUltimoAciertoEnCookie(callback) {
+
+    if ($.cookie('tiempoDesdeUltimoAcierto') === undefined || $.cookie('tiempoDesdeUltimoAcierto') === '') {
+
+        guardarTiempoDesdeUltimoAciertoEnCookie();
+    }
+
+    if (globalSecretKey != null) {
+
+        var tiempoJuegoEncriptado = $.cookie('tiempoDesdeUltimoAcierto');
+        var tiempoJuegoDesencriptado = CryptoJS.AES.decrypt(tiempoJuegoEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+        callback(tiempoJuegoDesencriptado);
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var tiempoJuegoEncriptado = $.cookie('tiempoDesdeUltimoAcierto');
+                var tiempoJuegoDesencriptado = CryptoJS.AES.decrypt(tiempoJuegoEncriptado, secretKey).toString(CryptoJS.enc.Utf8);
+
+                callback(tiempoJuegoDesencriptado);
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
+}
+
+function guardarCasillaColoresEnCookie() {
+
+    var casillasColores = '';
+
+    for (var i = 0; i < 9; i++) {
+
+        casillasColores += txtCasillasRRSS[i];
+    }
+
+    if (globalSecretKey != null) {
+
+        var casillasColoresEncriptado = CryptoJS.AES.encrypt(casillasColores, globalSecretKey).toString();
+        $.cookie('casillasColores', casillasColoresEncriptado, { expires: 1 });
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var casillasColoresEncriptado = CryptoJS.AES.encrypt(casillasColores, secretKey).toString();
+                $.cookie('casillasColores', casillasColoresEncriptado, { expires: 1 });
+            }
+        });
+    }
+}
+
+function obtenerCasillasColoresEnCookie(callback) {
+
+    if ($.cookie('casillasColores') === undefined || $.cookie('casillasColores') === '') {
+
+        guardarCasillaColoresEnCookie();
+    }
+
+    if (globalSecretKey != null) {
+
+        var casillasColoresEncriptado = $.cookie('casillasColores');
+        var casillasColoresDesencriptado = CryptoJS.AES.decrypt(casillasColoresEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+        callback(casillasColoresDesencriptado);
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var casillasColoresEncriptado = $.cookie('casillasColores');
+                var casillasColoresDesencriptado = CryptoJS.AES.decrypt(casillasColoresEncriptado, secretKey).toString(CryptoJS.enc.Utf8);
+
+                callback(casillasColoresDesencriptado);
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
+    return null;
 }
 
 // Guardar la fecha de la última visita al juego en una cookie del navegador 
 function guardarUltVisitaEnCookie() {
-    const fechaUltVisita = fechaFormateada();
-    $.cookie('ultVisita', fechaUltVisita, { expires: 1 });
+
+    if (globalSecretKey != null) {
+
+        var fechaUltVisita = fechaFormateada();
+        const fechaUltVisitaEncriptado = CryptoJS.AES.encrypt(fechaUltVisita, globalSecretKey).toString();
+        $.cookie('ultVisita', fechaUltVisitaEncriptado, { expires: 1 });
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var fechaUltVisita = fechaFormateada();
+                const fechaUltVisitaEncriptado = CryptoJS.AES.encrypt(fechaUltVisita, globalSecretKey).toString();
+                $.cookie('ultVisita', fechaUltVisitaEncriptado, { expires: 1 });
+            }
+        });
+    }
 }
 
 // Obtener la cookie que aloja la fecha de la última visita al juego
-function obtenerFechaUltVisita() {
-    return $.cookie('ultVisita');
-}
+function obtenerFechaUltVisita(callback) {
 
-function obtenerPuntuacionEnCookie() {
-    return $.cookie('puntuacion');
+    if ($.cookie('ultVisita') === undefined || $.cookie('ultVisita') === '') {
+
+        guardarUltVisitaEnCookie();
+    }
+
+    if (globalSecretKey != null) {
+
+        var fechaUltVisitaEncriptado = $.cookie('ultVisita');
+        var fechaUltVisitaDesencriptado = CryptoJS.AES.decrypt(fechaUltVisitaEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+        callback(fechaUltVisitaDesencriptado);
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var fechaUltVisitaEncriptado = $.cookie('ultVisita');
+                var fechaUltVisitaDesencriptado = CryptoJS.AES.decrypt(fechaUltVisitaEncriptado, secretKey).toString(CryptoJS.enc.Utf8);
+
+                callback(fechaUltVisitaDesencriptado);
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
 }
 
 function guardarPuntuacionEnCookie(puntuacion) {
-    $.cookie('puntuacion', puntuacion, { expires: 1 });
+
+    if (globalSecretKey != null) {
+
+        const puntuacionEncriptado = CryptoJS.AES.encrypt(puntuacion, globalSecretKey).toString();
+        $.cookie('puntuacion', puntuacionEncriptado, { expires: 1 });
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                const puntuacionEncriptado = CryptoJS.AES.encrypt(puntuacion, globalSecretKey).toString();
+                $.cookie('puntuacion', puntuacionEncriptado, { expires: 1 });
+            }
+        });
+    }
+}
+
+function obtenerPuntuacionEnCookie(callback) {
+
+    if ($.cookie('puntuacion') === undefined || $.cookie('puntuacion') === '') {
+
+        guardarPuntuacionEnCookie('0');
+    }
+
+    if (globalSecretKey != null) {
+
+        var puntuacionEncriptado = $.cookie('puntuacion');
+        var puntuacionDesencriptado = CryptoJS.AES.decrypt(puntuacionEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+        callback(puntuacionDesencriptado);
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var puntuacionEncriptado = $.cookie('puntuacion');
+                var puntuacionDesencriptado = CryptoJS.AES.decrypt(puntuacionEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+                callback(puntuacionDesencriptado);
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
 }
 
 function rellenarPuntuacion() {
 
-    if (obtenerPuntuacionEnCookie() !== undefined) {
-        $('#div-puntuacion').text(obtenerPuntuacionEnCookie());
-    }
-}
+    obtenerPuntuacionEnCookie(function (puntuacion) {
 
-function obtenerCasillasResueltasEnCookie(fecha) {
-
-    if ($.cookie('casillasResueltas ' + fecha) === undefined || $.cookie('casillasResueltas ' + fecha) === '') {
-
-        $.cookie('casillasResueltas ' + fecha, '0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0', { expires: 1 });
-    }
-
-    return $.cookie('casillasResueltas ' + fecha);
+        $('#div-puntuacion').text(puntuacion);
+    });
 }
 
 function guardarCasillasResueltasEnCookie(txtCasillasResueltas, fecha) {
 
-    $.cookie('casillasResueltas ' + fecha, txtCasillasResueltas, { expires: 1 });
+    if (globalSecretKey != null) {
+
+        const casillasResueltasEncriptado = CryptoJS.AES.encrypt(txtCasillasResueltas, globalSecretKey).toString();
+        $.cookie('casillasResueltas ' + fecha, casillasResueltasEncriptado, { expires: 1 });
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                const casillasResueltasEncriptado = CryptoJS.AES.encrypt(txtCasillasResueltas, globalSecretKey).toString();
+                $.cookie('casillasResueltas ' + fecha, casillasResueltasEncriptado, { expires: 1 });
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
+}
+
+function obtenerCasillasResueltasEnCookie(fecha, callback) {
+
+    if ($.cookie('casillasResueltas ' + fecha) === undefined || $.cookie('casillasResueltas ' + fecha) === '') {
+
+        txtCasillasResueltas = '0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0 *** 0';
+        guardarCasillasResueltasEnCookie(txtCasillasResueltas, fecha);
+    }
+
+    if (globalSecretKey != null) {
+
+        var casillasResueltasEncriptado = $.cookie('casillasResueltas ' + fecha);
+        var casillasResueltasDesencriptado = CryptoJS.AES.decrypt(casillasResueltasEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+        callback(casillasResueltasDesencriptado);
+    }
+    else {
+
+        $.getJSON("/Home/GetSecretKey", function (secretKey) {
+
+            if (secretKey) {
+
+                globalSecretKey = secretKey;
+
+                var casillasResueltasEncriptado = $.cookie('casillasResueltas ' + fecha);
+                var casillasResueltasDesencriptado = CryptoJS.AES.decrypt(casillasResueltasEncriptado, globalSecretKey).toString(CryptoJS.enc.Utf8);
+
+                callback(casillasResueltasDesencriptado);
+            }
+            else {
+
+                callback(null);
+            }
+        });
+    }
 }
 
 function rellenarNuevaCasilla(idJugador, numeroDeCasilla) {
 
-    let casillasRellenas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada, function (casillasRellenas) {
 
-    console.log('CasillasRellenas1 ' + casillasRellenas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla);
+        if (casillasRellenas !== null) {
 
-    const arrCasillasRellenas = casillasRellenas.split(' *** ');
+            const arrCasillasRellenas = casillasRellenas.split(' *** ');
 
-    let txtCasillasResueltas = '';
+            let txtCasillasResueltas = '';
 
-    for (let i = 0; i < arrCasillasRellenas.length; i++) {
+            for (let i = 0; i < arrCasillasRellenas.length; i++) {
 
-        if (i == numeroDeCasilla - 1) {
+                if (i == numeroDeCasilla - 1) {
 
-            arrCasillasRellenas[i] = idJugador;
+                    arrCasillasRellenas[i] = idJugador;
+                }
+
+                txtCasillasResueltas += arrCasillasRellenas[i];
+
+                if (i != arrCasillasRellenas.length - 1) {
+
+                    txtCasillasResueltas += ' *** ';
+                }
+            }
+
+            guardarCasillasResueltasEnCookie(txtCasillasResueltas, fechaSeleccionada);
         }
-
-        txtCasillasResueltas += arrCasillasRellenas[i];
-
-        if (i != arrCasillasRellenas.length - 1) {
-
-            txtCasillasResueltas += ' *** ';
-        }
-    }
-
-    console.log('CasillasRellenas' + fechaSeleccionada + ' ' + txtCasillasResueltas + ' *** ' + idJugador + ' *** ' + numeroDeCasilla + ' *** ' + jugadoresAcertados);
-
-    guardarCasillasResueltasEnCookie(txtCasillasResueltas, fechaSeleccionada);
+    });
 }
 
 function rellenarCasillasResueltas() {
 
-    let casillasResueltas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada, function (casillasResueltas) {
 
-    const arrCasillasResueltas = casillasResueltas.split(" *** ");
+        const arrCasillasResueltas = casillasResueltas.split(" *** ");
 
-    for (let i = 0; i < arrCasillasResueltas.length; i++) {
+        for (let i = 0; i < arrCasillasResueltas.length; i++) {
 
-        if (arrCasillasResueltas[i] > 0) {
+            if (arrCasillasResueltas[i] > 0) {
 
-            let imgCasilla = 'https://media-4.api-sports.io/football/players/' + arrCasillasResueltas[i] + '.png';
+                let imgCasilla = 'https://media-4.api-sports.io/football/players/' + arrCasillasResueltas[i] + '.png';
 
-            $('.fg-casilla-' + (i + 1)).css('background', 'url("' + imgCasilla + '") center top no-repeat white');
+                $('.fg-casilla-' + (i + 1)).css('background', 'url("' + imgCasilla + '") center top no-repeat white');
+                $('.fg-casilla-' + (i + 1)).removeClass('celda-grid-jug-ocultos');
+                $('.fg-casilla-' + (i + 1)).addClass('celda-grid-jug-resueltos');
+            }
         }
-    }
+    });
 }
 
 // Función utilizada para buscar y obtener las soluciones a cada celda que utilizo para crear la partida
@@ -422,13 +798,16 @@ function mouseEnterDivResultBusq(elemento) {
     var jugadorEdad = $(elemento).find('.div-info-jugador').data('jugador-edad');
     var jugadorNacionalidad = $(elemento).find('.div-info-jugador').data('jugador-nacionalidad');
 
-    $('#img-jug-seleccionado').attr('src', jugadorImg);
+    if (jugadorNombre !== undefined) {
 
-    $('#div-jug-info-seleccionado').empty();
-    $('#div-jug-info-seleccionado').append(
-        '<div>Nombre: ' + jugadorNombre + '</div>' +
-        '<div>Edad: ' + jugadorEdad + '</div>' +
-        '<div>Nacionalidad: ' + jugadorNacionalidad + '</div>');
+        $('#img-jug-seleccionado').attr('src', jugadorImg);
+
+        $('#div-jug-info-seleccionado').empty();
+        $('#div-jug-info-seleccionado').append(
+            '<div>Nombre: ' + jugadorNombre + '</div>' +
+            '<div>Edad: ' + jugadorEdad + '</div>' +
+            '<div>Nacionalidad: ' + jugadorNacionalidad + '</div>');
+    }
 }
 
 // Cuando se clicka sobre un resultado de búsqueda se comprueba si la solución al jugador oculto es correcta y se comprueba si el jugador 
@@ -436,10 +815,7 @@ function mouseEnterDivResultBusq(elemento) {
 function clickDivResultBusq(idJugador, imgJugador) {
 
     var numeroSolucion = $('#input-casilla').val();
-
     var dateTimeFormateado = DateTimeFormateada(fechaSeleccionada);
-
-    console.log('FechaSeleccionada ' + dateTimeFormateado);
 
     $.ajax({
         type: 'GET',
@@ -450,27 +826,30 @@ function clickDivResultBusq(idJugador, imgJugador) {
             var jugadorEncontrado = data.jugadorEncontrado;
             var handicap = data.handicap;
 
-            console.log('DATA ' + jugadorEncontrado + ' *** ' + handicap);
-
             if (jugadorEncontrado) {
-                console.log('Holaaa123');
                 $('.fg-casilla-' + numeroSolucion).css('background', 'url("' + imgJugador + '") center top no-repeat white');
+                $('.fg-casilla-' + numeroSolucion).removeClass('celda-grid-jug-ocultos');
+                $('.fg-casilla-' + numeroSolucion).addClass('celda-grid-jug-resueltos');
 
                 jugadoresAcertados += 1;
 
-                secondsDesdeUltimoAcierto = obtenerTiempoDesdeUltimoAciertoEnCookie();
-                console.log('tiempoDesdeUltimoAcierto ' + secondsDesdeUltimoAcierto);
+                obtenerTiempoDesdeUltimoAciertoEnCookie(function (segundos) {
 
-                sumarPuntuacion(handicap, secondsDesdeUltimoAcierto);
+                    generarTxtRRSS(handicap, numeroSolucion - 1);
+                    sumarPuntuacion(handicap);
 
-                secondsDesdeUltimoAcierto = 0;
+                    secondsDesdeUltimoAcierto = 0;
+                    $('#div-crono-desde-ultimo-acierto').text(secondsDesdeUltimoAcierto);
+                    guardarTiempoDesdeUltimoAciertoEnCookie();
 
-                rellenarNuevaCasilla(idJugador, numeroSolucion);
+                    rellenarNuevaCasilla(idJugador, numeroSolucion);
 
-                $('#div-casilla-' + numeroSolucion).find('.div-acierto-celda').css('display', 'block');
-                efectoParpadeo(3, '#div-casilla-' + numeroSolucion, true);
+                    $('#div-casilla-' + numeroSolucion).find('.div-acierto-celda').css('display', 'block');
+                    efectoParpadeo(3, '#div-casilla-' + numeroSolucion, true);
 
-                comprobarVictoria();
+                    guardarCasillaColoresEnCookie();
+                    comprobarVictoria();
+                });
             }
             else {
                 restarPuntuacion();
@@ -487,6 +866,71 @@ function clickDivResultBusq(idJugador, imgJugador) {
     cerrarVentanaBusq();
 }
 
+function generarTextoParaRRSS(callback) {
+
+    var txtCompletoRRSS = '';
+
+    var txtRRSS1 = '⚽ FootGrids del día ';
+    var txtRRSS2 = '%0a🏅 Puntuación: ';
+    var txtRRSS3 = 'Supérame 👉 https://www.footsandgrids.somee.com/';
+
+    var idGridHoy = $('#grid-hoy').val();
+    var puntuacion = $('#div-puntuacion').text();
+
+    var txtCompletoCasillasRRSS = '';
+    var contadorCasillasRRSS = 0;
+
+    obtenerCasillasColoresEnCookie(function (cookieCasillasColores) {
+
+        var caractCookieCasillasColores = cookieCasillasColores.split('');
+
+        for (var i = 0; i < 9; i++) {
+
+            contadorCasillasRRSS += 1;
+
+            txtCompletoCasillasRRSS += obtenerColorParaCasilla(caractCookieCasillasColores[i], i);
+
+            if (contadorCasillasRRSS == 3) {
+
+                txtCompletoCasillasRRSS += '%0a';
+                contadorCasillasRRSS = 0;
+            }
+        }
+
+        txtCompletoRRSS = txtRRSS1 + idGridHoy + txtRRSS2 + '*' + puntuacion + '*' + '%0a' + '%0a' + txtCompletoCasillasRRSS + '%0a' + txtRRSS3;
+        callback(txtCompletoRRSS);
+    });
+}
+
+function obtenerColorParaCasilla(handicap, numeroSolucion) {
+
+    var txtColorRRSS = '';
+
+    switch (handicap) {
+
+        case '1':
+            txtColorRRSS = '🟥';
+            break;
+        case '2':
+            txtColorRRSS = '🟧';
+            break;
+        case '3':
+            txtColorRRSS = '🟨';
+            break;
+        case '4':
+            txtColorRRSS = '🟩';
+            break;
+        case '5':
+            txtColorRRSS = '🟦';
+            break;
+        case 'X':
+            txtColorRRSS = '⬜';
+            break;
+    }
+
+    return txtColorRRSS;
+}
+
 // Comprobamos si el jugador ha resuelto toda la partida y si es así se muestra un marco de victoria
 function comprobarVictoria() {
 
@@ -498,50 +942,75 @@ function comprobarVictoria() {
 
         $('#div-overlay-juego').show();
 
-        $('#div-victoria').append('<div class="d-flex" style="align-items: start">' + 
-                                    '<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>' + 
-                                    '<div>' + 
-                                        '<img src="/img/trofeo.png" class="pd-10-30" style="width: 9vw" />' + 
-                                    '</div>' + 
-                                    '<div>' + 
-                                    '<div class="fuentePrincipal fs24 color-victoria">¡ENHORABUENA!</div>' + 
-                                        '<div class="fuentePrincipal fs12">¡Sos un fenómeno! Las metes como Julián Álvarez.</div>' + 
+        generarTextoParaRRSS(function(textoRRSS) {
 
-                                        '<div class="d-flex" style="justify-content: space-around; padding: 10px 0px;">' + 
-                                            '<div>' + 
-                                                '<div class="fuentePrincipal fs12 text-center">Puntuación</div>' + 
-                                                '<div id="div-puntuacion-final" class="fuentePrincipal fs18 text-center color-victoria">0</div>' + 
-                                            '</div>' + 
+            $('#div-victoria').append('<div class="d-flex" style="align-items: start">' +
+                                        /*'<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>' +*/
+                                        '<div>' +
+                                            '<img src="/img/trofeo.png" class="img-trofeo pd-10-30" />' +
+                                        '</div>' +
+                                        '<div>' +
+                                            '<div class="fuentePrincipal fs24 color-victoria">¡ENHORABUENA!</div>' +
+                                            '<div class="fuentePrincipal fs12">¡Sos un fenómeno! Las metes como Julián Álvarez.</div>' +
 
-                                            '<div>' + 
-                                                '<div class="fuentePrincipal fs12 text-center">Tiempo</div>' + 
-                                                '<div id="div-tiempo-final" class="fuentePrincipal fs18 text-center color-victoria">' + crono + '</div>' + 
-                                            '</div>' + 
-                                        '</div>' + 
+                                            '<div class="d-flex" style="justify-content: space-around; padding: 10px 0px;">' +
+                                                '<div>' +
+                                                    '<div class="fuentePrincipal fs12 text-center">Puntuación</div>' +
+                                                    '<div id="div-puntuacion-final" class="fuentePrincipal fs18 text-center color-victoria">0</div>' +
+                                                '</div>' +
 
-                                        '<div class="fuentePrincipal fs12">Compártelo con tus pibes en redes sociales, che.</div>' + 
-                                        '<div class="d-flex" style="justify-content: space-around; padding-top: 10px">' + 
-                                            '<div>' + 
-                                                '<button class="icon-redes-sociales p-0">' + 
-                                                    '<img src="/img/redes sociales/twitter.png" class="w-100" />' + 
-                                                '</button>' + 
-                                            '</div>' + 
-                                            '<div>' + 
-                                                '<button class="icon-redes-sociales p-0">' + 
-                                                    '<img src="/img/redes sociales/facebook.png" class="w-100" />' + 
-                                                '</button>' + 
-                                            '</div>' + 
-                                            '<div>' + 
-                                                '<button class="icon-redes-sociales p-0">' + 
-                                                    '<img src="/img/redes sociales/instagram.png" class="w-100" />' + 
-                                                '</button>' + 
-                                            '</div>' + 
-                                        '</div>' + 
-                                    '</div>' + 
-                                '</div> ');
+                                                '<div>' +
+                                                    '<div class="fuentePrincipal fs12 text-center">Tiempo</div>' +
+                                                    '<div id="div-tiempo-final" class="fuentePrincipal fs18 text-center color-victoria">' + crono + '</div>' +
+                                                '</div>' +
 
-        $('#div-victoria').show();
+                                                '<div>' + 
+                                                    '<div class="fuentePrincipal fs12 text-center">Siguiente partida</div>' + 
+                                                    '<div id="div-tiempo-sig-partida" class="fuentePrincipal fs18 text-center color-victoria">00:00:00</div>' + 
+                                                '</div>' + 
+                                            '</div>' +
+
+                                            '<div class="fuentePrincipal fs12">Compártelo con tus pibes en redes sociales, che.</div>' +
+                                            '<div class="d-flex" style="justify-content: space-around; padding-top: 10px">' +
+                                                '<div>' +
+                                                '</div>' +
+                                                '<div>' +
+                                                    '<a href="https://api.whatsapp.com/send?text=' + textoRRSS + '"  target="_blank" class="icon-redes-sociales p-0" data-action="share / whatsapp / share" style="color: white">' +
+                                                        '<img src="/img/redes sociales/whatsapp.png" class="w-100" />' +
+                                                    '</a>' +
+                                                '</div>' +
+                                                '<div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div> ');
+
+            $('#div-victoria').show();
+        });
+
+        obtenerTiempoParaSiguientePartida();
+
+        setInterval(obtenerTiempoParaSiguientePartida, 1000);
     }
+}
+
+// Obtener el tiempo que queda entre ahora y mañana a las 12 de la noche
+function obtenerTiempoParaSiguientePartida() {
+
+    var horaActual = new Date();
+
+    var horaManana = new Date();
+    horaManana.setHours(24, 0, 0, 0);
+
+    var diferenciaMilisegundos = horaManana - horaActual;
+
+    var horas = Math.floor(diferenciaMilisegundos / 3600000);
+    var minutos = Math.floor((diferenciaMilisegundos % 3600000) / 60000);
+    var segundos = Math.floor((diferenciaMilisegundos % 60000) / 1000);
+
+    var diferenciaTexto = horas + ':' + minutos + ':' + segundos;
+
+    $('#div-tiempo-sig-partida').text(diferenciaTexto);
 }
 
 // Buscar en la API los datos que el jugador está introduciendo en el cuadro de búsqueda y muestra de los resultados de búsqueda
@@ -558,7 +1027,6 @@ function escribirBuscadorJugador() {
             busqueda = normalizarTexto(busqueda);
 
             var urlKeys = "/Home/GetApiKeys";
-            //$('#div-result-busq').empty();
 
             $.ajax({
                 url: urlKeys,
@@ -569,7 +1037,7 @@ function escribirBuscadorJugador() {
                     var url = "https://api-football-v1.p.rapidapi.com/v3/players";
                     var apiKey = data.rapidAPIKey;
                     var apiHost = data.rapidAPIHost;
-                    var ligasToQuery = ["140", "141", "39", "135", "78", "61"];
+                    var ligasToQuery = ["140", "39", "135", "78", "61", "141"];
                     var queryString = {
                         search: busqueda
                     };
@@ -578,12 +1046,12 @@ function escribirBuscadorJugador() {
                     var allDatosProcesados = {};
                     var ligasBuscadas = 0;
                     var iteracciones = 0;
-                    var maxIteracciones = 10;
+                    var maxIteracciones = 30;
+                    var datosProcesados = [];
 
-                    ligasToQuery.forEach(function (liga) {
-                        queryString.league = liga;
-
-                        $.ajax({
+                    // Función para realizar la búsqueda en una liga específica
+                    function buscarEnLiga(liga) {
+                        return $.ajax({
                             url: url,
                             type: "GET",
                             dataType: "json",
@@ -591,58 +1059,99 @@ function escribirBuscadorJugador() {
                                 "X-RapidAPI-Key": apiKey,
                                 "X-RapidAPI-Host": apiHost
                             },
-                            data: queryString,
-                            success: function (data) {
+                            data: { ...queryString, league: liga },
+                        });
+                    }
 
+                    // Array de promesas para las solicitudes AJAX
+                    var promesas = ligasToQuery.map(function (liga) {
+                        return buscarEnLiga(liga);
+                    });
+
+                    // Ejecutar todas las promesas y esperar a que todas se resuelvan
+                    Promise.all(promesas)
+                        .then(function (results) {
+                            // Procesar los resultados de todas las solicitudes
+                            results.forEach(function (data) {
                                 if (data && data.response) {
-
-                                    var datosProcesados = [];
-
                                     data.response.forEach(function (jugadorData) {
                                         if (iteracciones < maxIteracciones) {
 
-                                            datosProcesados.push({
-                                                id: jugadorData.player.id,
-                                                nombre: jugadorData.player.name,
-                                                imagen: jugadorData.player.photo,
-                                                edad: jugadorData.player.age,
-                                                nacionalidad: jugadorData.player.nationality
-                                            });
+                                            var ultimaEstadistica = jugadorData.statistics[0];
+                                            var ultTemporada = ultimaEstadistica.league.season.toString();
+                                            const arrUltTemporada = ultTemporada.split("-");
 
-                                            iteracciones++;
-                                        }
-                                        else {
+                                            const liga = jugadorData.statistics[0].league.id;
+
+                                            if (arrUltTemporada[0] >= 2009) {
+
+                                                // Verificar si un jugador no tiene el nombre completo en jugadorData.player.name
+                                                if (jugadorData.player.name.includes(". ")) {
+
+                                                    // Split de nombre para que solo muestre en el criterio de búsqueda el primer nombre si es compuesto
+                                                    const arrNombreJugador = jugadorData.player.firstname.split(" ");
+
+                                                    datosProcesados.push({
+                                                        id: jugadorData.player.id,
+                                                        nombre: arrNombreJugador[0] + ' ' + jugadorData.player.lastname,
+                                                        imagen: jugadorData.player.photo,
+                                                        edad: jugadorData.player.age,
+                                                        nacionalidad: jugadorData.player.nationality,
+                                                        liga: liga,
+                                                        ultTemporada: arrUltTemporada[0]
+                                                    });
+                                                }
+                                                else {
+
+                                                    datosProcesados.push({
+                                                        id: jugadorData.player.id,
+                                                        nombre: jugadorData.player.name,
+                                                        imagen: jugadorData.player.photo,
+                                                        edad: jugadorData.player.age,
+                                                        nacionalidad: jugadorData.player.nationality,
+                                                        liga: liga,
+                                                        ultTemporada: arrUltTemporada[0]
+                                                    });
+                                                }
+
+                                                iteracciones++;
+                                            }
+                                        } else {
                                             return false;
                                         }
                                     });
+                                }
+                                ligasBuscadas++;
+                            });
 
-                                    datosProcesados.forEach(function (jugador) {
 
-                                        if (iteracciones < maxIteracciones) {
+                            datosProcesados.sort(function (a, b) {
+                                // Compara las edades para determinar el orden
+                                return b.ultTemporada - a.ultTemporada;
+                            });
 
-                                            // Verificar que el resultado de búsqueda no esté ya repetido entre los que se muestran
-                                            var jugadorRepetido = $('#div-result-busq [data-jugador-id="' + jugador.id + '"]').length > 0;
+                            datosProcesados.forEach(function (jugador) {
 
-                                            if (!jugadorRepetido) {
-                                                $('#div-result-busq').append(
-                                                    '<div onmouseenter="mouseEnterDivResultBusq(this)" onclick="clickDivResultBusq(' + jugador.id + ', \'' + jugador.imagen + '\')" class="div-result-busq fuentePrincipal">' +
-                                                    '<span class="fuentePrincipal">' + jugador.nombre + '</span>' +
-                                                    '<div class="div-info-jugador" data-jugador-id="' + jugador.id + '" data-jugador-nombre="' + jugador.nombre + '" data-jugador-img="' + jugador.imagen + '" data-jugador-edad="' + jugador.edad + '" data-jugador-nacionalidad="' + jugador.nacionalidad + '"></div>' +
-                                                    '</div>'
-                                                );
-                                            }
-                                        }
-                                    });
+                                console.log('Jugador: ' + jugador.nombre + ' *** ' + jugador.ultTemporada + ' *** ' + jugador.liga);
+
+                                // Verificar que el resultado de búsqueda no esté ya repetido entre los que se muestran
+                                var jugadorRepetido = $('#div-result-busq [data-jugador-id="' + jugador.id + '"]').length > 0;
+
+                                if (!jugadorRepetido) {
+                                    $('#div-result-busq').append(
+                                        '<div onmouseenter="mouseEnterDivResultBusq(this)" onclick="clickDivResultBusq(' + jugador.id + ', \'' + jugador.imagen + '\')" class="div-result-busq fuentePrincipal">' +
+                                        '<img src="' + jugador.imagen + '" class="img-foto-jugador-busq">' +
+                                        '<span class="fuentePrincipal">' + jugador.nombre + '</span>' +
+                                        '<div class="div-info-jugador" data-jugador-id="' + jugador.id + '" data-jugador-nombre="' + jugador.nombre + '" data-jugador-img="' + jugador.imagen + '" data-jugador-edad="' + jugador.edad + '" data-jugador-nacionalidad="' + jugador.nacionalidad + '"></div>' +
+                                        '</div>'
+                                    );
                                 }
 
-                                ligasBuscadas++;
-                            },
-                            error: function (xhr, textStatus, errorThrown) {
-                                console.error("Error:", textStatus, errorThrown);
-                            }
-
+                            });
+                        })
+                        .catch(function (error) {
+                            console.error("Error en alguna solicitud AJAX:", error);
                         });
-                    });
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     console.error("Error:", textStatus, errorThrown);
@@ -653,6 +1162,15 @@ function escribirBuscadorJugador() {
 
     setTimeout(function () {
 
+        $('#div-result-busq').on('mouseenter', '.div-result-busq', function (event) {
+
+            $('.div-result-busq').css('background-color', '#eee');
+            $('.div-result-busq').css('color', '#212529');
+
+            $(this).css('background-color', 'rgb(255, 202, 221)');
+            $(this).css('color', 'rgb(255, 67, 136)');
+        });
+
         var primerDivCritBusq = $('#div-result-busq .div-result-busq:first');
 
         primerDivCritBusq.css('background-color', '#ffcadd');
@@ -662,22 +1180,25 @@ function escribirBuscadorJugador() {
     }, 2500);
 }
 
+function generarTxtRRSS(handicap, numeroSolucion) {
+
+    txtCasillasRRSS[numeroSolucion] = handicap;
+}
+
 // Sumar puntuación en función del handicap de la solución, del tiempo empleado y del acierto
-function sumarPuntuacion(handicap, tiempo) {
+function sumarPuntuacion(handicap) {
 
     let puntuacion = $('#div-puntuacion').text();
 
     let ptsDificultad = 80 * handicap;
 
-    let ptsTiempo = 300 - tiempo;
+    let ptsTiempo = 300 - secondsDesdeUltimoAcierto;
 
     if (ptsTiempo < 0) {
         ptsTiempo = 0;
     }
 
     let ptsAcierto = 300;
-
-    console.log('Puntuacion ' + ptsDificultad + ' ***** ' + ptsTiempo + ' ***** ' + ptsAcierto);
 
     puntuacion = parseInt(puntuacion) + ptsDificultad + ptsTiempo + ptsAcierto;
 
@@ -689,15 +1210,16 @@ function restarPuntuacion() {
 
     let puntuacion = $('#div-puntuacion').text();
 
-    console.log('Entraaa aqui ' + obtenerTiempoDesdeUltimoAciertoEnCookie());
+    obtenerTiempoDesdeUltimoAciertoEnCookie(function (secondsDesdeUltimoAcierto) {
 
-    puntuacion = puntuacion - (80 + parseInt(obtenerTiempoDesdeUltimoAciertoEnCookie()));
+        puntuacion = puntuacion - (80 + parseInt(secondsDesdeUltimoAcierto));
 
-    if (puntuacion < 0) {
-        puntuacion = 0;
-    }
+        if (puntuacion < 0) {
+            puntuacion = 0;
+        }
 
-    efectoCambioPuntuacion(puntuacion, false);
+        efectoCambioPuntuacion(puntuacion, false);
+    });
 }
 
 // Efecto en la suma o resta de la puntuación
@@ -799,21 +1321,20 @@ function detenerAnimacionPuntuacion() {
 }
 
 // Función que recupera el número de jugadores acertados cuando vuelves al juego
-function numJugadoresAcertados(jugAcertados) {
+function numJugadoresAcertados(jugAcertados, callback) {
 
-    let casillasResueltas = obtenerCasillasResueltasEnCookie(fechaSeleccionada);
-    const arrCasillasResueltas = casillasResueltas.split(' *** ');
+    obtenerCasillasResueltasEnCookie(fechaSeleccionada, function (casillasResueltas) {
 
-    for (let i = 0; i < arrCasillasResueltas.length; i++)
-    {
-        if (parseInt(arrCasillasResueltas[i]) > 0) {
-            jugAcertados += 1;
+        const arrCasillasResueltas = casillasResueltas.split(' *** ');
+
+        for (let i = 0; i < arrCasillasResueltas.length; i++) {
+            if (parseInt(arrCasillasResueltas[i]) > 0) {
+                jugAcertados += 1;
+            }
         }
-    }
 
-    console.log('Jugadores acertados ' + jugAcertados);
-
-    return jugAcertados;
+        callback(jugAcertados);
+    });
 }
 
 // Función que recarga el juego con el grid pasado seleccionado
@@ -841,4 +1362,285 @@ function convertirFormatoFecha(fechaConFormatoDDMMYYYY) {
     var fechaFormateada = fecha.getFullYear() + '/' + ('0' + (fecha.getMonth() + 1)).slice(-2) + '/' + ('0' + fecha.getDate()).slice(-2);
 
     return fechaFormateada;
+}
+
+function mostrarComoJugar() {
+
+    if ($('#div-como-jugar').is(':visible')) {
+
+        $('#div-como-jugar').hide(200);
+        $('#div-temporizador').show(200);
+        $('#div-tablero').show(200);
+    }
+    else {
+
+        $('#div-como-jugar').show(200);
+        $('#div-temporizador').hide(200);
+        $('#div-tablero').hide(200);
+    }
+}
+
+function cerrarComoJugar() {
+
+    $('#div-como-jugar').hide(200);
+    $('#div-temporizador').show(200);
+    $('#div-tablero').show(200);
+}
+
+function similarity(str1, str2) {
+    const set1 = new Set(str1);
+    const set2 = new Set(str2);
+    const intersection = new Set([...set1].filter(x => set2.has(x)));
+    const union = new Set([...set1, ...set2]);
+    return intersection.size / union.size;
+}
+
+function timeOutChampions() {
+
+    setTimeout(function () {
+        realizarSolicitud(0, 505, 135, 1, false, yearsToQuery1);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 505, 135, 2, false, yearsToQuery1);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 505, 135, 3, false, yearsToQuery1);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 1, false, yearsToQuery2);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 2, false, yearsToQuery2);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 3, false, yearsToQuery2);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 1, false, yearsToQuery3);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 2, false, yearsToQuery3);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 49, 39, 3, false, yearsToQuery3);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 1, false, yearsToQuery4);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 2, false, yearsToQuery4);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 157, 78, 3, false, yearsToQuery4);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 1, false, yearsToQuery5);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 2, false, yearsToQuery5);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 3, false, yearsToQuery5);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 1, false, yearsToQuery6);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 2, false, yearsToQuery6);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 40, 39, 3, false, yearsToQuery6);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 1, false, yearsToQuery7);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 2, false, yearsToQuery7);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 50, 39, 3, false, yearsToQuery7);
+    }, 10000);
+}
+
+function timeOutLibertadores() {
+
+    setTimeout(function () {
+        realizarSolicitud(0, 119, 71, 1, false, yearsToQuery11);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 119, 71, 2, false, yearsToQuery11);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 119, 71, 3, false, yearsToQuery11);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 128, 71, 1, false, yearsToQuery12);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 128, 71, 2, false, yearsToQuery12);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 128, 71, 3, false, yearsToQuery12);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 131, 71, 1, false, yearsToQuery13);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 131, 71, 2, false, yearsToQuery13);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 131, 71, 3, false, yearsToQuery13);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 117, 71, 1, false, yearsToQuery14);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 117, 71, 2, false, yearsToQuery14);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 117, 71, 3, false, yearsToQuery14);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 460, 133, 1, false, yearsToQuery15);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 460, 133, 2, false, yearsToQuery15);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 460, 133, 3, false, yearsToQuery15);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 435, 133, 1, false, yearsToQuery16);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 435, 133, 2, false, yearsToQuery16);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 435, 133, 3, false, yearsToQuery16);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 1137, 239, 1, false, yearsToQuery17);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 1137, 239, 2, false, yearsToQuery17);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 1137, 239, 3, false, yearsToQuery17);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 130, 71, 1, false, yearsToQuery18);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 130, 71, 2, false, yearsToQuery18);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 130, 71, 3, false, yearsToQuery18);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 127, 71, 1, false, yearsToQuery19);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 127, 71, 2, false, yearsToQuery19);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 127, 71, 3, false, yearsToQuery19);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 121, 71, 1, false, yearsToQuery20);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 121, 71, 2, false, yearsToQuery20);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 121, 71, 3, false, yearsToQuery20);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 124, 71, 1, false, yearsToQuery21);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 124, 71, 2, false, yearsToQuery21);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 124, 71, 3, false, yearsToQuery21);
+    }, 10000);
 }

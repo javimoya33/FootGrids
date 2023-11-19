@@ -85,4 +85,16 @@
     .pd-3-0 {
         padding: 0px 1px !important;
     }
+
+    .img-como-jugar {
+        width: 6vw;
+    }
+
+    .img-trofeo {
+        width: 14vw;
+    }
+
+    .icon-redes-sociales {
+        width: 6vw;
+    }
 }

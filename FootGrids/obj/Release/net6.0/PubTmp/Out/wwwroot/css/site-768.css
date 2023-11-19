@@ -5,7 +5,7 @@
     }
 
     .container-grid {
-        width: 100vw;
+        width: 96vw;
     }
 
     .img-logo {
@@ -81,9 +81,38 @@
         font-size: 20pt;
     }
 
+    .celda-grid-jug {
+        margin: 1px 0px;
+    }
+
     .container, .container-md, .container-sm {
         padding-left: 1vw;
         padding-right: 1vw;
         margin-left: 0px;
+    }
+
+    #div-como-jugar {
+        padding-left: 3vw;
+        padding-right: 3vw;
+    }
+
+    .img-como-jugar {
+        width: 8vw;
+    }
+
+    .img-contenido-como-jugar {
+        width: 40vw;
+    }
+
+    .icon-redes-sociales {
+        width: 8vw;
+    }
+
+    .pd-10-30 {
+        padding: 5px 25px !important;
+    }
+
+    .img-trofeo {
+        width: 25vw;
     }
 }
