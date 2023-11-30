@@ -13,6 +13,7 @@ namespace FootGrids.Helpers
             CreateMap<Pista, PistaDTO>();
 
             CreateMap<Solucion, SolucionDTO>();
+            CreateMap<SolucionCreacionDTO, Solucion>();
         }
     }
 }

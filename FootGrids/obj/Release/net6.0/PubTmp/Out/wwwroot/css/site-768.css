@@ -9,8 +9,8 @@
     }
 
     .img-logo {
-        max-width: 55vw;
-        padding: 2vw;
+        max-width: 38vw;
+        padding: 0.5vw;
     }
 
     .celda-grid {
@@ -78,7 +78,15 @@
     }
 
     .fs24 {
-        font-size: 20pt;
+        font-size: 18pt;
+    }
+
+    .fs18 {
+        font-size: 12pt !important;
+    }
+
+    .fs12 {
+        font-size: 10pt !important;
     }
 
     .celda-grid-jug {
@@ -109,10 +117,14 @@
     }
 
     .pd-10-30 {
-        padding: 5px 25px !important;
+        padding: 5px 12px !important;
     }
 
     .img-trofeo {
-        width: 25vw;
+        width: 15vw;
+    }
+
+    .p-politica-privacidad {
+        font-size: 11pt;
     }
 }

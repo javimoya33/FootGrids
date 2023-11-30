@@ -1,7 +1,7 @@
 ﻿@model FootGrids.DTOs.GridsPistasDTO
 
 @{
-    ViewData["Title"] = "FootGrids Index";
+    ViewData["Title"] = "FootGrids";
 
     int contCasilla = 3;
     int numeroCasilla = 0;
@@ -22,20 +22,28 @@
 <div id="contenedor" class="container container-grid">
     <div class="row" style="width: 100%; margin: 0;">
         <div class="col-sm celda-grid" style="flex: 1; height: auto">
-            <button id="btn-como-jugar" onclick="mostrarComoJugar()">
-                <img src="/img/como-jugar.png" class="img-como-jugar" />
+            <button id="btn-como-jugar" onclick="mostrarComoJugar()" class="btn-menu-principal">
+                <img src="/img/como-jugar.png" alt="Logo de Como jugar" class="img-como-jugar" />
             </button>
         </div>
-        <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria div-logo" style="flex: 3">
+        <div class="col-sm celda-titulo fuentePrincipal colorFuenteSecundaria div-logo" style="flex: 2">
             <a href="/" alt="Foot & Grids">
-                <img src="/img/footgrids-logo.png" title="Foot&Grids" class="img-logo" />
+                <img src="/img/footgrids-logo.png" alt="Logo de Foot&Grids" title="Foot&Grids" class="img-logo" />
+            </a>
+        </div>
+        <div class="col-sm celda-grid" style="flex: 1">
+            <a href="https://twitter.com/intent/follow?screen_name=footsandgrids" id="a-twitter-grid" target="_blank" class="btn-menu-principal">
+                <img src="/img/twitter-grid.png" alt="Twitter de Foot&Grids" title="Twitter de Foot&Grids" class="img-como-jugar" />
             </a>
         </div>
     </div>
     <div id="div-como-jugar" class="container container-grid container-como-jugar" style="display: none">
-        @Html.Partial("_ComoJugar")
+        @await Html.PartialAsync("_ComoJugar")
     </div>
-    <div id="div-temporizador" class="row" style="width: 100%; margin: 0; margin-bottom: 25px;">
+    <div id="div-politica-privacidad" class="container container-grid container-como-jugar" style="display: none">
+        @await Html.PartialAsync("_PoliticaPrivacidad")
+    </div>
+    <div id="div-temporizador" class="row">
         <div class="col-sm celda-grid" style="flex: 1; height: auto">
             <div id="div-cronometro" class="celda-grid-container fuentePrincipal fs24">00:00</div>
             <div id="div-crono-desde-ultimo-acierto" style="display: none">0</div>
@@ -54,8 +62,10 @@
                 }
             </select>
         </div>
-        <div class="col-sm fuentePrincipal text-center d-flex" style="flex: 3; align-items: center;">
-            Completa cada día el tablero con jugadores desde el 2010 hasta hoy
+        <div class="col-sm fuentePrincipal text-center d-flex div-encabezado">
+            <p>
+                Completa cada día el tablero con jugadores <span class="colorFuenteSecundaria" style="padding: 5px;">desde el 2010</span> hasta hoy
+            </p>
         </div>
     </div>
     @if (Model is not null)
@@ -85,7 +95,7 @@
                                 <div class="col-sm celda-grid">
                                     <div class="celda-grid-container">
                                         <a alt="@pista.Nombre">
-                                            <img src="@pista.Link" title="@pista.Nombre" class="img-pista-jugador" />
+                                            <img src="@pista.Link" alt="@pista.Nombre" title="@pista.Nombre" class="img-pista-jugador" />
                                         </a>
                                     </div>
                                     <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
@@ -98,7 +108,7 @@
                                     {
                                         <div class="celda-grid-container">
                                             <a alt="@pista.Nombre">
-                                                <img src="@pista.Link" title="@pista.Nombre" class="img-pista-dato" />
+                                                <img src="@pista.Link" alt="@pista.Nombre" title="@pista.Nombre" class="img-pista-dato" />
                                             </a>
                                         </div>
                                         <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
@@ -114,7 +124,7 @@
                                 <div class="col-sm celda-grid">
                                     <div class="celda-grid-container">
                                         <a alt="@pista.Nombre">
-                                            <img src="@pista.Link" title="@pista.Nombre" class="img-pista-equipo" />
+                                            <img src="@pista.Link" alt="@pista.Nombre" title="@pista.Nombre" class="img-pista-equipo" />
                                         </a>
                                     </div>
                                 </div>
@@ -143,7 +153,7 @@
                                     <div class="col-sm celda-grid">
                                         <div class="celda-grid-container">
                                             <a alt="@pista.Nombre">
-                                                <img src="@pista.Link" title="@pista.Nombre" class="img-pista-jugador" />
+                                                <img src="@pista.Link" alt="@pista.Nombre" title="@pista.Nombre" class="img-pista-jugador" />
                                             </a>
                                         </div>
                                         <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
@@ -156,7 +166,7 @@
                                         {
                                             <div class="celda-grid-container">
                                                 <a alt="@pista.Nombre">
-                                                    <img src="@pista.Link" title="@pista.Nombre" class="img-pista-dato" />
+                                                    <img src="@pista.Link" alt="@pista.Nombre" title="@pista.Nombre" class="img-pista-dato" />
                                                 </a>
                                             </div>
                                             <div class="celda-grid-subdato fuentePrincipal">@pista.Nombre</div>
@@ -172,7 +182,7 @@
                                     <div class="col-sm celda-grid">
                                         <div class="celda-grid-container">
                                             <a alt="@pista.Nombre">
-                                                <img src="@pista.Link" title="@pista.Nombre" class="img-pista-equipo" />
+                                                <img src="@pista.Link" alt="@pista.Nombre" title="@pista.Nombre" class="img-pista-equipo" />
                                             </a>
                                         </div>
                                     </div>
@@ -250,7 +260,7 @@
 
 <div id="div-busq-jug" class="container container-grid container-busq rounded-3" style="display: none"></div>
 
-<div id="div-victoria" class="container container-grid container-busq container-victoria rounded-3" style="display: none">
+<div id="div-victoria" class="container container-busq container-victoria rounded-3" style="display: none">
     <!--<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>
     <div class="d-flex" style="align-items: start; justify-content: space-between;">
         <div>

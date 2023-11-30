@@ -1,7 +1,14 @@
 /** ELEMENTOS DEL JUEGO **/
+#contenedor {
+    padding-top: 20px;
+}
+
 .img-logo {
     max-width: 15vw;
-    padding: 0.5vw;
+    padding: 2px;
+    background: #212529;
+    border-radius: 10pt;
+    box-shadow: 0px 1px 5px 0px #1c1b18;
 }
 
 .celda-titulo {
@@ -56,15 +63,15 @@
 }
 
 .row .celda-grid:first-child .celda-grid-jug-ocultos:hover {
-    background-color: #ff4388;
+    background-color: #67e017;
 }
 
 .row .celda-grid:last-child .celda-grid-jug-ocultos:hover {
-    background-color: #e12c6f;
+    background-color: #67e017;
 }
 
 .row .celda-grid-jug-ocultos:hover {
-    background-color: #f0377b;
+    background-color: #67e017;
 }
 
 .celda-esq-sup-izq {
@@ -134,7 +141,7 @@
 .input-busq-jug {
     width: 100%;
     height: 45px;
-    border: 4px solid #ff4388;
+    border: 4px solid #67e017;
     background-color: #4c54d1;
     padding: 10px;
 }
@@ -166,8 +173,8 @@
 }
 
 .div-result-busq:hover {
-    background-color: #ffcadd;
-    color: #ff4388;
+    background-color: rgb(207, 255, 202);
+    color: rgb(103, 224, 23);
 }
 
 .img-foto-jugador-busq {
@@ -241,7 +248,7 @@
 
     50% {
         font-size: 30pt;
-        color: rgba(65, 225, 174, 1);
+        color: #67e017;
     }
 
     100% {
@@ -295,6 +302,29 @@
     line-height: 2vw;
 }
 
+.p-politica-privacidad {
+    text-align: center;
+    padding: 10px;
+    margin: auto;
+    color: #212529;
+    font-size: 14pt;
+    cursor: pointer;
+}
+
+.p-politica-privacidad:hover {
+    color: #67e017;
+}
+
+#div-temporizador {
+    width: 100%;
+    margin: 10px 0px;
+}
+
+.div-encabezado {
+    flex: 3;
+    align-items: center;
+}
+
 /** COMO JUGAR **/
 .container-como-jugar {
     width: 55vw;
@@ -317,14 +347,24 @@
     font-size: 15pt;
 }
 
-#btn-como-jugar {
-    padding: 0px;
+.btn-menu-principal {
+    box-shadow: 0px 1px 3px 0px #1c1b18;
     border-radius: 100%;
-    background: #4c54d1;
+    border: 2px solid #333029;
+    cursor: pointer;
+    background: linear-gradient(to bottom, #d3cef8 5%, #b9b4db 100%);
+    background-color: #b9b4db;
+    padding: 0px;
 }
 
-#btn-como-jugar:hover {
-    background: #f0377b;
+.btn-menu-principal:hover {
+    background: linear-gradient(to bottom, #b9b4db 5%, #d3cef8 100%);
+    background-color: #d3cef8;
+}
+
+.btn-menu-principal:active {
+    position: relative;
+    top: 1px;
 }
 
 #volverComoJugar {
@@ -333,7 +373,7 @@
 }
 
 #volverComoJugar:hover {
-    color: #f0377b;
+    color: #67e017;
 }
 
 .img-como-jugar {
@@ -366,6 +406,11 @@ body {
     background-color: rgb(93, 103, 251);
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 .row {
     margin: 0;
 }
@@ -394,7 +439,7 @@ input:focus, input.form-control:focus {
 }
 
 .colorFuenteSecundaria {
-    color: #e1417c !important;
+    color: #67e017 !important;
 }
 
 .colorFuenteTerciaria {
@@ -423,4 +468,9 @@ input:focus, input.form-control:focus {
 
 .border-top {
     border-top: 1px solid #212529 !important;
+}
+
+
+footer {
+    position: relative !important;
 }

@@ -3,6 +3,9 @@
 
 // Write your JavaScript code.
 
+// Array de jugadores con más de 100 internacionalidades
+const idJugInternacionales = [874, 1573, 154, 738, 754, 2840, 1982, 105421, 910, 170, 50810, 104195, 2098, 13073, 2677, 159, 521, 614, 144, 151, 440, 157, 115068, 266, 274, 1749, 44326, 373, 42309, 790, 429, 2845, 2874, 1344, 33243, 20, 2452, 33255, 207, 30550, 276, 313, 162, 18944, 522, 2295, 117966, 2296, 115133, 56, 174, 25343, 1436, 49387, 30791, 1464, 853, 307, 18787, 19085, 497, 856, 2419, 2551, 779, 866, 854, 18834, 50820, 16561, 113755, 186, 872, 1370, 1819, 90657, 907, 1631, 259, 2791, 731, 50940, 70775, 18830, 821, 230996, 48462, 18900, 104311, 332, 624, 2886, 18836, 50600, 2779, 1444, 2674, 752, 149, 35534, 505, 2887, 382, 119, 531, 18772, 3244, 31023, 117963, 478, 30738, 673, 642, 481, 2082, 968, 2045, 118050, 50773, 105422];
+
 // Array de los años de los datos que se buscarán en la API
 // Arrays de campeones de la Champions
 var yearsToQuery1 = [2010];
@@ -37,21 +40,30 @@ var yearsToQuery22 = [2011, 2022];
 var yearsToQuery23 = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 var yearsToQuery24 = [2023];
 
-var yearsToQuery1 = [2010];
-var yearsToQuery2 = [2011];
-var yearsToQuery3 = [2012];
-var yearsToQuery4 = [2013];
-var yearsToQuery5 = [2014, 2015, 2016];
-var yearsToQuery6 = [2018, 2019, 2020];
-var yearsToQuery7 = [2021, 2022];
-var yearsToQuery8 = [2023];
+// Arrays de campeones de la Europa League
+var yearsToQuery31 = [2010, 2012, 2018];
+var yearsToQuery32 = [2011];
+var yearsToQuery33 = [2013, 2019];
+var yearsToQuery34 = [2014, 2015, 2016, 2020, 2023];
+var yearsToQuery35 = [2017];
+var yearsToQuery36 = [2021];
+var yearsToQuery37 = [2022];
+
+var yearsToQuery1 = [2012, 2013, 2014];
+var yearsToQuery2 = [2015, 2016];
+var yearsToQuery3 = [2017, 2018, 2019];
+var yearsToQuery4 = [2020, 2021, 2022];
+var yearsToQuery5 = [2023];
+var yearsToQuery6 = [2023];
 
 var yearsToQuery = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+
+var ligasToQuery = [/*"140", */"39"/*, "135"/*, "78", "61", "94", "88", "141"*/];
 
 var txtCasillasRRSS = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'];
 
 var delayBetweenRequests = 2000; 
-var jugadoresAcertados = 9;
+var jugadoresAcertados = 0;
 var intervalId;
 var intervalPts;
 
@@ -62,44 +74,62 @@ var secondsDesdeUltimoAcierto = 0;
 
 var idsEquipo1 = new Set();
 var idsEquipo2 = new Set();
+var jugadoresComunes = new Set();
 
 const fechaHoy = fechaFormateada();
 const fechaSeleccionada = $('#select-fecha-grid').val();
 
 var globalSecretKey = null;
 
+var jugadoresConsultados = new Set();
+
+var numeroSolicitudes = 14;
+var numSolicitudesCompletadas = 0;
+var jugadoresComunes = new Set();
+
+const TablaAPI = 'players';
+const Handicap = 1;
+const NumSolucion = 8;
+const GridId = 17;
+
+const frasesVictoria = [
+    '¡Sos un fenómeno! Las metes como Julián Álvarez.',
+    '¡Naguara! Las das en el clavo como si fueras el mismo Soteldo', 
+    '¡Eres un bacánazo! Sumas puntos como un driblador al estilo Lucho Díaz', 
+    '¡Eres bien chingón, compa! Las rifas como el auténtico Chucky Lozano', 
+    '¡Eres un pataza de ley! Las clavas como la Foquita Farfán'
+]
+
 $(document).ready(function () {
 
     // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
     //realizarSolicitud(0, 1);
-    setTimeout(function () {
-        realizarSolicitud(0, 33, 39, 1, true, yearsToQuery);
+    /*setTimeout(function () {
+        realizarSolicitud(0, 497, 135, 1, true, yearsToQuery);
     }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 33, 39, 2, true, yearsToQuery);
+        realizarSolicitud(0, 497, 135, 2, true, yearsToQuery);
     }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 33, 39, 3, true, yearsToQuery);
+        realizarSolicitud(0, 497, 135, 3, true, yearsToQuery);
     }, 4000);
 
 
 
 
     setTimeout(function () {
-        realizarSolicitud(0, 496, 135, 1, false, yearsToQuery);
+        realizarSolicitud(0, 210, 88, 1, false, yearsToQuery1);
     }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 496, 135, 2, false, yearsToQuery);
+        realizarSolicitud(0, 210, 88, 2, false, yearsToQuery1);
     }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 496, 135, 3, false, yearsToQuery);
-    }, 4000);
-    
-
+        realizarSolicitud(0, 210, 88, 3, false, yearsToQuery1);
+    }, 4000);*/
 
 
     obtenerCasillasColoresEnCookie(function (casillasColores) {
@@ -185,12 +215,12 @@ $(document).ready(function () {
 
         $('#div-busq-jug').append(
             '<div class="d-flex">' +
-                '<div class="div-close" onclick="cerrarVentanaBusq()">' + '<img src="../img/close.png" />' + '</div>' + 
+                '<div class="div-close" onclick="cerrarVentanaBusq()">' + '<img src="../img/close.png" alt="Logo de cerrar ventana" />' + '</div>' + 
                 '<div>' + 
-                    '<img src="../img/defaultavatar.webp" id="img-jug-seleccionado" />' + 
+                    '<img src="../img/defaultavatar.webp" id="img-jug-seleccionado" alt="Imagen de jugador seleccionado" />' + 
                 '</div>' + 
                 '<div id="div-jug-info-seleccionado" class="fuentePrincipal colorFuenteTerciaria d-grid" style="place-content: center;">' + 
-                    '<img src="../img/campo_busq_jug.png" style="width: 100%" />' + 
+                    '<img src="../img/campo_busq_jug.png" alt="Info de jugador seleccionado" style="width: 100%" />' + 
                 '</div>' + 
             '</div>' + 
             '<div>' + 
@@ -758,6 +788,8 @@ function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
                     } else {
                         idsEquipo2.add(playerId);
                     }
+
+                    jugadoresComunes.add(jugadorData.player);
                 });
 
                 // Llamar a la siguiente solicitud después de un retraso
@@ -768,8 +800,51 @@ function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
                 if (!equipo1 === false && page === 3) {
                     setTimeout(function () {
                         var idsComunes = Array.from(idsEquipo1).filter(id => idsEquipo2.has(id));
-                        console.log("IDs de jugadores comunes: " + idsComunes);
-                    }, 30000);
+
+                        numSolicitudesCompletadas++;
+                        console.log('Numero Solitudes Completadas: ' + numSolicitudesCompletadas);
+
+                        if (numSolicitudesCompletadas >= numeroSolicitudes) {
+
+                            var jugadoresComunesArray = Array.from(jugadoresComunes).filter(jugador => idsComunes.includes(jugador.id));
+
+                            var jugadoresComunesUnicos = new Set(jugadoresComunesArray.map(jugador => jugador.id));
+
+                            // Crear un nuevo array con elementos únicos
+                            var jugadoresComunesUnicosArray = Array.from(jugadoresComunesUnicos).map(id => {
+                                return jugadoresComunesArray.find(jugador => jugador.id === id);
+                            });
+
+                            jugadoresComunesUnicosArray.forEach(function (jugador) {
+
+                                console.log("IDs de jugadores comunes: " + jugador.id + ' *** Nombre: ' + jugador.name);
+
+                                var IdAPI = jugador.id;
+
+                                $.ajax({
+                                    url: "/Home/CrearSolucion",
+                                    type: "POST",
+                                    contentType: "application/json",  // Establecer el tipo de contenido como JSON
+                                    dataType: "json",
+                                    data: JSON.stringify({
+                                        IdAPI: IdAPI,
+                                        TablaAPI: TablaAPI,
+                                        Handicap: Handicap,
+                                        NumSolucion: NumSolucion,
+                                        GridId: GridId
+                                    }),
+                                    success: function (response) {
+                                        console.log("Respuesta del servidor:", response);
+
+                                        // Aquí puedes manejar la respuesta si es necesario
+                                    },
+                                    error: function (xhr, textStatus, errorThrown) {
+                                        console.error("Error:", textStatus, errorThrown);
+                                    }
+                                });
+                            });
+                        }
+                    }, 3000);
                 }
             },
             error: function (xhr, textStatus, errorThrown) {
@@ -782,6 +857,23 @@ function realizarSolicitud(index, team, league, page, equipo1, yearsQuery) {
             }
         });
     }
+}
+
+function obtenerGridPorId(gridId, successCallback, errorCallback) {
+    $.ajax({
+        url: "/Home/ObtenerGridPorId",  // Reemplaza con la ruta correcta de tu controlador
+        type: "GET",
+        dataType: "json",
+        data: { Id: gridId },
+        success: function (data) {
+            // Llama al callback de éxito con los datos obtenidos
+            successCallback(data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            // Llama al callback de error con la información del error
+            errorCallback(xhr, textStatus, errorThrown);
+        }
+    });
 }
 
 // Cerrar ventana de búsqueda del jugador oculto
@@ -942,17 +1034,19 @@ function comprobarVictoria() {
 
         $('#div-overlay-juego').show();
 
+        var numAleatorioParaFrase = Math.floor(Math.random() * frasesVictoria.length);
+        var fraseAleatoria = frasesVictoria[numAleatorioParaFrase];
+
         generarTextoParaRRSS(function(textoRRSS) {
 
             $('#div-victoria').append('<div class="d-flex" style="align-items: start">' +
                                         /*'<div class="div-close" onclick="cerrarVentanaBusq()"><img src="../img/close-vict.png" /></div>' +*/
                                         '<div>' +
-                                            '<img src="/img/trofeo.png" class="img-trofeo pd-10-30" />' +
+                                            '<img src="/img/trofeo.png" alt="Logo de victoria" class="img-trofeo pd-10-30" />' +
                                         '</div>' +
                                         '<div>' +
                                             '<div class="fuentePrincipal fs24 color-victoria">¡ENHORABUENA!</div>' +
-                                            '<div class="fuentePrincipal fs12">¡Sos un fenómeno! Las metes como Julián Álvarez.</div>' +
-
+                                                '<div class="fuentePrincipal fs12">' + fraseAleatoria + '</div>' +
                                             '<div class="d-flex" style="justify-content: space-around; padding: 10px 0px;">' +
                                                 '<div>' +
                                                     '<div class="fuentePrincipal fs12 text-center">Puntuación</div>' +
@@ -976,7 +1070,7 @@ function comprobarVictoria() {
                                                 '</div>' +
                                                 '<div>' +
                                                     '<a href="https://api.whatsapp.com/send?text=' + textoRRSS + '"  target="_blank" class="icon-redes-sociales p-0" data-action="share / whatsapp / share" style="color: white">' +
-                                                        '<img src="/img/redes sociales/whatsapp.png" class="w-100" />' +
+                                                        '<img src="/img/redes sociales/whatsapp.png" alt="Logo de compartir por Whatsapp" class="w-100" />' +
                                                     '</a>' +
                                                 '</div>' +
                                                 '<div>' +
@@ -1008,6 +1102,18 @@ function obtenerTiempoParaSiguientePartida() {
     var minutos = Math.floor((diferenciaMilisegundos % 3600000) / 60000);
     var segundos = Math.floor((diferenciaMilisegundos % 60000) / 1000);
 
+    if (horas < 10) {
+        horas = '0' + horas;
+    }
+
+    if (minutos < 10) {
+        minutos = '0' + minutos;
+    }
+
+    if (segundos < 10) {
+        segundos = '0' + segundos;
+    }
+
     var diferenciaTexto = horas + ':' + minutos + ':' + segundos;
 
     $('#div-tiempo-sig-partida').text(diferenciaTexto);
@@ -1037,7 +1143,6 @@ function escribirBuscadorJugador() {
                     var url = "https://api-football-v1.p.rapidapi.com/v3/players";
                     var apiKey = data.rapidAPIKey;
                     var apiHost = data.rapidAPIHost;
-                    var ligasToQuery = ["140", "39", "135", "78", "61", "141"];
                     var queryString = {
                         search: busqueda
                     };
@@ -1046,11 +1151,11 @@ function escribirBuscadorJugador() {
                     var allDatosProcesados = {};
                     var ligasBuscadas = 0;
                     var iteracciones = 0;
-                    var maxIteracciones = 30;
+                    var maxIteracciones = 50;
                     var datosProcesados = [];
 
                     // Función para realizar la búsqueda en una liga específica
-                    function buscarEnLiga(liga) {
+                    function buscarEnLiga(liga, pagina) {
                         return $.ajax({
                             url: url,
                             type: "GET",
@@ -1059,13 +1164,16 @@ function escribirBuscadorJugador() {
                                 "X-RapidAPI-Key": apiKey,
                                 "X-RapidAPI-Host": apiHost
                             },
-                            data: { ...queryString, league: liga },
+                            data: { ...queryString, league: liga, page: pagina },
                         });
                     }
 
                     // Array de promesas para las solicitudes AJAX
-                    var promesas = ligasToQuery.map(function (liga) {
-                        return buscarEnLiga(liga);
+                    var promesas = [];
+                    ligasToQuery.forEach(function (liga) {
+                        promesas.push(buscarEnLiga(liga, 1));
+                        promesas.push(buscarEnLiga(liga, 2));
+                        promesas.push(buscarEnLiga(liga, 3));
                     });
 
                     // Ejecutar todas las promesas y esperar a que todas se resuelvan
@@ -1132,8 +1240,6 @@ function escribirBuscadorJugador() {
 
                             datosProcesados.forEach(function (jugador) {
 
-                                console.log('Jugador: ' + jugador.nombre + ' *** ' + jugador.ultTemporada + ' *** ' + jugador.liga);
-
                                 // Verificar que el resultado de búsqueda no esté ya repetido entre los que se muestran
                                 var jugadorRepetido = $('#div-result-busq [data-jugador-id="' + jugador.id + '"]').length > 0;
 
@@ -1167,14 +1273,14 @@ function escribirBuscadorJugador() {
             $('.div-result-busq').css('background-color', '#eee');
             $('.div-result-busq').css('color', '#212529');
 
-            $(this).css('background-color', 'rgb(255, 202, 221)');
-            $(this).css('color', 'rgb(255, 67, 136)');
+            $(this).css('background-color', 'rgb(207 255 202)');
+            $(this).css('color', '#67e017');
         });
 
         var primerDivCritBusq = $('#div-result-busq .div-result-busq:first');
 
-        primerDivCritBusq.css('background-color', '#ffcadd');
-        primerDivCritBusq.css('color', '#ff4388');
+        primerDivCritBusq.css('background-color', 'rgb(207, 255, 202);');
+        primerDivCritBusq.css('color', 'rgb(103, 224, 23)');
 
         mouseEnterDivResultBusq(primerDivCritBusq);
     }, 2500);
@@ -1383,6 +1489,30 @@ function mostrarComoJugar() {
 function cerrarComoJugar() {
 
     $('#div-como-jugar').hide(200);
+    $('#div-temporizador').show(200);
+    $('#div-tablero').show(200);
+}
+
+
+function mostrarPoliticaPrivacidad() {
+
+    if ($('#div-politica-privacidad').is(':visible')) {
+
+        $('#div-politica-privacidad').hide(200);
+        $('#div-temporizador').show(200);
+        $('#div-tablero').show(200);
+    }
+    else {
+
+        $('#div-politica-privacidad').show(200);
+        $('#div-temporizador').hide(200);
+        $('#div-tablero').hide(200);
+    }
+}
+
+function cerrarPoliticaPrivacidad() {
+
+    $('#div-politica-privacidad').hide(200);
     $('#div-temporizador').show(200);
     $('#div-tablero').show(200);
 }

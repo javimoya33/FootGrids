@@ -3,6 +3,7 @@ using FootGrids.DTOs;
 using FootGrids.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace FootGrids.Controllers
 {
@@ -113,7 +114,6 @@ namespace FootGrids.Controllers
         }
 
         // Acción que devuelve por consola las soluciones del juego cuando preparo la partida
-        // ELIMINAR CUANDO VAYA A PUBLICAR EL JUEGO
         [HttpGet("/Home/GetSolucionesCasilla")]
         public async Task<IActionResult> GetSolucionesCasilla(int numeroSolucion, int idJugador, DateTime fechaSeleccionada)
         {
@@ -146,6 +146,26 @@ namespace FootGrids.Controllers
             };
 
             return Json(resultado);
+        }
+
+        [HttpPost("/Home/CrearSolucion")]
+        public async Task<ActionResult> CrearSolucion([FromBody] SolucionCreacionDTO solucionCreacionDTO)
+        {
+            try
+            {
+                var entidadSolucion = mapper.Map<Solucion>(solucionCreacionDTO);
+
+                context.Add(entidadSolucion);
+                await context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                // Loguear la excepción para obtener más información
+                Console.Error.WriteLine($"Error en CrearSolucion: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
+            }
         }
     }
 }

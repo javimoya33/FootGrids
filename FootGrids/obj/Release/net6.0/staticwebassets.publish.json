@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "22gs3LGKDNPyeAKVHIehvMqwuiaV0Kg3aAjfXv1k7yc=",
+  "Hash": "D4zQl3c63UoYh2b6cj08DeBSeg58u4rIeKSGME431K8=",
   "Source": "FootGrids",
   "BasePath": "_content/FootGrids",
   "Mode": "Default",
@@ -185,23 +185,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\como-jugar.png"
-    },
-    {
-      "Identity": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\img\\como-jugar-hover.png",
-      "SourceId": "FootGrids",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\",
-      "BasePath": "_content/FootGrids",
-      "RelativePath": "img/como-jugar-hover.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\como-jugar-hover.png"
     },
     {
       "Identity": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\img\\dato-equipo.png",
@@ -389,6 +372,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\trofeo.png"
+    },
+    {
+      "Identity": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\img\\twitter-grid.png",
+      "SourceId": "FootGrids",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\",
+      "BasePath": "_content/FootGrids",
+      "RelativePath": "img/twitter-grid.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\twitter-grid.png"
     },
     {
       "Identity": "C:\\Users\\34656\\source\\repos\\FootGrids\\FootGrids\\wwwroot\\js\\jquery.cookie.min.js",

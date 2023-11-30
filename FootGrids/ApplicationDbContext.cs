@@ -12,6 +12,10 @@ namespace FootGrids
 
         }
 
+        public ApplicationDbContext()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GridPista>()
