@@ -49,12 +49,23 @@ var yearsToQuery35 = [2017];
 var yearsToQuery36 = [2021];
 var yearsToQuery37 = [2022];
 
-var yearsToQuery1 = [2012, 2013, 2014];
-var yearsToQuery2 = [2015, 2016];
-var yearsToQuery3 = [2017, 2018, 2019];
-var yearsToQuery4 = [2020, 2021, 2022];
-var yearsToQuery5 = [2023];
-var yearsToQuery6 = [2023];
+// Arrays de campeones de la Copa del Rey
+var yearsToQuery31 = [2009];
+var yearsToQuery32 = [2010, 2013, 2022];
+var yearsToQuery33 = [2011, 2014, 2015, 2016, 2017, 2020];
+var yearsToQuery34 = [2012];
+var yearsToQuery35 = [2018];
+var yearsToQuery36 = [2019];
+var yearsToQuery37 = [2021];
+
+var yearsToQuery1 = [2009];
+var yearsToQuery2 = [2010, 2011, 2019, 2020, 2021, 2022];
+var yearsToQuery3 = [2012, 2013, 2014, 2015];
+var yearsToQuery4 = [2016, 2017];
+
+var yearsToQuery5 = [2009, 2010, 2011];
+var yearsToQuery6 = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+var yearsToQuery7 = [2023];
 
 var yearsToQuery = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
 
@@ -104,32 +115,32 @@ $(document).ready(function () {
 
     // ***** NO BORRAR - SE UTILIZA PARA SACAR LOS DATOS DE LOS SOLUCIONES DE CADA PARTIDA
     //realizarSolicitud(0, 1);
-    /*setTimeout(function () {
-        realizarSolicitud(0, 497, 135, 1, true, yearsToQuery);
+    setTimeout(function () {
+        realizarSolicitud(0, 173, 78, 1, true, yearsToQuery);
     }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 497, 135, 2, true, yearsToQuery);
+        realizarSolicitud(0, 173, 78, 2, true, yearsToQuery);
     }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 497, 135, 3, true, yearsToQuery);
+        realizarSolicitud(0, 173, 78, 3, true, yearsToQuery);
     }, 4000);
 
 
-
-
+    
     setTimeout(function () {
-        realizarSolicitud(0, 210, 88, 1, false, yearsToQuery1);
+        realizarSolicitud(0, 165, 78, 1, false, yearsToQuery);
     }, 0);
 
     setTimeout(function () {
-        realizarSolicitud(0, 210, 88, 2, false, yearsToQuery1);
+        realizarSolicitud(0, 165, 78, 2, false, yearsToQuery);
     }, 2000);
 
     setTimeout(function () {
-        realizarSolicitud(0, 210, 88, 3, false, yearsToQuery1);
-    }, 4000);*/
+        realizarSolicitud(0, 165, 78, 3, false, yearsToQuery);
+    }, 4000);
+    
 
 
     obtenerCasillasColoresEnCookie(function (casillasColores) {
@@ -1772,5 +1783,103 @@ function timeOutLibertadores() {
 
     setTimeout(function () {
         realizarSolicitud(0, 124, 71, 3, false, yearsToQuery21);
+    }, 10000);
+}
+
+
+function timeOutCopaDelRey() {
+
+    setTimeout(function () {
+        realizarSolicitud(0, 536, 140, 1, false, yearsToQuery31);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 536, 140, 2, false, yearsToQuery31);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 536, 140, 3, false, yearsToQuery31);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 1, false, yearsToQuery32);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 2, false, yearsToQuery32);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 541, 140, 3, false, yearsToQuery32);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 1, false, yearsToQuery33);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 2, false, yearsToQuery33);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 529, 140, 3, false, yearsToQuery33);
+    }, 10000);
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 530, 140, 1, false, yearsToQuery34);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 530, 140, 2, false, yearsToQuery34);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 530, 140, 3, false, yearsToQuery34);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 532, 140, 1, false, yearsToQuery35);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 532, 140, 2, false, yearsToQuery35);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 532, 140, 3, false, yearsToQuery35);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 548, 140, 1, false, yearsToQuery36);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 548, 140, 2, false, yearsToQuery36);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 548, 140, 3, false, yearsToQuery36);
+    }, 10000);
+
+
+
+    setTimeout(function () {
+        realizarSolicitud(0, 543, 140, 1, false, yearsToQuery37);
+    }, 6000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 543, 140, 2, false, yearsToQuery37);
+    }, 8000);
+
+    setTimeout(function () {
+        realizarSolicitud(0, 543, 140, 3, false, yearsToQuery37);
     }, 10000);
 }
